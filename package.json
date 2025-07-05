@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "pnpm -r build",
-    "build:primitives": "pnpm --filter primitives build"
+    "build:primitives": "pnpm --filter primitives build",
+
+    "example:primitives": "pnpm --filter example-primitives dev"
   },
   "keywords": [],
   "author": "Su-Yong",
@@ -13,6 +15,8 @@
   "devDependencies": {
     "rolldown-vite": "7.0.4",
     "typescript": "5.8.3",
-    "vite-plugin-solid": "2.11.7"
+    "vite-plugin-solid": "2.11.7",
+    "unplugin-dts": "1.0.0-beta.2",
+    "@microsoft/api-extractor": "7.52.8"
   }
 }
