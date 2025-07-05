@@ -1,0 +1,15 @@
+{
+  "name": "@suis/example-primitives",
+  "version": "0.1.0",
+  "description": "A example of SUIS primitives",
+  "scripts": {
+    "dev": "vite dev"
+  },
+  "keywords": [],
+  "author": "Su-Yong",
+  "license": "MIT",
+  "dependencies": {
+    "solid-js": "^1.6.0",
+    "@suis/primitives": "workspace:*"
+  }
+}
