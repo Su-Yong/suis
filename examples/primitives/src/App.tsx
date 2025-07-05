@@ -1,4 +1,4 @@
-import { Polymorphic } from '@suis/primitives';
+import { Polymorphic, CheckBox } from '@suis/primitives';
 
 export const App = () => {
   return (
@@ -9,6 +9,11 @@ export const App = () => {
       <Polymorphic as={'span'}>
         Me Too! (span)
       </Polymorphic>
+
+      <CheckBox>
+        <CheckBox.Indicator />
+        <CheckBox.Label>Check me!</CheckBox.Label>
+      </CheckBox>
     </div>
   )
 };
