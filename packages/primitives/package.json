@@ -1,0 +1,14 @@
+{
+  "name": "@suis/primitives",
+  "version": "0.1.0",
+  "description": "SUIS, UI library for Solid",
+  "scripts": {
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "Su-Yong",
+  "license": "MIT",
+  "peerDependencies": {
+    "solid-js": "^1.6.0"
+  }
+}
