@@ -6,8 +6,10 @@
   "scripts": {
     "build": "pnpm -r build",
     "build:primitives": "pnpm --filter primitives build",
+    "build:ui": "pnpm --filter ui build",
 
-    "example:primitives": "pnpm --filter example-primitives dev"
+    "example:primitives": "pnpm --filter example-primitives dev",
+    "example:ui": "pnpm --filter example-ui dev"
   },
   "keywords": [],
   "author": "Su-Yong",
