@@ -40,7 +40,6 @@ export const App = () => {
                   <For each={['sm', 'md', 'lg'] as const}>
                     {(size) => (
                       <Button
-                        c={'error.main'}
                         mode={'icon'}
                         disabled={disabled}
                         variant={variant}

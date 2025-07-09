@@ -3,55 +3,51 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { vars } from '@/theme/token';
 import { layered } from '@/theme/util';
-import { l2Layer } from '@/theme/layer.css';
 
 import { component } from '../component.css';
 
 const paddingX = createVar();
 const paddingY = createVar();
 export const baseButtonStyle = recipe({
-  base: layered(
-    {
-      width: 'fit-content',
+  base: layered({
+    width: 'fit-content',
 
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: vars.size.space.xs,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: vars.size.space.xs,
 
-      fontSize: '1.4rem',
-      fontWeight: '500',
-      cursor: 'pointer',
+    fontSize: '1.4rem',
+    fontWeight: '500',
+    cursor: 'pointer',
 
-      border: 'none',
+    border: 'none',
 
-      ':focus-visible': {
-        outlineStyle: 'solid',
-        outlineOffset: component.button.focus.offset,
-        outlineColor: component.button.focus.color,
-        outlineWidth: component.button.focus.width,
-      }
-    },
-    l2Layer,
-  ),
+    ':focus-visible': {
+      outlineStyle: 'solid',
+      outlineOffset: component.button.focus.offset,
+      outlineColor: component.button.focus.color,
+      outlineWidth: component.button.focus.width,
+    }
+  }),
 
   variants: {
     disabled: {
-      true: {
+      true: layered({
         cursor: 'not-allowed',
         opacity: component.button.disabled.opacity,
-      },
+      }),
       false: {},
     },
 
     mode: {
-      button: {
+      button: layered({
         padding: `${paddingX} ${paddingY}`,
-      },
-      icon: {
+      }),
+      icon: layered({
         padding: paddingY,
-      },
+      }),
     },
 
     size: {
@@ -78,7 +74,7 @@ export const baseButtonStyle = recipe({
 });
 
 export const defaultButtonStyle = styleVariants({
-  default: {
+  default: layered({
     background: component.button.variants.default.default.background,
     color: component.button.variants.default.default.color,
 
@@ -88,8 +84,8 @@ export const defaultButtonStyle = styleVariants({
     borderRadius: component.button.variants.default.default.borderRadius,
 
     boxShadow: component.button.variants.default.default.boxShadow,
-  },
-  primary: {
+  }),
+  primary: layered({
     background: component.button.variants.primary.default.background,
     color: component.button.variants.primary.default.color,
 
@@ -99,8 +95,8 @@ export const defaultButtonStyle = styleVariants({
     borderRadius: component.button.variants.primary.default.borderRadius,
 
     boxShadow: component.button.variants.primary.default.boxShadow,
-  },
-  secondary: {
+  }),
+  secondary: layered({
     background: component.button.variants.secondary.default.background,
     color: component.button.variants.secondary.default.color,
 
@@ -110,8 +106,8 @@ export const defaultButtonStyle = styleVariants({
     borderRadius: component.button.variants.secondary.default.borderRadius,
 
     boxShadow: component.button.variants.secondary.default.boxShadow,
-  },
-  ghost: {
+  }),
+  ghost: layered({
     background: component.button.variants.ghost.default.background,
     color: component.button.variants.ghost.default.color,
 
@@ -121,11 +117,11 @@ export const defaultButtonStyle = styleVariants({
     borderRadius: component.button.variants.ghost.default.borderRadius,
 
     boxShadow: component.button.variants.ghost.default.boxShadow,
-  },
+  }),
 });
 
 export const hoverButtonStyle = styleVariants({
-  default: {
+  default: layered({
     ':hover': {
       background: component.button.variants.default.hover.background,
       color: component.button.variants.default.hover.color,
@@ -148,8 +144,8 @@ export const hoverButtonStyle = styleVariants({
 
       boxShadow: component.button.variants.default.active.boxShadow,
     },
-  },
-  primary: {
+  }),
+  primary: layered({
     ':hover': {
       background: component.button.variants.primary.hover.background,
       color: component.button.variants.primary.hover.color,
@@ -172,8 +168,8 @@ export const hoverButtonStyle = styleVariants({
 
       boxShadow: component.button.variants.primary.active.boxShadow,
     },
-  },
-  secondary: {
+  }),
+  secondary: layered({
     ':hover': {
       background: component.button.variants.secondary.hover.background,
       color: component.button.variants.secondary.hover.color,
@@ -196,8 +192,8 @@ export const hoverButtonStyle = styleVariants({
 
       boxShadow: component.button.variants.secondary.active.boxShadow,
     },
-  },
-  ghost: {
+  }),
+  ghost: layered({
     ':hover': {
       background: component.button.variants.ghost.hover.background,
       color: component.button.variants.ghost.hover.color,
@@ -220,11 +216,11 @@ export const hoverButtonStyle = styleVariants({
 
       boxShadow: component.button.variants.ghost.active.boxShadow,
     },
-  },
+  }),
 });
 
 export const activeButtonStyle = styleVariants({
-  default: {
+  default: layered({
     background: component.button.variants.default.active.background,
     color: component.button.variants.default.active.color,
 
@@ -234,8 +230,8 @@ export const activeButtonStyle = styleVariants({
     borderRadius: component.button.variants.default.active.borderRadius,
 
     boxShadow: component.button.variants.default.active.boxShadow,
-  },
-  primary: {
+  }),
+  primary: layered({
     background: component.button.variants.primary.active.background,
     color: component.button.variants.primary.active.color,
 
@@ -245,8 +241,8 @@ export const activeButtonStyle = styleVariants({
     borderRadius: component.button.variants.primary.active.borderRadius,
 
     boxShadow: component.button.variants.primary.active.boxShadow,
-  },
-  secondary: {
+  }),
+  secondary: layered({
     background: component.button.variants.secondary.active.background,
     color: component.button.variants.secondary.active.color,
 
@@ -256,8 +252,8 @@ export const activeButtonStyle = styleVariants({
     borderRadius: component.button.variants.secondary.active.borderRadius,
 
     boxShadow: component.button.variants.secondary.active.boxShadow,
-  },
-  ghost: {
+  }),
+  ghost: layered({
     background: component.button.variants.ghost.active.background,
     color: component.button.variants.ghost.active.color,
 
@@ -267,5 +263,5 @@ export const activeButtonStyle = styleVariants({
     borderRadius: component.button.variants.ghost.active.borderRadius,
 
     boxShadow: component.button.variants.ghost.active.boxShadow,
-  },
+  }),
 });
