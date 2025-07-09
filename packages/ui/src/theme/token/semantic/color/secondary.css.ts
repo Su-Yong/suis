@@ -4,7 +4,7 @@ import { DefaultColor } from '../../default/color.css';
 
 export const DefaultSecondary = {
   main: DefaultColor.gray[500],
-  contrast: DefaultColor.gray[950],
+  contrast: DefaultColor.gray[50],
   high: DefaultColor.gray[600],
   higher: DefaultColor.gray[700],
 

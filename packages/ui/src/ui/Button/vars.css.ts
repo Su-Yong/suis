@@ -16,14 +16,17 @@ export const DefaultButtonVars = {
     small: {
       x: vars.size.space.xs,
       y: vars.size.space.sm,
+      radius: vars.size.space.xs,
     },
     medium: {
       x: vars.size.space.sm,
       y: vars.size.space.md,
+      radius: vars.size.space.sm,
     },
     large: {
       x: vars.size.space.md,
       y: vars.size.space.lg,
+      radius: vars.size.space.md,
     },
   },
   variants: {
@@ -33,7 +36,6 @@ export const DefaultButtonVars = {
         color: vars.color.surface.contrast,
         borderWidth: vars.size.line.md,
         borderColor: vars.color.surface.higher,
-        borderRadius: vars.size.space.sm,
         boxShadow: vars.shadow.xs,
       },
       hover: {
@@ -41,7 +43,6 @@ export const DefaultButtonVars = {
         color: vars.color.surface.contrast,
         borderWidth: vars.size.line.md,
         borderColor: vars.color.surface.higher,
-        borderRadius: vars.size.space.sm,
         boxShadow: vars.shadow.xs,
       },
       active: {
@@ -49,7 +50,6 @@ export const DefaultButtonVars = {
         color: vars.color.surface.contrast,
         borderWidth: vars.size.line.md,
         borderColor: vars.color.surface.higher,
-        borderRadius: vars.size.space.sm,
         boxShadow: vars.shadow.xs,
       },
     },
@@ -59,7 +59,6 @@ export const DefaultButtonVars = {
         color: vars.color.primary.contrast,
         borderWidth: vars.size.space.none,
         borderColor: vars.color.primary.higher,
-        borderRadius: vars.size.space.sm,
         boxShadow: vars.shadow.sm,
       },
       hover: {
@@ -67,7 +66,6 @@ export const DefaultButtonVars = {
         color: vars.color.primary.contrast,
         borderWidth: vars.size.space.none,
         borderColor: vars.color.primary.higher,
-        borderRadius: vars.size.space.sm,
         boxShadow: vars.shadow.md,
       },
       active: {
@@ -75,7 +73,6 @@ export const DefaultButtonVars = {
         color: vars.color.primary.contrast,
         borderWidth: vars.size.space.none,
         borderColor: vars.color.primary.higher,
-        borderRadius: vars.size.space.sm,
         boxShadow: vars.shadow.md,
       },
     },
@@ -85,7 +82,6 @@ export const DefaultButtonVars = {
         color: vars.color.secondary.contrast,
         borderWidth: vars.size.space.none,
         borderColor: vars.color.secondary.higher,
-        borderRadius: vars.size.space.sm,
         boxShadow: vars.shadow.sm,
       },
       hover: {
@@ -93,7 +89,6 @@ export const DefaultButtonVars = {
         color: vars.color.secondary.contrast,
         borderWidth: vars.size.space.none,
         borderColor: vars.color.secondary.higher,
-        borderRadius: vars.size.space.sm,
         boxShadow: vars.shadow.md,
       },
       active: {
@@ -101,7 +96,6 @@ export const DefaultButtonVars = {
         color: vars.color.secondary.contrast,
         borderWidth: vars.size.space.none,
         borderColor: vars.color.secondary.higher,
-        borderRadius: vars.size.space.sm,
         boxShadow: vars.shadow.md,
       },
     },
@@ -111,7 +105,6 @@ export const DefaultButtonVars = {
         color: vars.color.surface.contrast,
         borderWidth: vars.size.space.none,
         borderColor: alpha(vars.color.surface.contrast, 0),
-        borderRadius: vars.size.space.sm,
         boxShadow: vars.shadow.none,
       },
       hover: {
@@ -119,7 +112,6 @@ export const DefaultButtonVars = {
         color: vars.color.surface.contrast,
         borderWidth: vars.size.space.none,
         borderColor: alpha(vars.color.surface.contrast, 0.05),
-        borderRadius: vars.size.space.sm,
         boxShadow: vars.shadow.none,
       },
       active: {
@@ -127,7 +119,6 @@ export const DefaultButtonVars = {
         color: vars.color.surface.contrast,
         borderWidth: vars.size.space.none,
         borderColor: alpha(vars.color.surface.contrast, 0.1),
-        borderRadius: vars.size.space.sm,
         boxShadow: vars.shadow.none,
       },
     },

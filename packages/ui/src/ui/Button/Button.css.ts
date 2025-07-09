@@ -29,7 +29,7 @@ export const baseButtonStyle = recipe({
       outlineOffset: component.button.focus.offset,
       outlineColor: component.button.focus.color,
       outlineWidth: component.button.focus.width,
-    }
+    },
   }),
 
   variants: {
@@ -46,24 +46,30 @@ export const baseButtonStyle = recipe({
         padding: `${paddingX} ${paddingY}`,
       }),
       icon: layered({
-        padding: paddingY,
+        padding: paddingX,
       }),
     },
 
     size: {
       sm: {
+        borderRadius: component.button.size.small.radius,
+
         vars: {
           [paddingX]: component.button.size.small.x,
           [paddingY]: component.button.size.small.y,
         },
       },
       md: {
+        borderRadius: component.button.size.medium.radius,
+
         vars: {
           [paddingX]: component.button.size.medium.x,
           [paddingY]: component.button.size.medium.y,
         },
       },
       lg: {
+        borderRadius: component.button.size.large.radius,
+
         vars: {
           [paddingX]: component.button.size.large.x,
           [paddingY]: component.button.size.large.y,
@@ -81,7 +87,6 @@ export const defaultButtonStyle = styleVariants({
     borderStyle: 'solid',
     borderWidth: component.button.variants.default.default.borderWidth,
     borderColor: component.button.variants.default.default.borderColor,
-    borderRadius: component.button.variants.default.default.borderRadius,
 
     boxShadow: component.button.variants.default.default.boxShadow,
   }),
@@ -92,7 +97,6 @@ export const defaultButtonStyle = styleVariants({
     borderStyle: 'solid',
     borderWidth: component.button.variants.primary.default.borderWidth,
     borderColor: component.button.variants.primary.default.borderColor,
-    borderRadius: component.button.variants.primary.default.borderRadius,
 
     boxShadow: component.button.variants.primary.default.boxShadow,
   }),
@@ -103,7 +107,6 @@ export const defaultButtonStyle = styleVariants({
     borderStyle: 'solid',
     borderWidth: component.button.variants.secondary.default.borderWidth,
     borderColor: component.button.variants.secondary.default.borderColor,
-    borderRadius: component.button.variants.secondary.default.borderRadius,
 
     boxShadow: component.button.variants.secondary.default.boxShadow,
   }),
@@ -114,7 +117,6 @@ export const defaultButtonStyle = styleVariants({
     borderStyle: 'solid',
     borderWidth: component.button.variants.ghost.default.borderWidth,
     borderColor: component.button.variants.ghost.default.borderColor,
-    borderRadius: component.button.variants.ghost.default.borderRadius,
 
     boxShadow: component.button.variants.ghost.default.boxShadow,
   }),
@@ -129,7 +131,6 @@ export const hoverButtonStyle = styleVariants({
       borderStyle: 'solid',
       borderWidth: component.button.variants.default.hover.borderWidth,
       borderColor: component.button.variants.default.hover.borderColor,
-      borderRadius: component.button.variants.default.hover.borderRadius,
 
       boxShadow: component.button.variants.default.hover.boxShadow,
     },
@@ -140,7 +141,6 @@ export const hoverButtonStyle = styleVariants({
       borderStyle: 'solid',
       borderWidth: component.button.variants.default.active.borderWidth,
       borderColor: component.button.variants.default.active.borderColor,
-      borderRadius: component.button.variants.default.active.borderRadius,
 
       boxShadow: component.button.variants.default.active.boxShadow,
     },
@@ -153,7 +153,6 @@ export const hoverButtonStyle = styleVariants({
       borderStyle: 'solid',
       borderWidth: component.button.variants.primary.hover.borderWidth,
       borderColor: component.button.variants.primary.hover.borderColor,
-      borderRadius: component.button.variants.primary.hover.borderRadius,
 
       boxShadow: component.button.variants.primary.hover.boxShadow,
     },
@@ -164,7 +163,6 @@ export const hoverButtonStyle = styleVariants({
       borderStyle: 'solid',
       borderWidth: component.button.variants.primary.active.borderWidth,
       borderColor: component.button.variants.primary.active.borderColor,
-      borderRadius: component.button.variants.primary.active.borderRadius,
 
       boxShadow: component.button.variants.primary.active.boxShadow,
     },
@@ -177,7 +175,6 @@ export const hoverButtonStyle = styleVariants({
       borderStyle: 'solid',
       borderWidth: component.button.variants.secondary.hover.borderWidth,
       borderColor: component.button.variants.secondary.hover.borderColor,
-      borderRadius: component.button.variants.secondary.hover.borderRadius,
 
       boxShadow: component.button.variants.secondary.hover.boxShadow,
     },
@@ -188,7 +185,6 @@ export const hoverButtonStyle = styleVariants({
       borderStyle: 'solid',
       borderWidth: component.button.variants.secondary.active.borderWidth,
       borderColor: component.button.variants.secondary.active.borderColor,
-      borderRadius: component.button.variants.secondary.active.borderRadius,
 
       boxShadow: component.button.variants.secondary.active.boxShadow,
     },
@@ -201,7 +197,6 @@ export const hoverButtonStyle = styleVariants({
       borderStyle: 'solid',
       borderWidth: component.button.variants.ghost.hover.borderWidth,
       borderColor: component.button.variants.ghost.hover.borderColor,
-      borderRadius: component.button.variants.ghost.hover.borderRadius,
 
       boxShadow: component.button.variants.ghost.hover.boxShadow,
     },
@@ -212,7 +207,6 @@ export const hoverButtonStyle = styleVariants({
       borderStyle: 'solid',
       borderWidth: component.button.variants.ghost.active.borderWidth,
       borderColor: component.button.variants.ghost.active.borderColor,
-      borderRadius: component.button.variants.ghost.active.borderRadius,
 
       boxShadow: component.button.variants.ghost.active.boxShadow,
     },
@@ -227,7 +221,6 @@ export const activeButtonStyle = styleVariants({
     borderStyle: 'solid',
     borderWidth: component.button.variants.default.active.borderWidth,
     borderColor: component.button.variants.default.active.borderColor,
-    borderRadius: component.button.variants.default.active.borderRadius,
 
     boxShadow: component.button.variants.default.active.boxShadow,
   }),
@@ -238,7 +231,6 @@ export const activeButtonStyle = styleVariants({
     borderStyle: 'solid',
     borderWidth: component.button.variants.primary.active.borderWidth,
     borderColor: component.button.variants.primary.active.borderColor,
-    borderRadius: component.button.variants.primary.active.borderRadius,
 
     boxShadow: component.button.variants.primary.active.boxShadow,
   }),
@@ -249,7 +241,6 @@ export const activeButtonStyle = styleVariants({
     borderStyle: 'solid',
     borderWidth: component.button.variants.secondary.active.borderWidth,
     borderColor: component.button.variants.secondary.active.borderColor,
-    borderRadius: component.button.variants.secondary.active.borderRadius,
 
     boxShadow: component.button.variants.secondary.active.boxShadow,
   }),
@@ -260,7 +251,6 @@ export const activeButtonStyle = styleVariants({
     borderStyle: 'solid',
     borderWidth: component.button.variants.ghost.active.borderWidth,
     borderColor: component.button.variants.ghost.active.borderColor,
-    borderRadius: component.button.variants.ghost.active.borderRadius,
 
     boxShadow: component.button.variants.ghost.active.boxShadow,
   }),
