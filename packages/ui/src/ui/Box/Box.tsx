@@ -2,7 +2,7 @@ import { splitProps, type ValidComponent } from 'solid-js';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { Polymorphic, PolymorphicProps } from '@suis/primitives';
 
-import { sx } from '@/theme';
+import { sx } from '@/theme/util';
 
 import {
   boxSizeStyle,
@@ -49,9 +49,6 @@ export const BoxStylePropList = [
   'c',
   'bg',
   'bc',
-
-  // text
-  'size'
 ] as const;
 export const BoxSizePropList = [
   'w',

@@ -1,8 +1,8 @@
 import { recipe, type RecipeVariants } from '@vanilla-extract/recipes';
 import { createVar, style } from '@vanilla-extract/css';
 
-import { colors, layered, map, spaces } from '@/theme';
-import { token } from '@/theme/token';
+import { colors, spaces } from '@/theme';
+import { layered, map } from '@/theme/util';
 
 export const width = createVar();
 export const height = createVar();
@@ -96,9 +96,6 @@ export const boxStyle = recipe({
     c: map(colors, (color) => layered({ color })),
     bg: map(colors, (background) => layered({ background })),
     bc: map(colors, (borderColor) => layered({ borderColor })),
-
-    // text
-    size: map(token.size, (fontSize) => layered({ fontSize })),
   },
 
   defaultVariants: {
