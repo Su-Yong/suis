@@ -16,6 +16,9 @@
   "keywords": [],
   "author": "Su-Yong",
   "license": "MIT",
+  "dependencies": {
+    "@floating-ui/dom": "1.7.2"
+  },
   "peerDependencies": {
     "solid-js": "^1.6.0"
   }
