@@ -1,5 +1,5 @@
-import { Box, Button, CheckBox } from '@suis/ui';
-import { For } from 'solid-js';
+import { createSignal, For } from 'solid-js';
+import { Box, Button, CheckBox, Popup, createClickAway } from '@suis/ui';
 
 const Star = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
@@ -11,6 +11,8 @@ const Star = () => (
 );
 
 export const App = () => {
+  const [popup1, setPopup1] = createSignal(false);
+
   return (
     <div>
       <Box
@@ -45,7 +47,7 @@ export const App = () => {
                         variant={variant}
                         size={size}
                       >
-                        <Star />
+                        <Star/>
                       </Button>
                     )}
                   </For>
@@ -69,6 +71,26 @@ export const App = () => {
       </Box>
 
       <CheckBox name={'CheckBox 1'}/>
+
+      <Popup
+        open={popup1()}
+        placement={'right'}
+        element={
+          <Box
+            ref={createClickAway(() => setPopup1(false))}
+            p={'md'}
+            bg={'surface.main'}
+          >
+            <div>Item 1</div>
+            <div>Item 2</div>
+            <div>Item 3</div>
+          </Box>
+        }
+      >
+        <Button onClick={() => setPopup1(!popup1())}>
+          Popup
+        </Button>
+      </Popup>
     </div>
   );
 };

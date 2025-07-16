@@ -21,3 +21,13 @@ export const usePopupContext = () => {
 
   return context;
 };
+
+export const usePopup = () => {
+  const context = usePopupContext();
+
+  return {
+    anchor: context.anchor,
+    element: context.element,
+    position: context.position,
+  };
+};
