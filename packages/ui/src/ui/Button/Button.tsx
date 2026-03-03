@@ -7,8 +7,8 @@ import { defaultButtonStyle, hoverButtonStyle, activeButtonStyle, baseButtonStyl
 type ButtonVariants = keyof typeof defaultButtonStyle;
 type ButtonOnlyProps = {
   variant?: ButtonVariants;
-  mode?: 'button' | 'icon';
-  size?: 'sm' | 'md' | 'lg';
+  type?: 'button' | 'icon';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   active?: boolean;
 };
 export type ButtonProps<T extends ValidComponent = 'button'> = Omit<BoxProps<T>, keyof ButtonOnlyProps> & ButtonOnlyProps;
@@ -16,22 +16,20 @@ export const Button = <T extends ValidComponent = 'button'>(props: ButtonProps<T
   const [local, rest] = splitProps(
     mergeProps({
       variant: 'default',
-      mode: 'button',
+      type: 'button',
       size: 'md',
     }, props),
-    ['variant', 'mode', 'size', 'active'],
+    ['variant', 'type', 'size', 'active'],
   );
 
   return (
     <Box
       {...rest as BoxProps<T>}
-      size={rest.size ?? '1.4rem'}
       as={rest.as ?? 'button'}
-      direction={rest.direction ?? 'row'}
       classList={{
         [baseButtonStyle({
           size: local.size,
-          mode: local.mode,
+          type: local.type,
           disabled: rest.disabled,
         })]: true,
         [defaultButtonStyle[local.variant]]: true,

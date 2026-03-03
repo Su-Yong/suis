@@ -18,8 +18,6 @@ export const baseButtonStyle = recipe({
     alignItems: 'center',
     gap: vars.size.space.xs,
 
-    fontSize: '1.4rem',
-    fontWeight: '500',
     cursor: 'pointer',
 
     border: 'none',
@@ -41,9 +39,9 @@ export const baseButtonStyle = recipe({
       false: {},
     },
 
-    mode: {
+    type: {
       button: layered({
-        padding: `${paddingX} ${paddingY}`,
+        padding: `${paddingY} ${paddingX}`,
       }),
       icon: layered({
         padding: paddingX,
@@ -51,30 +49,46 @@ export const baseButtonStyle = recipe({
     },
 
     size: {
-      sm: {
+      xs: layered({
+        borderRadius: component.button.size.xSmall.radius,
+
+        vars: {
+          [paddingX]: component.button.size.xSmall.x,
+          [paddingY]: component.button.size.xSmall.y,
+        },
+      }),
+      sm: layered({
         borderRadius: component.button.size.small.radius,
 
         vars: {
           [paddingX]: component.button.size.small.x,
           [paddingY]: component.button.size.small.y,
         },
-      },
-      md: {
+      }),
+      md: layered({
         borderRadius: component.button.size.medium.radius,
 
         vars: {
           [paddingX]: component.button.size.medium.x,
           [paddingY]: component.button.size.medium.y,
         },
-      },
-      lg: {
+      }),
+      lg: layered({
         borderRadius: component.button.size.large.radius,
 
         vars: {
           [paddingX]: component.button.size.large.x,
           [paddingY]: component.button.size.large.y,
         },
-      },
+      }),
+      xl: layered({
+        borderRadius: component.button.size.xLarge.radius,
+
+        vars: {
+          [paddingX]: component.button.size.xLarge.x,
+          [paddingY]: component.button.size.xLarge.y,
+        },
+      }),
     },
   },
 });

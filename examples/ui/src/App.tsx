@@ -28,7 +28,7 @@ export const App = () => {
             <For each={['default', 'primary', 'secondary', 'ghost'] as const}>
               {(variant) => (
                 <Box direction={'row'} align={'center'} gap={'md'}>
-                  <For each={['sm', 'md', 'lg'] as const}>
+                  <For each={['xs', 'sm', 'md', 'lg', 'xl'] as const}>
                     {(size) => (
                       <Button
                         disabled={disabled}
@@ -39,10 +39,10 @@ export const App = () => {
                       </Button>
                     )}
                   </For>
-                  <For each={['sm', 'md', 'lg'] as const}>
+                  <For each={['xs', 'sm', 'md', 'lg', 'xl'] as const}>
                     {(size) => (
                       <Button
-                        mode={'icon'}
+                        type={'icon'}
                         disabled={disabled}
                         variant={variant}
                         size={size}
@@ -51,7 +51,7 @@ export const App = () => {
                       </Button>
                     )}
                   </For>
-                  <For each={['sm', 'md', 'lg'] as const}>
+                  <For each={['xs', 'sm', 'md', 'lg', 'xl'] as const}>
                     {(size) => (
                       <Button
                         active

@@ -5,7 +5,7 @@ import { DefaultCheckBoxVars } from './CheckBox/vars.css';
 
 export const DefaultComponent = {
   button: DefaultButtonVars,
-  checkBox: DefaultCheckBoxVars,
+  checkbox: DefaultCheckBoxVars,
 };
 export const component = createThemeContract(DefaultComponent);
 export const DefaultComponentClass = createTheme(component, DefaultComponent);

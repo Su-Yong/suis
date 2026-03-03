@@ -19,16 +19,16 @@ export const containerStyle = style({
 export const indicatorStyle = style({
   position: 'relative',
 
-  width: component.checkBox.indicator.size,
-  height: component.checkBox.indicator.size,
+  width: component.checkbox.indicator.size,
+  height: component.checkbox.indicator.size,
 
-  borderRadius: component.checkBox.indicator.size,
+  borderRadius: component.checkbox.indicator.size,
   borderStyle: 'solid',
-  borderWidth: component.checkBox.indicator.borderWidth,
-  borderColor: component.checkBox.indicator.borderColor,
+  borderWidth: component.checkbox.indicator.borderWidth,
+  borderColor: component.checkbox.indicator.borderColor,
 
   cursor: 'pointer',
-  transition: component.checkBox.transition,
+  transition: component.checkbox.transition,
 
   selectors: {
     [`.${containerStyle} > .${inputStyle}:focus-visible + &`]: {
@@ -39,25 +39,25 @@ export const indicatorStyle = style({
     },
 
     [`.${containerStyle} > .${inputStyle}:checked + &`]: {
-      borderColor: component.checkBox.active,
-      boxShadow: `0 0 0 calc(${component.checkBox.indicator.size} / 2) ${component.checkBox.active} inset`,
+      borderColor: component.checkbox.active,
+      boxShadow: `0 0 0 calc(${component.checkbox.indicator.size} / 2) ${component.checkbox.active} inset`,
     },
     [`.${containerStyle} > .${inputStyle}:not(:checked) + &`]: {
       boxShadow: `0 0 0 0 transparent inset`,
     },
 
     [`.${containerStyle}:hover > .${inputStyle}:checked + &`]: {
-      boxShadow: `0 0 0 calc(${component.checkBox.indicator.size} / 2) ${component.checkBox.active} inset, 0 0 0 calc(${component.checkBox.indicator.size} / 4) ${component.checkBox.indicator.hover}`,
+      boxShadow: `0 0 0 calc(${component.checkbox.indicator.size} / 2) ${component.checkbox.active} inset, 0 0 0 calc(${component.checkbox.indicator.size} / 4) ${component.checkbox.indicator.hover}`,
     },
     [`.${containerStyle}:active > .${inputStyle}:checked + &`]: {
-      boxShadow: `0 0 0 calc(${component.checkBox.indicator.size} / 2) ${component.checkBox.active} inset, 0 0 0 calc(${component.checkBox.indicator.size} / 4) ${component.checkBox.indicator.active}`,
+      boxShadow: `0 0 0 calc(${component.checkbox.indicator.size} / 2) ${component.checkbox.active} inset, 0 0 0 calc(${component.checkbox.indicator.size} / 4) ${component.checkbox.indicator.active}`,
     },
 
     [`.${containerStyle}:hover > .${inputStyle}:not(:checked) + &`]: {
-      background: component.checkBox.indicator.hover,
+      background: component.checkbox.indicator.hover,
     },
     [`.${containerStyle}:active > .${inputStyle}:not(:checked) + &`]: {
-      background: component.checkBox.indicator.active,
+      background: component.checkbox.indicator.active,
     },
   }
 });
@@ -67,24 +67,24 @@ export const checkStyle = style({
   top: '50%',
   left: '50%',
 
-  width: component.checkBox.check.size,
-  height: component.checkBox.check.size,
+  width: component.checkbox.check.size,
+  height: component.checkbox.check.size,
 
-  color: component.checkBox.check.color,
+  color: component.checkbox.check.color,
   transform: 'translate(-50%, -50%)',
   userSelect: 'none',
 
   strokeDashoffset: '-23',
   strokeDasharray: '23',
 
-  transition: component.checkBox.transition,
+  transition: component.checkbox.transition,
 
   selectors: {
     [`.${containerStyle}:hover &`]: {
-      color: component.checkBox.check.hover,
+      color: component.checkbox.check.hover,
     },
     [`.${containerStyle}:active &`]: {
-      color: component.checkBox.check.active,
+      color: component.checkbox.check.active,
     },
 
     [`.${containerStyle}:has(.${inputStyle}:checked) &`]: {

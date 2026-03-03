@@ -13,21 +13,38 @@ export const DefaultButtonVars = {
     opacity: '0.5',
   },
   size: {
-    small: {
+    xSmall: {
       x: vars.size.space.xs,
-      y: vars.size.space.sm,
+      y: vars.size.space.xxs,
+      radius: vars.size.space.xxs,
+    },
+    small: {
+      x: vars.size.space.sm,
+      y: vars.size.space.xs,
       radius: vars.size.space.xs,
     },
     medium: {
-      x: vars.size.space.sm,
-      y: vars.size.space.md,
+      x: vars.size.space.md,
+      y: vars.size.space.sm,
       radius: vars.size.space.sm,
     },
     large: {
-      x: vars.size.space.md,
-      y: vars.size.space.lg,
+      x: vars.size.space.lg,
+      y: vars.size.space.md,
       radius: vars.size.space.md,
     },
+    xLarge: {
+      x: vars.size.space.xl,
+      y: vars.size.space.lg,
+      radius: vars.size.space.lg,
+    },
+  },
+  font: {
+    xSmall: vars.font.caption,
+    small: vars.font.caption,
+    medium: vars.font.body,
+    large: vars.font.title,
+    xLarge: vars.font.h3,
   },
   variants: {
     default: {

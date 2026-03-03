@@ -1,7 +1,8 @@
 import { recipe, type RecipeVariants } from '@vanilla-extract/recipes';
-import { createVar, style } from '@vanilla-extract/css';
+import { createVar } from '@vanilla-extract/css';
 
 import { colors, spaces } from '@/theme';
+import { vars } from '@/theme/token';
 import { layered, map } from '@/theme/util';
 import { l2Layer } from '@/theme/layer.css';
 
@@ -12,27 +13,19 @@ export const minHeight = createVar();
 export const maxWidth = createVar();
 export const maxHeight = createVar();
 export const flex = createVar();
-export const boxSizeStyle = style(
-  layered({
-    width,
-    height,
-    minWidth,
-    minHeight,
-    maxWidth,
-    maxHeight,
-    flex,
+export const boxSizeStyle = recipe({
+  variants: {
+    width: { true: layered({ width } , l2Layer)},
+    height: { true: layered({ height } , l2Layer)},
+    minWidth: { true: layered({ minWidth } , l2Layer)},
+    minHeight: { true: layered({ minHeight } , l2Layer)},
+    maxWidth: { true: layered({ maxWidth } , l2Layer)},
+    maxHeight: { true: layered({ maxHeight } , l2Layer)},
+    flex: { true: layered({ flex } , l2Layer)},
+  },
+});
 
-    vars: {
-      [width]: '',
-      [height]: '',
-      [minWidth]: '',
-      [minHeight]: '',
-      [maxWidth]: '',
-      [maxHeight]: '',
-      [flex]: '',
-    },
-  }, l2Layer),
-);
+export type BoxStyleType = RecipeVariants<typeof boxStyle>;
 export const boxStyle = recipe({
   base: {
     display: 'flex',
@@ -74,7 +67,7 @@ export const boxStyle = recipe({
     },
     gap: map(spaces, (gap) => layered({ gap }, l2Layer)),
 
-    // spacing
+    // padding
     p: map(spaces, (padding) => layered({ padding }, l2Layer)),
     px: map(spaces, (paddingX) => layered({ paddingLeft: paddingX, paddingRight: paddingX }, l2Layer)),
     py: map(spaces, (paddingY) => layered({ paddingTop: paddingY, paddingBottom: paddingY }, l2Layer)),
@@ -83,6 +76,7 @@ export const boxStyle = recipe({
     pl: map(spaces, (paddingLeft) => layered({ paddingLeft }, l2Layer)),
     pr: map(spaces, (paddingRight) => layered({ paddingRight }, l2Layer)),
 
+    // margin
     m: map(spaces, (margin) => layered({ margin }, l2Layer)),
     mx: map(spaces, (marginX) => layered({ marginLeft: marginX, marginRight: marginX }, l2Layer)),
     my: map(spaces, (marginY) => layered({ marginTop: marginY, marginBottom: marginY }, l2Layer)),
@@ -91,17 +85,24 @@ export const boxStyle = recipe({
     ml: map(spaces, (marginLeft) => layered({ marginLeft }, l2Layer)),
     mr: map(spaces, (marginRight) => layered({ marginRight }, l2Layer)),
 
+    // radius
     r: map(spaces, (borderRadius) => layered({ borderRadius }, l2Layer)),
+    tlr: map(spaces, (borderRadius) => layered({ borderTopLeftRadius: borderRadius }, l2Layer)),
+    trr: map(spaces, (borderRadius) => layered({ borderTopRightRadius: borderRadius }, l2Layer)),
+    blr: map(spaces, (borderRadius) => layered({ borderBottomLeftRadius: borderRadius }, l2Layer)),
+    brr: map(spaces, (borderRadius) => layered({ borderBottomRightRadius: borderRadius }, l2Layer)),
 
     // colors
     c: map(colors, (color) => layered({ color }, l2Layer)),
     bg: map(colors, (background) => layered({ background }, l2Layer)),
     bc: map(colors, (borderColor) => layered({ borderColor }, l2Layer)),
+
+    // text
+    text: vars.font,
   },
 
   defaultVariants: {
     direction: 'column',
+    text: 'body',
   },
 });
-
-export type BoxStyleType = RecipeVariants<typeof boxStyle>;
