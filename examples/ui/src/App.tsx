@@ -1,12 +1,12 @@
-import { createSignal, For } from 'solid-js';
-import { Box, Button, CheckBox, Popup, createClickAway } from '@suis/ui';
+import { createSignal, For, onCleanup } from 'solid-js';
+import { Box, Button, CheckBox, Popup, createHoverAway } from '@suis/ui';
 
 const Star = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
-       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-       class="lucide lucide-star-icon lucide-star">
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+    class="lucide lucide-star-icon lucide-star">
     <path
-      d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>
+      d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
   </svg>
 );
 
@@ -47,7 +47,7 @@ export const App = () => {
                         variant={variant}
                         size={size}
                       >
-                        <Star/>
+                        <Star />
                       </Button>
                     )}
                   </For>
@@ -70,14 +70,12 @@ export const App = () => {
         </For>
       </Box>
 
-      <CheckBox name={'CheckBox 1'}/>
+      <CheckBox name={'CheckBox 1'} />
 
       <Popup
-        open={popup1()}
-        placement={'right'}
+        placement={'bottom'}
         element={
           <Box
-            ref={createClickAway(() => setPopup1(false))}
             p={'md'}
             bg={'surface.main'}
           >
@@ -87,8 +85,32 @@ export const App = () => {
           </Box>
         }
       >
-        <Button onClick={() => setPopup1(!popup1())}>
+        <Button>
           Popup
+        </Button>
+      </Popup>
+      <Popup
+        open={popup1()}
+        placement={'bottom'}
+        element={
+          <Box
+            p={'md'}
+            bg={'surface.main'}
+          >
+            <div>Controlled Item 1</div>
+            <div>Controlled Item 2</div>
+            <div>Controlled Item 3</div>
+          </Box>
+        }
+      >
+        <Button
+          ref={(element) => {
+            const register = createHoverAway(() => setPopup1(false), { delay: 500 });
+            onCleanup(register(element));
+          }}
+          onPointerEnter={() => setPopup1(true)}
+        >
+          Controlled Popup
         </Button>
       </Popup>
     </div>

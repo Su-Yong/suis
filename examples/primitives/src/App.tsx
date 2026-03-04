@@ -18,17 +18,25 @@ export const App = () => {
         <CheckBox.Label>Check me!</CheckBox.Label>
       </CheckBox>
 
-      <Popup
-        open={open()}
-        offset={8}
-      >
-        <Popup.Anchor>
-          <button onClick={() => setOpen(!open())}>popup</button>
-        </Popup.Anchor>
+      <Popup offset={8}>
+        <Popup.Trigger>
+          <button>popup</button>
+        </Popup.Trigger>
         <Popup.Element style={{ background: 'red' }}>
           <div>Item 1</div>
           <div>Item 2</div>
           <div>Item 3</div>
+        </Popup.Element>
+      </Popup>
+
+      <Popup offset={8}>
+        <Popup.Anchor>
+          <button onClick={() => setOpen(!open())}>controlled popup</button>
+        </Popup.Anchor>
+        <Popup.Element style={{ background: 'red' }}>
+          <div>Controlled Item 1</div>
+          <div>Controlled Item 2</div>
+          <div>Controlled Item 3</div>
         </Popup.Element>
       </Popup>
     </div>
