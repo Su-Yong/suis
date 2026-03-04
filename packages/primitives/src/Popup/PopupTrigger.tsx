@@ -5,7 +5,7 @@ import { PopupAnchor } from './PopupAnchor';
 import { usePopupContext } from './PopupContext';
 
 export type PopupTriggerProps = {
-  children: JSX.Element;
+  children?: JSX.Element;
 };
 export const PopupTrigger = (props: PopupTriggerProps) => {
   const context = usePopupContext();

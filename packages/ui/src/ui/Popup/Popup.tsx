@@ -14,13 +14,13 @@ import {
   PopupElement as BasePopupElement,
   PopupProps as BasePopupProps,
   usePopup as useBasePopup,
+  createClickAway,
 } from '@suis/primitives';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 
 import { Box, BoxProps } from '../Box';
 
 import { PopupAnimation } from './animation';
-import { createClickAway } from './createClickAway';
 
 import {
   animationStyle,

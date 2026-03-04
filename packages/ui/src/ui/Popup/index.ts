@@ -1,3 +1,3 @@
 export * from './Popup';
-export { createClickAway } from './createClickAway';
-export { createHoverAway } from './createHoverAway';
+export { createClickAway } from '@suis/primitives';
+export { createHoverAway } from '@suis/primitives';

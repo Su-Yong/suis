@@ -28,6 +28,7 @@ export const usePopup = () => {
 
   return {
     open: context.open,
+    setOpen: context.setOpen,
     anchor: context.anchor,
     element: context.element,
     position: context.position,
