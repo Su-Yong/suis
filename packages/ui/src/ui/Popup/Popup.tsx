@@ -1,6 +1,5 @@
 import {
   batch,
-  children,
   createEffect,
   createSignal,
   JSX,
@@ -11,6 +10,8 @@ import {
 } from 'solid-js';
 import {
   Popup as BasePopup,
+  PopupAnchor as BasePopupAnchor,
+  PopupElement as BasePopupElement,
   PopupProps as BasePopupProps,
   usePopup as useBasePopup,
 } from '@suis/primitives';
@@ -19,6 +20,7 @@ import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { Box, BoxProps } from '../Box';
 
 import { PopupAnimation } from './animation';
+import { createClickAway } from './createClickAway';
 
 import {
   animationStyle,
@@ -49,11 +51,10 @@ export type PopupProps<T extends ValidComponent> =
   & Omit<BasePopupProps, keyof PopupOnlyProps>
   & PopupOnlyProps;
 export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
-  const [local, baseProps, rest] = splitProps(props, ['open', 'children', 'element', 'animation'], BasePopupOnlyProps);
-  const child = children(() => local.children);
+  const [local, baseProps, rest] = splitProps(props, ['children', 'element', 'animation'], BasePopupOnlyProps);
 
   const [animationElement, setAnimationElement] = createSignal<HTMLElement | null>(null);
-  const [open, setOpen] = createSignal(local.open ?? false);
+  const [open, setOpen] = createSignal(baseProps.open);
   const [enter, setEnter] = createSignal(false);
   const [exit, setExit] = createSignal(false);
 
@@ -61,8 +62,8 @@ export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
 
   // animation logic
   let cleanUp: (() => void) | null = null;
-  createEffect(on(() => local.open, async () => {
-    if (local.open) {
+  const onOpenChange = async (isOpen: boolean) => {
+    if (isOpen) {
       cleanUp?.();
 
       batch(() => {
@@ -118,6 +119,12 @@ export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
         });
       }
     }
+  };
+
+  createEffect(on(() => baseProps.open === undefined, (isTrigger) => {
+    if (isTrigger) return;
+
+    onOpenChange(baseProps.open ?? false);
   }));
 
   onCleanup(() => {
@@ -125,7 +132,7 @@ export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
   });
 
   const PopupContent = () => {
-    const { position } = useBasePopup();
+    const { position, anchor, element } = useBasePopup();
 
     const placementOffset = (): [0 | 0.5 | 1, 0 | 0.5 | 1] => {
       const placement = position()?.placement;
@@ -151,8 +158,30 @@ export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
       return [x, y];
     };
 
+    createEffect(on(() => [baseProps.open === undefined, anchor()] as const, ([isTrigger, anchor]) => {
+      if (!isTrigger) return;
+      if (!anchor) return;
+
+      const listener = () => onOpenChange(true);
+      anchor.addEventListener('click', listener);
+
+      onCleanup(() => anchor.removeEventListener('click', listener));
+    }));
+    createEffect(on(() => [baseProps.open === undefined, element()] as const, ([isTrigger, element]) => {
+      if (!isTrigger) return;
+      if (!element) return;
+
+      onCleanup(
+        createClickAway((cleanUp) => {
+          onOpenChange(false);
+          cleanUp();
+        })(element),
+      );
+    }));
+
+
     return (
-      <BasePopup.Element
+      <BasePopupElement
         {...rest as BoxProps<T>}
         as={Box}
         classList={{
@@ -164,7 +193,7 @@ export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
           [placementY]: `${placementOffset()[1]}`,
         })}
       >
-        <Box
+        <div
           ref={setAnimationElement}
           classList={{
             [animationStyle]: true,
@@ -173,20 +202,17 @@ export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
           }}
         >
           {local.element}
-        </Box>
-      </BasePopup.Element>
+        </div>
+      </BasePopupElement>
     );
   };
 
   return (
-    <BasePopup
-      {...baseProps}
-      open={open()}
-    >
-      <BasePopup.Anchor>
-        {child()}
-      </BasePopup.Anchor>
-      <PopupContent/>
+    <BasePopup {...baseProps} open={open()}>
+      <BasePopupAnchor>
+        {local.children}
+      </BasePopupAnchor>
+      <PopupContent />
     </BasePopup>
   );
 };

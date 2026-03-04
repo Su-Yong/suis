@@ -1,8 +1,9 @@
-import { onCleanup } from 'solid-js';
-
-type ClickAwayRegister = (element: HTMLElement | null | undefined) => void;
-export const createClickAway = (onClickAway: () => void): ClickAwayRegister => (element) => {
-  if (!element) return;
+type ClickAwayCleanUp = () => void;
+type ClickAwayRegister = (element: Element | null | undefined) => ClickAwayCleanUp;
+export const createClickAway = (
+  onClickAway: (cleanUp: ClickAwayCleanUp) => void,
+): ClickAwayRegister => (element) => {
+  if (!element) return () => { };
 
   const onClick = (event: MouseEvent) => {
     const path = event.composedPath();
@@ -10,8 +11,7 @@ export const createClickAway = (onClickAway: () => void): ClickAwayRegister => (
 
     if (isInside) return;
 
-    onClickAway();
-    cleanUp();
+    onClickAway(cleanUp);
   };
 
   let isCleanUp = false;
@@ -23,5 +23,5 @@ export const createClickAway = (onClickAway: () => void): ClickAwayRegister => (
   };
 
   document.addEventListener('click', onClick);
-  onCleanup(cleanUp);
+  return cleanUp;
 };
