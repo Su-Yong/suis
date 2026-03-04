@@ -9,6 +9,7 @@ export type PopupContextType = {
 
   position: Accessor<ComputePositionReturn | null>;
   open: Accessor<boolean>;
+  setOpen: (open: boolean) => void;
 };
 export const PopupContext = createContext<PopupContextType>();
 
@@ -26,6 +27,7 @@ export const usePopup = () => {
   const context = usePopupContext();
 
   return {
+    open: context.open,
     anchor: context.anchor,
     element: context.element,
     position: context.position,

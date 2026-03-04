@@ -5,7 +5,7 @@ import { usePopupContext } from './PopupContext';
 import { Polymorphic, PolymorphicProps, forwardRef } from '../Polymorphic';
 
 type PopupElementOnlyProps = {
-  children: JSX.Element;
+  children?: JSX.Element;
 };
 export type PopupElementProps<T extends ValidComponent> =
   Omit<PolymorphicProps<T>, keyof PopupElementOnlyProps>
