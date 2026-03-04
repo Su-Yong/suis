@@ -1,5 +1,5 @@
 import * as path from 'node:path';
-import { defineConfig } from 'rolldown-vite';
+import { defineConfig } from 'vite';
 
 import solid from 'vite-plugin-solid';
 import dts from 'unplugin-dts/rolldown';
