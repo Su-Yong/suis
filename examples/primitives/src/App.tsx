@@ -1,5 +1,6 @@
-import { Polymorphic, CheckBox, Popup } from '@suis/primitives';
 import { createSignal } from 'solid-js';
+
+import { Polymorphic, CheckBox, Popup, Select } from '@suis/primitives';
 
 export const App = () => {
   const [open, setOpen] = createSignal(false);
@@ -29,7 +30,7 @@ export const App = () => {
         </Popup.Element>
       </Popup>
 
-      <Popup offset={8}>
+      <Popup offset={8} open={open()}>
         <Popup.Anchor>
           <button onClick={() => setOpen(!open())}>controlled popup</button>
         </Popup.Anchor>
@@ -39,6 +40,19 @@ export const App = () => {
           <div>Controlled Item 3</div>
         </Popup.Element>
       </Popup>
+
+      <Select>
+        <Select.Trigger>
+          <Select.Value>
+            {(value) => value ? `Select: ${value}` : 'Select an option'}
+          </Select.Value>
+        </Select.Trigger>
+        <Select.Content>
+          <Select.Item value="1">Option 1</Select.Item>
+          <Select.Item value="2">Option 2</Select.Item>
+          <Select.Item value="3">Option 3</Select.Item>
+        </Select.Content>
+      </Select>
     </div>
   );
 };
