@@ -1,4 +1,4 @@
-import { JSX, mergeProps, Show, splitProps, ValidComponent } from 'solid-js';
+import { createSignal, JSX, mergeProps, Show, splitProps, ValidComponent } from 'solid-js';
 import {
   Select as BaseSelect,
   SelectTrigger as BaseSelectTrigger,
@@ -6,10 +6,14 @@ import {
   SelectContent as BaseSelectContent,
   SelectItem as BaseSelectItem,
   SelectProps as BaseSelectProps,
+  usePopupTrigger,
 } from '@suis/primitives';
 
-import { BoxProps } from '../Box';
+import { Box, BoxProps } from '../Box';
 import { Button } from '../Button';
+import { usePopupAnimation } from '../Popup/usePopupAnimation';
+import { selectAnimation } from './Select.css';
+import { PopupPresence } from '../Popup/PopupPresence';
 
 const SelectOnlyProps = [
   'data',
@@ -52,11 +56,19 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
     SelectOnlyProps,
   );
 
-  return (
-    <BaseSelect
-    >
+  const [animationElement, setAnimationElement] = createSignal<HTMLElement | null>(null);
+  const { state, runAnimation } = usePopupAnimation(animationElement);
+
+  const SelectTrigger = () => {
+    usePopupTrigger(() => {
+      runAnimation(!state.open);
+
+      return false;
+    });
+
+    return (
       <BaseSelectTrigger
-      {...rest}
+        {...rest}
         as={rest.as ?? Button}
       >
         <BaseSelectValue>
@@ -70,10 +82,26 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
           )}
         </BaseSelectValue>
       </BaseSelectTrigger>
-      <BaseSelectContent>
-        <BaseSelectItem value="1">Option 1</BaseSelectItem>
-        <BaseSelectItem value="2">Option 2</BaseSelectItem>
-        <BaseSelectItem value="3">Option 3</BaseSelectItem>
+    );
+  };
+
+  return (
+    <BaseSelect open={state.open}>
+      <SelectTrigger />
+      <BaseSelectContent
+        as={PopupPresence}
+        enter={state.enter}
+        exit={state.exit}
+        animation={selectAnimation}
+        animationWrapperProps={{
+          ref: setAnimationElement,
+        }}
+      >
+        <Box bg={'surface.main'}>
+          <BaseSelectItem value="1">Option 1</BaseSelectItem>
+          <BaseSelectItem value="2">Option 2</BaseSelectItem>
+          <BaseSelectItem value="3">Option 3</BaseSelectItem>
+        </Box>
       </BaseSelectContent>
     </BaseSelect>
   )

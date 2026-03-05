@@ -1,4 +1,3 @@
-import type { JSX } from 'solid-js/jsx-runtime';
 import type { ComplexStyleRule } from '@vanilla-extract/css';
 
 import { l1Layer } from './layer.css';
@@ -37,53 +36,4 @@ export const layered = (rules: ComplexStyleRule, layer = l1Layer): ComplexStyleR
       [layer]: rules,
     },
   } satisfies ComplexStyleRule;
-};
-
-export const cl = (obj?: Record<string, boolean | undefined>): string => {
-  if (!obj) return '';
-
-  const result: string[] = [];
-
-  Object.entries(obj).forEach(([className, value]) => {
-    if (value) result.push(className);
-  });
-
-  return result.join(' ');
-};
-type Maybe<T> = T | undefined | null;
-type ClxObject = Record<string, boolean | undefined> | string;
-export const clx = (...clxObjects: Maybe<ClxObject>[]) =>
-  clxObjects
-    .map((clxObject) => {
-      if (typeof clxObject === 'string') return clxObject;
-      if (typeof clxObject === 'object' && clxObject) {
-        return Object.entries(clxObject)
-          .filter(([, value]) => value)
-          .map(([key]) => key)
-          .join(' ');
-      }
-
-      return '';
-    })
-    .join(' ');
-
-export const cx = (...classNames: unknown[]): string => classNames.filter(Boolean).join(' ');
-export const sx = <Element extends HTMLElement>(...styles: JSX.HTMLAttributes<Element>['style'][]): string => {
-  const result: string[] = [];
-
-  styles.forEach((style) => {
-    if (!style) return;
-
-    if (typeof style === 'string') {
-      result.push(style);
-    } else if (Array.isArray(style)) {
-      result.push(sx(...style));
-    } else if (typeof style === 'object') {
-      Object.keys(style).forEach((key) => {
-        result.push(`${key}: ${style[key as keyof typeof style]}`);
-      });
-    }
-  });
-
-  return result.map((it) => (it[it.length - 1] === ';' ? it.trim() : `${it.trim()};`)).join('\n');
 };

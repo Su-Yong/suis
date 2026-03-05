@@ -16,11 +16,17 @@ export const popupAnimation = <T extends Record<PopupAnimationKey, StyleRule>>(
 
   return styleVariants({
     enter: {
-      animation: `${enterKeyframe} ${component.popup.enter.duration} ${component.popup.enter.easing}`,
+      animationName: enterKeyframe,
+      animationDuration: component.popup.enter.duration,
+      animationTimingFunction: component.popup.enter.easing,
+      animationFillMode: 'both',
       pointerEvents: 'auto',
     },
     exit: {
-      animation: `${exitKeyframe} ${component.popup.exit.duration} ${component.popup.exit.easing}`,
+      animationName: exitKeyframe,
+      animationDuration: component.popup.exit.duration,
+      animationTimingFunction: component.popup.exit.easing,
+      animationFillMode: 'both',
       pointerEvents: 'none',
     },
   });

@@ -1,6 +1,6 @@
 import { createSignal } from 'solid-js';
 
-import { Polymorphic, CheckBox, Popup, Select } from '@suis/primitives';
+import { Polymorphic, CheckBox, Popup, Select, sx } from '@suis/primitives';
 
 export const App = () => {
   const [open, setOpen] = createSignal(false);
@@ -15,7 +15,7 @@ export const App = () => {
       </Polymorphic>
 
       <CheckBox>
-        <CheckBox.Indicator/>
+        <CheckBox.Indicator />
         <CheckBox.Label>Check me!</CheckBox.Label>
       </CheckBox>
 
@@ -23,10 +23,14 @@ export const App = () => {
         <Popup.Trigger>
           <button>popup</button>
         </Popup.Trigger>
-        <Popup.Element style={{ background: 'red' }}>
-          <div>Item 1</div>
-          <div>Item 2</div>
-          <div>Item 3</div>
+        <Popup.Element>
+          {(style) => (
+            <div style={sx(style, { background: 'red' })}>
+              <div>Item 1</div>
+              <div>Item 2</div>
+              <div>Item 3</div>
+            </div>
+          )}
         </Popup.Element>
       </Popup>
 
@@ -34,10 +38,14 @@ export const App = () => {
         <Popup.Anchor>
           <button onClick={() => setOpen(!open())}>controlled popup</button>
         </Popup.Anchor>
-        <Popup.Element style={{ background: 'red' }}>
-          <div>Controlled Item 1</div>
-          <div>Controlled Item 2</div>
-          <div>Controlled Item 3</div>
+        <Popup.Element>
+          {(style) => (
+            <div style={sx(style, { background: 'red' })}>
+              <div>Controlled Item 1</div>
+              <div>Controlled Item 2</div>
+              <div>Controlled Item 3</div>
+            </div>
+          )}
         </Popup.Element>
       </Popup>
 

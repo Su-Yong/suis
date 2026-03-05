@@ -101,6 +101,7 @@ export const Popup = (props: PopupProps) => {
         position: () => result()?.position ?? null,
         open,
         setOpen,
+        onTrigger: () => setOpen((open) => !open),
       }}
     >
       {props.children}

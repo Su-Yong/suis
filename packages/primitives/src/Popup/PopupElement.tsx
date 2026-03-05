@@ -1,33 +1,33 @@
-import { JSX, Show, ValidComponent } from 'solid-js';
+import { JSX, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { usePopupContext } from './PopupContext';
-import { Polymorphic, PolymorphicProps, forwardRef } from '../Polymorphic';
 
-type PopupElementOnlyProps = {
-  children?: JSX.Element;
+type PopupElementProps = {
+  children: (style: JSX.CSSProperties) => JSX.Element;
 };
-export type PopupElementProps<T extends ValidComponent> =
-  Omit<PolymorphicProps<T>, keyof PopupElementOnlyProps>
-  & PopupElementOnlyProps;
-export const PopupElement = <T extends ValidComponent>(props: PopupElementProps<T>) => {
+export const PopupElement = (props: PopupElementProps) => {
   const context = usePopupContext();
+
+  const style = () => ({
+    position: context.position()?.strategy ?? 'absolute',
+    top: `${context.position()?.y ?? 0}px`,
+    left: `${context.position()?.x ?? 0}px`,
+  });
+
+  const onParent = (parent: HTMLElement | null) => {
+    if (!parent) return;
+
+    const el = parent.firstElementChild;
+    if (!el) return;
+
+    context.setElement(el);
+  };
 
   return (
     <Show when={context.open()}>
-      <Portal>
-        <Polymorphic
-          {...props as PolymorphicProps<T>}
-          ref={forwardRef(context.setElement, props.ref)}
-          style={{
-            position: 'absolute',
-            top: `${context.position()?.y ?? 0}px`,
-            left: `${context.position()?.x ?? 0}px`,
-            ...props.style,
-          }}
-        >
-          {props.children}
-        </Polymorphic>
+      <Portal ref={onParent}>
+        {props.children(style())}
       </Portal>
     </Show>
   );
