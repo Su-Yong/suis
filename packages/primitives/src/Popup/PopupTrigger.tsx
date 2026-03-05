@@ -13,9 +13,7 @@ export const PopupTrigger = (props: PopupTriggerProps) => {
   createEffect(on(() => context.anchor(), (element) => {
     if (!element) return;
     
-    const handleClick = () => {
-      context.setOpen(!context.open());
-    };
+    const handleClick = () => context.onTrigger();
 
     element.addEventListener('click', handleClick);
     onCleanup(() => element.removeEventListener('click', handleClick));

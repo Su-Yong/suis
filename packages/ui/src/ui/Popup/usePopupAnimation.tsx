@@ -69,17 +69,15 @@ export const usePopupAnimation = (
     });
   };
 
-  const onOpenChange = async (isOpen: boolean) => {
+  const runAnimation = async (isOpen: boolean) => {
     if (isOpen) runOpenAnimation();
     else runCloseAnimation();
   };
 
-  onCleanup(() => {
-    cleanUp?.();
-  });
+  onCleanup(() => cleanUp?.());
 
   return {
     state,
-    onOpenChange,
+    runAnimation,
   };
 };

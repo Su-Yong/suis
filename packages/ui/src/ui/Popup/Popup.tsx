@@ -10,29 +10,20 @@ import {
 import {
   Popup as BasePopup,
   PopupAnchor as BasePopupAnchor,
-  PopupElement as BasePopupElement,
   PopupProps as BasePopupProps,
   usePopup as useBasePopup,
   createClickAway,
+  PopupElement,
+  sx,
 } from '@suis/primitives';
-import { assignInlineVars } from '@vanilla-extract/dynamic';
-
-import { clx, sx } from '@/theme/util';
 
 import { PopupAnimation } from './animation';
-import { usePlacement } from './usePlacement';
 import { usePopupAnimation } from './usePopupAnimation';
+import { PopupPresence, PopupPresenceProps } from './PopupPresence';
 
-import { Box, BoxProps } from '../Box';
+import { BoxProps } from '../Box';
 
-import {
-  animationStyle,
-  defaultAnimation,
-  placementX,
-  placementY,
-  popupXAlignStyle,
-  popupYAlignStyle
-} from './Popup.css';
+import { defaultAnimation } from './Popup.css';
 
 const BasePopupOnlyProps = [
   'open',
@@ -59,23 +50,22 @@ export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
   const [animationElement, setAnimationElement] = createSignal<HTMLElement | null>(null);
   const animation = () => (local.animation ?? defaultAnimation);
 
-  const { state, onOpenChange } = usePopupAnimation(animationElement);
+  const { state, runAnimation } = usePopupAnimation(animationElement);
 
   createEffect(on(() => baseProps.open === undefined, (isTrigger) => {
     if (isTrigger) return;
 
-    onOpenChange(baseProps.open ?? false);
+    runAnimation(baseProps.open ?? false);
   }));
 
   const PopupContent = () => {
     const { anchor, element } = useBasePopup();
-    const placementOffset = usePlacement();
 
     createEffect(on(() => [baseProps.open === undefined, anchor()] as const, ([isTrigger, anchor]) => {
       if (!isTrigger) return;
       if (!anchor) return;
 
-      const listener = () => onOpenChange(true);
+      const listener = () => runAnimation(true);
       anchor.addEventListener('click', listener);
 
       onCleanup(() => anchor.removeEventListener('click', listener));
@@ -86,39 +76,27 @@ export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
 
       onCleanup(
         createClickAway((cleanUp) => {
-          onOpenChange(false);
+          runAnimation(false);
           cleanUp();
         })(element),
       );
     }));
 
     return (
-      <BasePopupElement
-        {...rest as BoxProps<T>}
-        as={Box}
-        class={clx({
-          [popupXAlignStyle[placementOffset().x]]: true,
-          [popupYAlignStyle[placementOffset().y]]: true,
-        }, rest.classList, rest.class)}
-        style={sx(
-          assignInlineVars({
-            [placementX]: `${placementOffset().x}`,
-            [placementY]: `${placementOffset().y}`,
-          }),
-          rest.style,
+      <PopupElement>
+        {(style) => (
+          <PopupPresence
+            {...rest as unknown as PopupPresenceProps<T, T>}
+            style={sx(style, rest.style)}
+            enter={state.enter}
+            exit={state.exit}
+            animation={animation()}
+            animationWrapperProps={{ ref: setAnimationElement }}
+          >
+            {local.element}
+          </PopupPresence>
         )}
-      >
-        <div
-          ref={setAnimationElement}
-          classList={{
-            [animationStyle]: true,
-            [animation().enter]: state.enter,
-            [animation().exit]: state.exit,
-          }}
-        >
-          {local.element}
-        </div>
-      </BasePopupElement>
+      </PopupElement>
     );
   };
 

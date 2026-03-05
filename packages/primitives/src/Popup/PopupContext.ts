@@ -4,12 +4,13 @@ import { ComputePositionReturn } from '@floating-ui/dom';
 export type PopupContextType = {
   anchor: Accessor<Element | null>;
   setAnchor: (element: Element | null) => void;
-  element: Accessor<HTMLElement | null>;
-  setElement: (element: HTMLElement | null) => void;
+  element: Accessor<Element | null>;
+  setElement: (element: Element | null) => void;
 
   position: Accessor<ComputePositionReturn | null>;
   open: Accessor<boolean>;
   setOpen: (open: boolean) => void;
+  onTrigger: () => void;
 };
 export const PopupContext = createContext<PopupContextType>();
 
@@ -32,5 +33,17 @@ export const usePopup = () => {
     anchor: context.anchor,
     element: context.element,
     position: context.position,
+  };
+};
+
+export const usePopupTrigger = (onTriggered: () => boolean | void) => {
+  const context = usePopupContext();
+
+  const defaultBehavior = context.onTrigger;
+  context.onTrigger = () => {
+    const preceedDefaultBehavior = onTriggered();
+    if (preceedDefaultBehavior === false) return;
+
+    defaultBehavior();
   };
 };
