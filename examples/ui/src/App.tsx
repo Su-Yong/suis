@@ -1,5 +1,5 @@
 import { createSignal, For, onCleanup } from 'solid-js';
-import { Box, Button, CheckBox, Popup, createHoverAway } from '@suis/ui';
+import { Box, Button, CheckBox, Popup, createHoverAway, Select } from '@suis/ui';
 
 const Star = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
@@ -113,6 +113,11 @@ export const App = () => {
           Controlled Popup
         </Button>
       </Popup>
+
+      <Select
+        data={['Option 1', 'Option 2', 'Option 3']}
+        placeholder={'test'}
+      />
     </div>
   );
 };
