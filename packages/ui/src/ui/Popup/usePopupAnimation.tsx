@@ -5,6 +5,7 @@ export const usePopupAnimation = (
   animationElement: () => HTMLElement | null,
 ) => {
   const [state, setState] = createStore({
+    state: 'closed',
     open: false,
     exit: false,
     enter: false,
@@ -15,20 +16,23 @@ export const usePopupAnimation = (
     cleanUp?.();
 
     setState({
+      state: 'opening',
       open: false,
       exit: false,
       enter: true,
     });
     requestAnimationFrame(() => {
       setState({
+        state: 'opened',
         open: true,
         exit: false,
         enter: true,
       });
     });
   };
-  const runCloseAnimation = () => {
+  const runCloseAnimation = () => new Promise<void>((resolve) => {
     setState({
+      state: 'closing',
       enter: false,
       exit: true,
     });
@@ -42,20 +46,23 @@ export const usePopupAnimation = (
     cleanUp = () => {
       ignore = true;
 
-      target.removeEventListener('transitionend', listener);
-      target.removeEventListener('transitioncancel', listener);
+      target.removeEventListener('animationend', listener);
+      target.removeEventListener('animationcancel', listener);
       setState({
+        state: 'closed',
         open: false,
         exit: false,
       });
 
       cleanUp = null;
+      resolve();
     };
 
     const listener = () => {
       cleanUp?.();
 
       setState({
+        state: 'closed',
         open: false,
         exit: false,
       });
@@ -67,11 +74,11 @@ export const usePopupAnimation = (
       target.addEventListener('animationend', listener, { once: true });
       target.addEventListener('animationcancel', listener, { once: true });
     });
-  };
+  });
 
   const runAnimation = async (isOpen: boolean) => {
     if (isOpen) runOpenAnimation();
-    else runCloseAnimation();
+    else await runCloseAnimation();
   };
 
   onCleanup(() => cleanUp?.());

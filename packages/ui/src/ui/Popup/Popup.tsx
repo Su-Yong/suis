@@ -65,9 +65,12 @@ export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
       if (!isTrigger) return;
       if (!anchor) return;
 
-      const listener = () => runAnimation(true);
-      anchor.addEventListener('click', listener);
+      const listener = () => {
+        const isOpen = state.state === 'opened' || state.state === 'opening';
+        if (!isOpen) runAnimation(true);
+      };
 
+      anchor.addEventListener('click', listener);
       onCleanup(() => anchor.removeEventListener('click', listener));
     }));
     createEffect(on(() => [baseProps.open === undefined, element()] as const, ([isTrigger, element]) => {
