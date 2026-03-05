@@ -50,6 +50,22 @@ export const cl = (obj?: Record<string, boolean | undefined>): string => {
 
   return result.join(' ');
 };
+type Maybe<T> = T | undefined | null;
+type ClxObject = Record<string, boolean | undefined> | string;
+export const clx = (...clxObjects: Maybe<ClxObject>[]) =>
+  clxObjects
+    .map((clxObject) => {
+      if (typeof clxObject === 'string') return clxObject;
+      if (typeof clxObject === 'object' && clxObject) {
+        return Object.entries(clxObject)
+          .filter(([, value]) => value)
+          .map(([key]) => key)
+          .join(' ');
+      }
+
+      return '';
+    })
+    .join(' ');
 
 export const cx = (...classNames: unknown[]): string => classNames.filter(Boolean).join(' ');
 export const sx = <Element extends HTMLElement>(...styles: JSX.HTMLAttributes<Element>['style'][]): string => {
