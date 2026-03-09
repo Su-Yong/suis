@@ -1,4 +1,5 @@
 import { createSignal, For, JSX, Match, mergeProps, Show, splitProps, Switch, ValidComponent } from 'solid-js';
+import { Dynamic } from 'solid-js/web';
 import {
   Select as BaseSelect,
   SelectTrigger as BaseSelectTrigger,
@@ -16,12 +17,13 @@ import { Box, BoxProps } from '../Box';
 import { PopupPresence } from '../Popup/PopupPresence';
 import { usePopupAnimation } from '../Popup/usePopupAnimation';
 
-import { selectAnimation } from './Select.css';
+import { selectAnimation, triggerStyle, indicatorStyle } from './Select.css';
 
 const SelectOnlyProps = [
   'data',
   'placeholder',
   'renderValue',
+  'renderIndicator',
 ] as const;
 
 type SelectOnlyProps<T extends SelectData> = {
@@ -30,6 +32,7 @@ type SelectOnlyProps<T extends SelectData> = {
 
   children?: never;
   renderValue?: (value: T) => JSX.Element;
+  renderIndicator?: (props: SelectorIndicatorProps) => JSX.Element;
 };
 export type SelectProps<T extends ValidComponent, U extends SelectData> =
   Omit<BoxProps<T>, keyof SelectOnlyProps<U> | keyof BaseSelectProps>
@@ -42,10 +45,10 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
     mergeProps(
       {
         renderValue: (value: U) => value,
+        renderIndicator: DefaultSelectIndicator,
       },
       props,
     ),
-
     SelectOnlyProps,
   );
 
@@ -65,7 +68,7 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
       <BaseSelectTrigger
         {...rest}
         as={rest.as ?? 'button'}
-        class={clx(rest.class, rest.classList)}
+        class={clx(triggerStyle, rest.class, rest.classList)}
       >
         <BaseSelectValue>
           {(value) => (
@@ -77,6 +80,10 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
             </Show>
           )}
         </BaseSelectValue>
+        <Dynamic<(props: SelectorIndicatorProps) => JSX.Element>
+          component={local.renderIndicator}
+          open={state.open}
+        />
       </BaseSelectTrigger>
     );
   };
@@ -118,5 +125,27 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
         </Box>
       </BaseSelectContent>
     </BaseSelect>
-  )
+  );
 };
+
+export type SelectorIndicatorProps = {
+  open: boolean;
+}
+export const DefaultSelectIndicator = (props: SelectorIndicatorProps) => (
+  <div
+    data-open={props.open}
+    class={indicatorStyle}
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  </div>
+);
