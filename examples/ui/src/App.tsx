@@ -14,7 +14,11 @@ export const App = () => {
   const [popup1, setPopup1] = createSignal(false);
 
   return (
-    <div>
+    <Box
+      w={'100vw'}
+      h={'100vh'}
+      bg={'surface.main'}
+    >
       <Box
         bg={'surface.higher'}
         p={'md'}
@@ -115,9 +119,22 @@ export const App = () => {
       </Popup>
 
       <Select
-        data={['Option 1', 'Option 2', 'Option 3']}
+        data={[
+          {
+            label: 'Group 1',
+            options: ['Option 1', 'Option 2', 'Option 3'],
+          },
+          {
+            label: 'Group 2',
+            options: [
+              { value: '4', label: 'Option 4' },
+              { value: '5', label: 'Option 5' },
+              { value: '6', label: 'Option 6' },
+            ],
+          }
+        ]}
         placeholder={'test'}
       />
-    </div>
+    </Box>
   );
 };

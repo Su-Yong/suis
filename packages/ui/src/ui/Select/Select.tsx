@@ -1,4 +1,4 @@
-import { createSignal, JSX, mergeProps, Show, splitProps, ValidComponent } from 'solid-js';
+import { createSignal, For, JSX, Match, mergeProps, Show, splitProps, Switch, ValidComponent } from 'solid-js';
 import {
   Select as BaseSelect,
   SelectTrigger as BaseSelectTrigger,
@@ -7,13 +7,16 @@ import {
   SelectItem as BaseSelectItem,
   SelectProps as BaseSelectProps,
   usePopupTrigger,
+  clx,
 } from '@suis/primitives';
 
+import { SelectData, useSelectData } from './useSelectData';
+
 import { Box, BoxProps } from '../Box';
-import { Button } from '../Button';
-import { usePopupAnimation } from '../Popup/usePopupAnimation';
-import { selectAnimation } from './Select.css';
 import { PopupPresence } from '../Popup/PopupPresence';
+import { usePopupAnimation } from '../Popup/usePopupAnimation';
+
+import { selectAnimation } from './Select.css';
 
 const SelectOnlyProps = [
   'data',
@@ -21,16 +24,6 @@ const SelectOnlyProps = [
   'renderValue',
 ] as const;
 
-type SimpleSelectData = string;
-type SingleSelectData = {
-  value: string;
-  label: string;
-};
-type GroupedSelectData = {
-  label: string;
-  options: SimpleSelectData[] | SingleSelectData[];
-};
-type SelectData = SimpleSelectData | SingleSelectData | GroupedSelectData;
 type SelectOnlyProps<T extends SelectData> = {
   data: T[];
   placeholder?: string;
@@ -59,6 +52,8 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
   const [animationElement, setAnimationElement] = createSignal<HTMLElement | null>(null);
   const { state, runAnimation } = usePopupAnimation(animationElement);
 
+  const { groupedList } = useSelectData(() => local.data);
+
   const SelectTrigger = () => {
     usePopupTrigger(() => {
       runAnimation(!state.open);
@@ -69,7 +64,8 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
     return (
       <BaseSelectTrigger
         {...rest}
-        as={rest.as ?? Button}
+        as={rest.as ?? 'button'}
+        class={clx(rest.class, rest.classList)}
       >
         <BaseSelectValue>
           {(value) => (
@@ -93,14 +89,32 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
         enter={state.enter}
         exit={state.exit}
         animation={selectAnimation}
-        animationWrapperProps={{
-          ref: setAnimationElement,
-        }}
+        animationWrapperProps={{ ref: setAnimationElement }}
       >
         <Box bg={'surface.main'}>
-          <BaseSelectItem value="1">Option 1</BaseSelectItem>
-          <BaseSelectItem value="2">Option 2</BaseSelectItem>
-          <BaseSelectItem value="3">Option 3</BaseSelectItem>
+          <For each={groupedList()}>
+            {({ group, data }) => (
+              <Switch>
+                <Match when={group !== null}>
+                  <Box>
+                    <div>{group}</div>
+                    <For each={data}>
+                      {({ value, label }) => (
+                        <BaseSelectItem value={value}>{label}</BaseSelectItem>
+                      )}
+                    </For>
+                  </Box>
+                </Match>
+                <Match when={group === null}>
+                  <For each={data}>
+                    {({ value, label }) => (
+                      <BaseSelectItem value={value}>{label}</BaseSelectItem>
+                    )}
+                  </For>
+                </Match>
+              </Switch>
+            )}
+          </For>
         </Box>
       </BaseSelectContent>
     </BaseSelect>
