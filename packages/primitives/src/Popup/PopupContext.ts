@@ -1,18 +1,21 @@
-import { Accessor, createContext, useContext } from 'solid-js';
+import { createContext, useContext } from 'solid-js';
+import { produce, SetStoreFunction } from 'solid-js/store';
 import { ComputePositionReturn } from '@floating-ui/dom';
 
+export type PopupController = (open: boolean) => Promise<boolean>;
 export type PopupContextType = {
-  anchor: Accessor<Element | null>;
-  setAnchor: (element: Element | null) => void;
-  element: Accessor<Element | null>;
-  setElement: (element: Element | null) => void;
+  anchor: Element | null;
+  element: HTMLElement | null;
+  position: ComputePositionReturn | null;
+  open: boolean;
+  mount: boolean;
 
-  position: Accessor<ComputePositionReturn | null>;
-  open: Accessor<boolean>;
-  setOpen: (open: boolean) => void;
-  onTrigger: () => void;
+  _internal: {
+    requestId: number;
+    controller: PopupController | null;
+  };
 };
-export const PopupContext = createContext<PopupContextType>();
+export const PopupContext = createContext<[PopupContextType, SetStoreFunction<PopupContextType>]>();
 
 export const usePopupContext = () => {
   const context = useContext(PopupContext);
@@ -25,25 +28,35 @@ export const usePopupContext = () => {
 };
 
 export const usePopup = () => {
-  const context = usePopupContext();
+  const [context, setContext] = usePopupContext();
 
-  return {
-    open: context.open,
-    setOpen: context.setOpen,
-    anchor: context.anchor,
-    element: context.element,
-    position: context.position,
+  const requestOpen = (open: boolean) => {
+    setContext(produce((it) => {
+      it.open = open;
+      it._internal.requestId += 1;
+    }));
+
+    const currentRequestId = context._internal.requestId;
+    const controller = context._internal.controller ?? (() => Promise.resolve(open));
+
+    controller(open).then((mount) => {
+      if (currentRequestId !== context._internal.requestId) return;
+      setContext('mount', mount);
+    });
   };
+
+  return [
+    context,
+    {
+      requestOpen,
+    },
+  ] as const;
 };
 
-export const usePopupTrigger = (onTriggered: () => boolean | void) => {
-  const context = usePopupContext();
-
-  const defaultBehavior = context.onTrigger;
-  context.onTrigger = () => {
-    const preceedDefaultBehavior = onTriggered();
-    if (preceedDefaultBehavior === false) return;
-
-    defaultBehavior();
-  };
+export const createPopupController = (controller: PopupController) => {
+  const [, setContext] = usePopupContext();
+  setContext('_internal', (prev) => ({
+    ...prev,
+    controller,
+  }));
 };

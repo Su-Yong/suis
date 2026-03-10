@@ -7,12 +7,12 @@ type PopupElementProps = {
   children: (style: JSX.CSSProperties) => JSX.Element;
 };
 export const PopupElement = (props: PopupElementProps) => {
-  const context = usePopupContext();
+  const [context, setContext] = usePopupContext();
 
   const style = () => ({
-    position: context.position()?.strategy ?? 'absolute',
-    top: `${context.position()?.y ?? 0}px`,
-    left: `${context.position()?.x ?? 0}px`,
+    position: context.position?.strategy ?? 'absolute',
+    top: `${context.position?.y ?? 0}px`,
+    left: `${context.position?.x ?? 0}px`,
   });
 
   const onParent = (parent: HTMLElement | null) => {
@@ -21,11 +21,11 @@ export const PopupElement = (props: PopupElementProps) => {
     const el = parent.firstElementChild;
     if (!el) return;
 
-    context.setElement(el);
+    setContext('element', el);
   };
 
   return (
-    <Show when={context.open()}>
+    <Show when={context.mount}>
       <Portal ref={onParent}>
         {props.children(style())}
       </Portal>

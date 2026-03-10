@@ -7,8 +7,9 @@ import {
   SelectContent as BaseSelectContent,
   SelectItem as BaseSelectItem,
   SelectProps as BaseSelectProps,
-  usePopupTrigger,
+  useSelect as useBaseSelect,
   clx,
+  createPopupController,
 } from '@suis/primitives';
 
 import { SelectData, useSelectData } from './useSelectData';
@@ -58,10 +59,12 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
   const { groupedList } = useSelectData(() => local.data);
 
   const SelectTrigger = () => {
-    usePopupTrigger(() => {
-      runAnimation(!state.open);
+    const [context] = useBaseSelect();
 
-      return false;
+    createPopupController(async (open) => {
+      await runAnimation(open);
+
+      return open;
     });
 
     return (
@@ -82,14 +85,14 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
         </BaseSelectValue>
         <Dynamic<(props: SelectorIndicatorProps) => JSX.Element>
           component={local.renderIndicator}
-          open={state.open}
+          open={context.open}
         />
       </BaseSelectTrigger>
     );
   };
 
   return (
-    <BaseSelect open={state.open}>
+    <BaseSelect>
       <SelectTrigger />
       <BaseSelectContent
         as={PopupPresence}

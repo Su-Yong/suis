@@ -11,12 +11,11 @@ export type SelectItemProps<T extends ValidComponent> =
   & SelectItemOnlyProps;
 export const SelectItem = <T extends ValidComponent>(props: SelectItemProps<T>) => {
   const [local, rest] = splitProps(props, ['value']);
-  const { setValue } = useSelect();
+  const [, { setValue }] = useSelect();
   
   const onSetup = (element: Element) => {
     const listener = () => {
       setValue(local.value);
-      console.log('selected', local.value);
     };
 
     element.addEventListener('click', listener);
