@@ -1,11 +1,12 @@
-import { Accessor, createContext, useContext } from 'solid-js';
-import { usePopupContext } from '../Popup/PopupContext';
+import { createContext, mergeProps, useContext } from 'solid-js';
+import { SetStoreFunction } from 'solid-js/store';
+
+import { usePopup } from '../Popup';
 
 export type SelectContextType = {
-  value: Accessor<string | null>;
-  setValue: (value: string | null) => void;
+  value: string | null;
 };
-export const SelectContext = createContext<SelectContextType>();
+export const SelectContext = createContext<[SelectContextType, SetStoreFunction<SelectContextType>]>();
 
 export const useSelectContext = () => {
   const context = useContext(SelectContext);
@@ -18,13 +19,14 @@ export const useSelectContext = () => {
 };
 
 export const useSelect = () => {
-  const context = useSelectContext();
-  const popupContext = usePopupContext();
+  const [context, setSelectContext] = useSelectContext();
+  const [popupContext, popupActions] = usePopup();
 
-  return {
-    value: context.value,
-    setValue: context.setValue,
-    open: popupContext.open,
-    setOpen: popupContext.setOpen,
-  };
+  return [
+    mergeProps(context, popupContext),
+    {
+      setValue: (value: string | null) => setSelectContext('value', value),
+      requestOpen: popupActions.requestOpen,
+    },
+  ] as const;
 };

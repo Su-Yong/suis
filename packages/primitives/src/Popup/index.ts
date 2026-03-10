@@ -4,4 +4,4 @@ export * from './PopupAnchor';
 export * from './PopupTrigger';
 export * from './createClickAway';
 export * from './createHoverAway';
-export { usePopup, usePopupTrigger } from './PopupContext';
+export { usePopup, createPopupController, type PopupController } from './PopupContext';

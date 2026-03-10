@@ -8,10 +8,10 @@ type PlacementOffsets = {
   y: PlacementOffset;
 };
 export const usePlacement = (): Accessor<PlacementOffsets> => {
-  const { position } = useBasePopup();
+  const [context] = useBasePopup();
 
   return () => {
-    const placement = position()?.placement;
+    const placement = context.position?.placement;
     if (!placement) return { x: 0.5, y: 0.5 };
 
     let x: PlacementOffset = 0.5;

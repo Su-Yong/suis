@@ -6,11 +6,11 @@ type SelectValueProps = {
   children: (value: string | null) => JSX.Element;
 };
 export const SelectValue = (props: SelectValueProps) => {
-  const { value } = useSelect();
+  const [context] = useSelect();
 
   return (
     <>
-      {props.children(value())}
+      {props.children(context.value)}
     </>
   );
 };

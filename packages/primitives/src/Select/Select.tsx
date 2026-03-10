@@ -1,10 +1,10 @@
-import { createSignal } from 'solid-js';
+import { createStore } from 'solid-js/store';
 
 import { SelectItem } from './SelectItem';
 import { SelectValue } from './SelectValue';
 import { SelectContent } from './SelectContent';
 import { SelectTrigger } from './SelectTrigger';
-import { SelectContext } from './SelectContext';
+import { SelectContext, SelectContextType } from './SelectContext';
 
 import { Popup, PopupProps } from '../Popup';
 
@@ -13,10 +13,10 @@ export type SelectProps =
   Omit<PopupProps, keyof SelectOnlyProps>
   & SelectOnlyProps;
 export const Select = (props: SelectProps) => {
-  const [value, setValue] = createSignal<string | null>(null);
+  const [context, setContext] = createStore<SelectContextType>({ value: null });
 
   return (
-    <SelectContext.Provider value={{ value, setValue }}>
+    <SelectContext.Provider value={[context, setContext]}>
       <Popup {...props} />
     </SelectContext.Provider>
   );

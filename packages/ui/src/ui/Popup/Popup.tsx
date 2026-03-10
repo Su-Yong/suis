@@ -1,19 +1,16 @@
 import {
-  createEffect,
   createSignal,
   JSX,
-  on,
-  onCleanup,
   splitProps,
   ValidComponent
 } from 'solid-js';
 import {
   Popup as BasePopup,
   PopupAnchor as BasePopupAnchor,
+  PopupTrigger as BasePopupTrigger,
   PopupProps as BasePopupProps,
-  usePopup as useBasePopup,
-  createClickAway,
   PopupElement,
+  createPopupController,
   sx,
 } from '@suis/primitives';
 
@@ -24,6 +21,7 @@ import { PopupPresence, PopupPresenceProps } from './PopupPresence';
 import { BoxProps } from '../Box';
 
 import { defaultAnimation } from './Popup.css';
+import { Dynamic } from 'solid-js/web';
 
 const BasePopupOnlyProps = [
   'open',
@@ -52,38 +50,12 @@ export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
 
   const { state, runAnimation } = usePopupAnimation(animationElement);
 
-  createEffect(on(() => baseProps.open === undefined, (isTrigger) => {
-    if (isTrigger) return;
-
-    runAnimation(baseProps.open ?? false);
-  }));
-
   const PopupContent = () => {
-    const { anchor, element } = useBasePopup();
+    createPopupController(async (open) => {
+      await runAnimation(open);
 
-    createEffect(on(() => [baseProps.open === undefined, anchor()] as const, ([isTrigger, anchor]) => {
-      if (!isTrigger) return;
-      if (!anchor) return;
-
-      const listener = () => {
-        const isOpen = state.state === 'opened' || state.state === 'opening';
-        if (!isOpen) runAnimation(true);
-      };
-
-      anchor.addEventListener('click', listener);
-      onCleanup(() => anchor.removeEventListener('click', listener));
-    }));
-    createEffect(on(() => [baseProps.open === undefined, element()] as const, ([isTrigger, element]) => {
-      if (!isTrigger) return;
-      if (!element) return;
-
-      onCleanup(
-        createClickAway((cleanUp) => {
-          runAnimation(false);
-          cleanUp();
-        })(element),
-      );
-    }));
+      return open;
+    });
 
     return (
       <PopupElement>
@@ -103,11 +75,13 @@ export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
     );
   };
 
+  const AnchorOrTrigger = () => typeof baseProps.open === 'boolean' ? BasePopupAnchor : BasePopupTrigger;
+
   return (
-    <BasePopup {...baseProps} open={state.open}>
-      <BasePopupAnchor>
+    <BasePopup {...baseProps}>
+      <Dynamic component={AnchorOrTrigger()}>
         {local.children}
-      </BasePopupAnchor>
+      </Dynamic>
       <PopupContent />
     </BasePopup>
   );

@@ -1,4 +1,4 @@
-import { createEffect, createSignal, JSX, on, onCleanup } from 'solid-js';
+import { createEffect, JSX, on, onCleanup } from 'solid-js';
 import {
   computePosition,
   Placement,
@@ -7,13 +7,13 @@ import {
   flip, FlipOptions,
   offset, OffsetOptions,
   shift, ShiftOptions,
-  ComputePositionReturn,
 } from '@floating-ui/dom';
 
 import { PopupAnchor } from './PopupAnchor';
 import { PopupTrigger } from './PopupTrigger';
 import { PopupElement } from './PopupElement';
-import { PopupContext } from './PopupContext';
+import { PopupContext, PopupContextType, usePopup } from './PopupContext';
+import { createStore } from 'solid-js/store';
 
 export type PopupProps = {
   open?: boolean;
@@ -28,10 +28,18 @@ export type PopupProps = {
   children: JSX.Element;
 };
 export const Popup = (props: PopupProps) => {
-  const [open, setOpen] = createSignal(props.open ?? false);
-  const [anchor, setAnchor] = createSignal<Element | null>(null);
-  const [element, setElement] = createSignal<HTMLElement | null>(null);
-  const [result, setResult] = createSignal<{ position: ComputePositionReturn | null }>({ position: null });
+  const [context, setContext] = createStore<PopupContextType>({
+    anchor: null,
+    element: null,
+    position: null,
+    open: props.open ?? false,
+    mount: props.open ?? false,
+
+    _internal: {
+      requestId: 0,
+      controller: null,
+    },
+  });
 
   const middleware = () => {
     const result: Middleware[] = [];
@@ -44,10 +52,10 @@ export const Popup = (props: PopupProps) => {
   };
 
   const options = () => {
-    if (!open()) return null;
+    if (!context.mount) return null;
 
-    const anchorElement = anchor();
-    const popupElement = element();
+    const anchorElement = context.anchor;
+    const popupElement = context.element;
 
     if (!anchorElement || !popupElement) return null;
 
@@ -66,10 +74,8 @@ export const Popup = (props: PopupProps) => {
     const [anchor, popup, options] = parameters;
     const position = await computePosition(anchor, popup, options);
 
-    setResult({ position });
+    setContext('position', position);
   };
-
-  createEffect(on(() => props.open ?? false, setOpen));
 
   let id: number | null = null;
   createEffect(on(options, (options) => {
@@ -90,21 +96,16 @@ export const Popup = (props: PopupProps) => {
     onCleanup(cleanUp);
   }));
 
-  return (
-    <PopupContext.Provider
-      value={{
-        anchor,
-        setAnchor,
-        element,
-        setElement,
+  const PopupContent = () => {
+    const [, { requestOpen }] = usePopup();
+    createEffect(on(() => props.open ?? false, requestOpen));
 
-        position: () => result()?.position ?? null,
-        open,
-        setOpen,
-        onTrigger: () => setOpen((open) => !open),
-      }}
-    >
-      {props.children}
+    return props.children;
+  }
+
+  return (
+    <PopupContext.Provider value={[context, setContext]}>
+      <PopupContent />
     </PopupContext.Provider>
   );
 };
