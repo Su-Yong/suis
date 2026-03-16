@@ -15,7 +15,7 @@ export const SelectContent = <T extends ValidComponent>(props: SelectContentProp
       <Polymorphic
         {...props as PolymorphicProps<T>}
         as={props.as ?? 'ul'}
-        style={sx(style, props.style)}
+        style={sx(style(), props.style)}
       />
     )}
   </PopupElement>

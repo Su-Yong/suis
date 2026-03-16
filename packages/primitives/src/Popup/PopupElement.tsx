@@ -1,10 +1,10 @@
-import { JSX, Show } from 'solid-js';
+import { Accessor, JSX, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { usePopupContext } from './PopupContext';
 
 type PopupElementProps = {
-  children: (style: JSX.CSSProperties) => JSX.Element;
+  children: (style: Accessor<JSX.CSSProperties>) => JSX.Element;
 };
 export const PopupElement = (props: PopupElementProps) => {
   const [context, setContext] = usePopupContext();
@@ -27,7 +27,7 @@ export const PopupElement = (props: PopupElementProps) => {
   return (
     <Show when={context.mount}>
       <Portal ref={onParent}>
-        {props.children(style())}
+        {props.children(style)}
       </Portal>
     </Show>
   );
