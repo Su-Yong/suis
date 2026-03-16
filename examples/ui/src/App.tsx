@@ -12,6 +12,7 @@ const Star = () => (
 
 export const App = () => {
   const [popup1, setPopup1] = createSignal(false);
+  const [value, setValue] = createSignal<string | null>(null);
 
   return (
     <Box
@@ -133,8 +134,15 @@ export const App = () => {
             ],
           }
         ]}
-        placeholder={'test'}
+        placeholder={'placeholder'}
       />
+      <Select
+        value={value()}
+        onChangeValue={setValue}
+        data={['Controlled Option 1', 'Controlled Option 2', 'Controlled Option 3']}
+        placeholder={'placeholder'}
+      />
+      <Button onClick={() => setValue('Controlled Option 3')}>set value 3</Button>
     </Box>
   );
 };
