@@ -14,23 +14,26 @@ export const usePopupAnimation = (
       exit: false,
     });
 
-    const target = animationElement();
-    if (!target) {
-      resolve();
-      return;
-    }
-
     requestAnimationFrame(() => {
-      const onEnd = () => {
-        resolve();
+      const target = animationElement();
+      if (!target) {
         setState('enter', false);
+        resolve();
+        return;
+      }
 
-        target.removeEventListener('animationend', onEnd);
-        target.removeEventListener('animationcancel', onEnd);
-      };
+      requestAnimationFrame(() => {
+        const onEnd = () => {
+          resolve();
+          setState('enter', false);
 
-      target.addEventListener('animationend', onEnd, { once: true });
-      target.addEventListener('animationcancel', onEnd, { once: true });
+          target.removeEventListener('animationend', onEnd);
+          target.removeEventListener('animationcancel', onEnd);
+        };
+
+        target.addEventListener('animationend', onEnd);
+        target.addEventListener('animationcancel', onEnd);
+      });
     });
   });
   const runCloseAnimation = () => new Promise<void>((resolve) => {

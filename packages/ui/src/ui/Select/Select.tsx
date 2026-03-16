@@ -1,4 +1,4 @@
-import { createSignal, For, JSX, Match, mergeProps, Show, splitProps, Switch, ValidComponent } from 'solid-js';
+import { createEffect, createSignal, For, getOwner, JSX, Match, mergeProps, on, onCleanup, runWithOwner, Show, splitProps, Switch, ValidComponent } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 import {
   Select as BaseSelect,
@@ -10,6 +10,7 @@ import {
   useSelect as useBaseSelect,
   clx,
   createPopupController,
+  createClickAway,
 } from '@suis/primitives';
 
 import { SelectData, useSelectData } from './useSelectData';
@@ -59,13 +60,29 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
   const { groupedList } = useSelectData(() => local.data);
 
   const SelectTrigger = () => {
-    const [context] = useBaseSelect();
+    const [context, { requestOpen }] = useBaseSelect();
 
+    let cleanUpClickAway: (() => void) | null = null;
     createPopupController(async (open) => {
+      cleanUpClickAway?.();
       await runAnimation(open);
 
       return open;
     });
+    createEffect(on(() => [context.element, context.open] as const, ([element, open]) => {
+      if (!element) return;
+      if (!open) return;
+
+      const owner = getOwner();
+      requestAnimationFrame(() => {
+        runWithOwner(owner, () => {
+          onCleanup(createClickAway((cleanUp) => {
+            cleanUpClickAway = cleanUp;
+            if (context.open) requestOpen(false);
+          })(element));
+        });
+      });
+    }));
 
     return (
       <BaseSelectTrigger
