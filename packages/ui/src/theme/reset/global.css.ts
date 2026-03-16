@@ -2,7 +2,7 @@ import { globalStyle } from '@vanilla-extract/css';
 
 import { resetLayer } from '../layer.css';
 
-globalStyle('html, body, #root', {
+globalStyle('html, body, #root, #app', {
   '@layer': {
     [resetLayer]: {
       width: '100vw',
