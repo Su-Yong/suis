@@ -3,6 +3,7 @@ import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { Polymorphic, PolymorphicProps, cx, sx } from '@suis/primitives';
 
 import {
+  borderWidth,
   boxSizeStyle,
   boxStyle,
   type BoxStyleType,
@@ -64,7 +65,8 @@ export const BoxSizePropList = [
   'minH',
   'maxW',
   'maxH',
-  'flex'
+  'flex',
+  'bw',
 ] as const;
 export const BoxPropList = [...BoxStylePropList, ...BoxSizePropList] as const;
 
@@ -76,6 +78,7 @@ export type BoxSizeProps = {
   maxW?: string;
   maxH?: string;
   flex?: string | number | boolean;
+  bw?: string | boolean;
 };
 export type BoxOverrideProps = {
   props?: Record<string, unknown>;
@@ -124,6 +127,7 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
       maxWidth: boxSizeProps.maxW !== undefined,
       maxHeight: boxSizeProps.maxH !== undefined,
       flex: boxSizeProps.flex !== undefined,
+      bw: boxSizeProps.bw !== undefined,
     }),
   );
 
@@ -145,6 +149,7 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
           [maxWidth]: boxSizeProps.maxW,
           [maxHeight]: boxSizeProps.maxH,
           [flex]: typeof boxSizeProps.flex === 'boolean' ? '1' : boxSizeProps.flex,
+          [borderWidth]: typeof boxSizeProps.bw === 'boolean' ? '1px' : boxSizeProps.bw,
         }),
         rest.style,
       )}
