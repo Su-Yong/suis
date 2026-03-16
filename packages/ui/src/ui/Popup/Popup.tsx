@@ -30,6 +30,7 @@ const BasePopupOnlyProps = [
   'offset',
   'shift',
   'flip',
+  'autoUpdate',
 ] as const;
 
 type PopupOnlyProps = {
@@ -62,7 +63,7 @@ export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
         {(style) => (
           <PopupPresence
             {...rest as unknown as PopupPresenceProps<T, T>}
-            style={sx(style, rest.style)}
+            style={sx(style(), rest.style)}
             enter={state.enter}
             exit={state.exit}
             animation={animation()}

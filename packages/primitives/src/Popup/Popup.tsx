@@ -1,4 +1,4 @@
-import { createEffect, JSX, on, onCleanup } from 'solid-js';
+import { createEffect, JSX, mergeProps, on, onCleanup } from 'solid-js';
 import {
   computePosition,
   Placement,
@@ -7,6 +7,7 @@ import {
   flip, FlipOptions,
   offset, OffsetOptions,
   shift, ShiftOptions,
+  autoUpdate, AutoUpdateOptions,
 } from '@floating-ui/dom';
 
 import { PopupAnchor } from './PopupAnchor';
@@ -24,16 +25,24 @@ export type PopupProps = {
   offset?: OffsetOptions;
   shift?: ShiftOptions;
   flip?: FlipOptions;
+  autoUpdate?: AutoUpdateOptions | boolean;
 
   children: JSX.Element;
 };
 export const Popup = (props: PopupProps) => {
+  const local = mergeProps(
+    {
+      autoUpdate: true,
+    },
+    props,
+  );
+
   const [context, setContext] = createStore<PopupContextType>({
     anchor: null,
     element: null,
     position: null,
-    open: props.open ?? false,
-    mount: props.open ?? false,
+    open: local.open ?? false,
+    mount: local.open ?? false,
 
     _internal: {
       requestId: 0,
@@ -44,9 +53,9 @@ export const Popup = (props: PopupProps) => {
   const middleware = () => {
     const result: Middleware[] = [];
 
-    if (props.offset) result.push(offset(props.offset));
-    if (props.shift) result.push(shift(props.shift));
-    if (props.flip) result.push(flip(props.flip));
+    if (local.offset) result.push(offset(local.offset));
+    if (local.shift) result.push(shift(local.shift));
+    if (local.flip) result.push(flip(local.flip));
 
     return result;
   };
@@ -63,9 +72,10 @@ export const Popup = (props: PopupProps) => {
       anchor: anchorElement,
       popup: popupElement,
       options: {
-        placement: props.placement,
-        strategy: props.strategy,
+        placement: local.placement,
+        strategy: local.strategy,
         middleware: middleware(),
+        autoUpdate: local.autoUpdate,
       },
     };
   };
@@ -92,15 +102,26 @@ export const Popup = (props: PopupProps) => {
     id = requestAnimationFrame(() => {
       update(options.anchor, options.popup, options.options);
     });
-
     onCleanup(cleanUp);
+
+    const autoUpdateOptions = options.options.autoUpdate;
+    if (autoUpdateOptions) {
+      const autoUpdateCleanUp = autoUpdate(
+        options.anchor,
+        options.popup,
+        () => update(options.anchor, options.popup, options.options),
+        typeof autoUpdateOptions === 'boolean' ? undefined : autoUpdateOptions,
+      );
+
+      onCleanup(autoUpdateCleanUp);
+    }
   }));
 
   const PopupContent = () => {
     const [, { requestOpen }] = usePopup();
-    createEffect(on(() => props.open ?? false, requestOpen));
+    createEffect(on(() => local.open ?? false, requestOpen));
 
-    return props.children;
+    return local.children;
   }
 
   return (

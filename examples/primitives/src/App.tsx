@@ -25,7 +25,7 @@ export const App = () => {
         </Popup.Trigger>
         <Popup.Element>
           {(style) => (
-            <div style={sx(style, { background: 'red' })}>
+            <div style={sx(style(), { background: 'red' })}>
               <div>Item 1</div>
               <div>Item 2</div>
               <div>Item 3</div>
@@ -40,7 +40,7 @@ export const App = () => {
         </Popup.Anchor>
         <Popup.Element>
           {(style) => (
-            <div style={sx(style, { background: 'red' })}>
+            <div style={sx(style(), { background: 'red' })}>
               <div>Controlled Item 1</div>
               <div>Controlled Item 2</div>
               <div>Controlled Item 3</div>
