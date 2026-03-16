@@ -7,6 +7,7 @@ import {
   SelectContent as BaseSelectContent,
   SelectItem as BaseSelectItem,
   SelectProps as BaseSelectProps,
+  SelectItemProps as BaseSelectItemProps,
   useSelect as useBaseSelect,
   clx,
   createPopupController,
@@ -19,13 +20,31 @@ import { Box, BoxProps } from '../Box';
 import { PopupPresence } from '../Popup/PopupPresence';
 import { usePopupAnimation } from '../Popup/usePopupAnimation';
 
-import { selectAnimation, triggerStyle, indicatorStyle } from './Select.css';
+import { selectAnimation, triggerStyle, indicatorStyle, contentStyle, groupStyle, groupTitleStyle, itemStyle, checkStyle } from './Select.css';
 
 const SelectOnlyProps = [
   'data',
   'placeholder',
+
   'renderValue',
   'renderIndicator',
+  'renderGroup',
+  'renderItem',
+  'renderCheckIndicator',
+
+  'indicatorProps',
+  'groupProps',
+  'itemProps',
+] as const;
+const BaseSelectOnlyProps = [
+  'value',
+  'onChangeValue',
+
+  'placement',
+  'strategy',
+  'offset',
+  'shift',
+  'flip',
 ] as const;
 
 type SelectOnlyProps<T extends SelectData> = {
@@ -33,8 +52,16 @@ type SelectOnlyProps<T extends SelectData> = {
   placeholder?: string;
 
   children?: never;
+
   renderValue?: (value: T) => JSX.Element;
-  renderIndicator?: (props: SelectorIndicatorProps) => JSX.Element;
+  renderIndicator?: <T extends ValidComponent>(props: SelectIndicatorProps<T>) => JSX.Element;
+  renderGroup?: <T extends ValidComponent>(props: SelectGroupProps<T>) => JSX.Element;
+  renderItem?: <T extends ValidComponent>(props: SelectItemProps<T>) => JSX.Element;
+  renderCheckIndicator?: <T extends ValidComponent>(props: SelectCheckIndicatorProps<T>) => JSX.Element;
+
+  indicatorProps?: SelectIndicatorProps<ValidComponent>;
+  groupProps?: SelectGroupProps<ValidComponent>;
+  itemProps?: SelectItemProps<ValidComponent>;
 };
 export type SelectProps<T extends ValidComponent, U extends SelectData> =
   Omit<BoxProps<T>, keyof SelectOnlyProps<U> | keyof BaseSelectProps>
@@ -43,15 +70,22 @@ export type SelectProps<T extends ValidComponent, U extends SelectData> =
 export const Select = <T extends ValidComponent, U extends SelectData>(
   props: SelectProps<T, U>
 ) => {
-  const [local, rest] = splitProps(
+  const [local, baseProps, rest] = splitProps(
     mergeProps(
       {
+        flip: true,
+        offset: 4,
+
         renderValue: (value: U) => value,
-        renderIndicator: DefaultSelectIndicator,
+        renderIndicator: SelectIndicator,
+        renderGroup: SelectGroup,
+        renderItem: SelectItem,
+        renderCheckIndicator: SelectCheckIndicator,
       },
       props,
     ),
     SelectOnlyProps,
+    BaseSelectOnlyProps,
   );
 
   const [animationElement, setAnimationElement] = createSignal<HTMLElement | null>(null);
@@ -78,8 +112,12 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
         runWithOwner(owner, () => {
           onCleanup(createClickAway((cleanUp) => {
             cleanUpClickAway = cleanUp;
-            if (context.open) requestOpen(false);
-          })(element));
+
+            if (context.open) {
+              requestOpen(false);
+              cleanUp();
+            }
+          })(() => context.element));
         });
       });
     }));
@@ -87,6 +125,7 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
     return (
       <BaseSelectTrigger
         {...rest}
+        data-has-value={!!context.value}
         as={rest.as ?? 'button'}
         class={clx(triggerStyle, rest.class, rest.classList)}
       >
@@ -100,7 +139,7 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
             </Show>
           )}
         </BaseSelectValue>
-        <Dynamic<(props: SelectorIndicatorProps) => JSX.Element>
+        <Dynamic<(props: SelectIndicatorProps<'div'>) => JSX.Element>
           component={local.renderIndicator}
           open={context.open}
         />
@@ -108,8 +147,63 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
     );
   };
 
+  const SelectContent = () => {
+    const [context] = useBaseSelect();
+
+    return (
+      <Box class={contentStyle}>
+        <For each={groupedList()}>
+          {({ group, data }) => (
+            <Switch>
+              <Match when={group !== null}>
+                <Box<'ul' | ((props: SelectGroupProps<'ul'>) => JSX.Element) >
+                  {...local.groupProps}
+                  as={local.renderGroup ?? 'ul'}
+                >
+                  <Box
+                    class={groupTitleStyle}
+                  >
+                    {group}
+                  </Box>
+                  <For each={data}>
+                    {({ value, label }) => (
+                      <BaseSelectItem
+                        {...local.itemProps}
+                        as={local.renderItem ?? 'li'}
+                        value={value}
+                        selected={value === context.value}
+                        renderCheckIndicator={local.renderCheckIndicator}
+                      >
+                        {label}
+                      </BaseSelectItem>
+                    )}
+                  </For>
+                </Box>
+              </Match>
+              <Match when={group === null}>
+                <For each={data}>
+                  {({ value, label }) => (
+                    <BaseSelectItem
+                      {...local.itemProps}
+                      as={local.renderItem ?? 'li'}
+                      value={value}
+                      selected={value === context.value}
+                      renderCheckIndicator={local.renderCheckIndicator}
+                    >
+                      {label}
+                    </BaseSelectItem>
+                  )}
+                </For>
+              </Match>
+            </Switch>
+          )}
+        </For>
+      </Box>
+    );
+  };
+
   return (
-    <BaseSelect>
+    <BaseSelect {...baseProps}>
       <SelectTrigger />
       <BaseSelectContent
         as={PopupPresence}
@@ -118,43 +212,83 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
         animation={selectAnimation}
         animationWrapperProps={{ ref: setAnimationElement }}
       >
-        <Box bg={'surface.main'}>
-          <For each={groupedList()}>
-            {({ group, data }) => (
-              <Switch>
-                <Match when={group !== null}>
-                  <Box>
-                    <div>{group}</div>
-                    <For each={data}>
-                      {({ value, label }) => (
-                        <BaseSelectItem value={value}>{label}</BaseSelectItem>
-                      )}
-                    </For>
-                  </Box>
-                </Match>
-                <Match when={group === null}>
-                  <For each={data}>
-                    {({ value, label }) => (
-                      <BaseSelectItem value={value}>{label}</BaseSelectItem>
-                    )}
-                  </For>
-                </Match>
-              </Switch>
-            )}
-          </For>
-        </Box>
+        <SelectContent />
       </BaseSelectContent>
     </BaseSelect>
   );
 };
 
-export type SelectorIndicatorProps = {
+export type SelectIndicatorProps<T extends ValidComponent> = BoxProps<T> & {
   open: boolean;
 }
-export const DefaultSelectIndicator = (props: SelectorIndicatorProps) => (
-  <div
-    data-open={props.open}
-    class={indicatorStyle}
+export const SelectIndicator = <T extends ValidComponent>(props: SelectIndicatorProps<T>) => {
+  const [local, rest] = splitProps(props, ['open']);
+
+  return (
+    <Box
+      {...rest}
+      data-open={local.open}
+      class={clx(indicatorStyle, rest.class, rest.classList)}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+    </Box>
+  );
+};
+
+export type SelectGroupProps<T extends ValidComponent> = BoxProps<T> & {};
+export const SelectGroup = <T extends ValidComponent>(props: SelectGroupProps<T>) => (
+  <Box
+    {...props}
+    as={props.as ?? 'ul'}
+    class={clx(groupStyle, props.class, props.classList)}
+  >
+    {props.children}
+  </Box>
+);
+
+export type SelectItemProps<T extends ValidComponent> = BaseSelectItemProps<T> & BoxProps<T> & {
+  selected: boolean;
+  children?: JSX.Element;
+
+  renderCheckIndicator?: () => JSX.Element;
+};
+export const SelectItem = <T extends ValidComponent>(props: SelectItemProps<T>) => {
+  const local = mergeProps(
+    {
+      renderCheckIndicator: () => <SelectCheckIndicator />
+    },
+    props,
+  );
+
+  return (
+    <Box
+      {...props as BoxProps<T>}
+      as={props.as ?? 'li'}
+      class={clx(itemStyle, props.class, props.classList)}
+    >
+      {props.children}
+      <Show when={props.selected}>
+        <Dynamic component={local.renderCheckIndicator} />
+      </Show>
+    </Box>
+  );
+};
+
+export type SelectCheckIndicatorProps<T extends ValidComponent> = BoxProps<T> & {};
+export const SelectCheckIndicator = <T extends ValidComponent>(props: SelectCheckIndicatorProps<T>) => (
+  <Box
+    {...props}
+    class={clx(indicatorStyle, props.class, props.classList)}
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -164,8 +298,9 @@ export const DefaultSelectIndicator = (props: SelectorIndicatorProps) => (
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
+      class={checkStyle}
     >
-      <path d="m6 9 6 6 6-6" />
+      <path d="M20 6 9 17l-5-5" />
     </svg>
-  </div>
+  </Box>
 );
