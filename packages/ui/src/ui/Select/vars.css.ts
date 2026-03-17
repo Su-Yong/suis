@@ -1,11 +1,11 @@
 import { createThemeContract } from '@vanilla-extract/css';
 
-import { vars, token } from '@/theme/token';
+import { vars } from '@/theme/token';
 
 export const DefaultSelectVars = {
   focus: {
     offset: vars.size.space.xxs,
-    color: token.color.gray[950],
+    color: vars.color.text.main,
     width: vars.size.line.thick,
   },
   trigger: {

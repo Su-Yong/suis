@@ -3,6 +3,11 @@ import { createThemeContract } from '@vanilla-extract/css';
 import { vars } from '@/theme/token';
 
 export const DefaultInputVars = {
+  focus: {
+    offset: vars.size.space.xxs,
+    color: vars.color.text.main,
+    width: vars.size.line.thick,
+  },
   default: {
     background: vars.color.surface.main,
     color: vars.color.surface.contrast,

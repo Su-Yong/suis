@@ -1,12 +1,12 @@
 import { createThemeContract } from '@vanilla-extract/css';
 
-import { token, vars } from '@/theme/token';
+import { vars } from '@/theme/token';
 import { alpha } from '@/theme/util';
 
 export const DefaultButtonVars = {
   focus: {
     offset: vars.size.space.xxs,
-    color: token.color.gray[950],
+    color: vars.color.text.main,
     width: vars.size.line.thick,
   },
   disabled: {

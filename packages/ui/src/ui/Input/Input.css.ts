@@ -67,5 +67,11 @@ export const inputStyle = style({
       margin: `calc(-1 * ${component.input.file.paddingY}) calc(-1 * ${component.input.file.paddingX})`,
       marginRight: vars.size.space.xs,
     },
+    '&[type="file"]:focus-visible': {
+      outlineStyle: 'solid',
+      outlineOffset: component.select.focus.offset,
+      outlineColor: component.select.focus.color,
+      outlineWidth: component.select.focus.width,
+    },
   },
 });
