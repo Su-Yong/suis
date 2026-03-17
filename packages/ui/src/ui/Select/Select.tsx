@@ -263,22 +263,17 @@ export type SelectItemProps<T extends ValidComponent> = BaseSelectItemProps<T> &
   renderCheckIndicator?: () => JSX.Element;
 };
 export const SelectItem = <T extends ValidComponent>(props: SelectItemProps<T>) => {
-  const local = mergeProps(
-    {
-      renderCheckIndicator: () => <SelectCheckIndicator />
-    },
-    props,
-  );
+  const [local, rest] = splitProps(props, ['selected', 'renderCheckIndicator']);
 
   return (
     <Box
-      {...props as BoxProps<T>}
-      as={props.as ?? 'li'}
-      class={clx(itemStyle, props.class, props.classList)}
+      {...rest as BoxProps<T>}
+      as={rest.as ?? 'li'}
+      class={clx(itemStyle, rest.class, rest.classList)}
     >
-      {props.children}
-      <Show when={props.selected}>
-        <Dynamic component={local.renderCheckIndicator} />
+      {rest.children}
+      <Show when={local.selected}>
+        <Dynamic component={local.renderCheckIndicator ?? SelectCheckIndicator} />
       </Show>
     </Box>
   );

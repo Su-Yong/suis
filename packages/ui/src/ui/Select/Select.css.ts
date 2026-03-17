@@ -45,6 +45,12 @@ export const triggerStyle = style({
   paddingBottom: component.select.trigger.default.paddingY,
 
   selectors: {
+    '&:focus-visible': {
+      outlineStyle: 'solid',
+      outlineOffset: component.select.focus.offset,
+      outlineColor: component.select.focus.color,
+      outlineWidth: component.select.focus.width,
+    },
     '&:hover': {
       background: component.select.trigger.hover.background,
       color: component.select.trigger.hover.color,
@@ -151,15 +157,24 @@ export const itemStyle = style({
   paddingTop: component.select.item.default.paddingY,
   paddingBottom: component.select.item.default.paddingY,
 
-  ':hover': {
-    color: component.select.item.hover.color,
-    background: component.select.item.hover.background,
-    borderRadius: component.select.item.default.borderRadius,
-  },
-  ':active': {
-    color: component.select.item.active.color,
-    background: component.select.item.active.background,
-    borderRadius: component.select.item.default.borderRadius,
+  selectors: {
+    '&:focus-visible': {
+      zIndex: 1,
+      outlineStyle: 'solid',
+      outlineOffset: component.select.focus.offset,
+      outlineColor: component.select.focus.color,
+      outlineWidth: component.select.focus.width,
+    },
+    '&:hover': {
+      color: component.select.item.hover.color,
+      background: component.select.item.hover.background,
+      borderRadius: component.select.item.default.borderRadius,
+    },
+    '&:active': {
+      color: component.select.item.active.color,
+      background: component.select.item.active.background,
+      borderRadius: component.select.item.default.borderRadius,
+    },
   },
 });
 

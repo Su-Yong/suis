@@ -11,8 +11,8 @@ export type SelectItemProps<T extends ValidComponent> =
   & SelectItemOnlyProps;
 export const SelectItem = <T extends ValidComponent>(props: SelectItemProps<T>) => {
   const [local, rest] = splitProps(props, ['value']);
-  const [, { setValue }] = useSelect();
-  
+  const [context, { setValue }] = useSelect();
+
   const onSetup = (element: Element) => {
     const listener = () => {
       setValue(local.value);
@@ -26,6 +26,8 @@ export const SelectItem = <T extends ValidComponent>(props: SelectItemProps<T>) 
     <Polymorphic
       role={'option'}
       data-value={local.value}
+      aria-selected={local.value === context.value}
+      tabindex={-1}
       {...rest as PolymorphicProps<T>}
       as={rest.as ?? 'li'}
       ref={forwardRef(onSetup, rest.ref)}
