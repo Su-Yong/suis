@@ -17,7 +17,8 @@
   "author": "Su-Yong",
   "license": "MIT",
   "dependencies": {
-    "@floating-ui/dom": "1.7.5"
+    "@floating-ui/dom": "1.7.5",
+    "tabbable": "6.4.0"
   },
   "peerDependencies": {
     "solid-js": "^1.6.0"
