@@ -1,5 +1,23 @@
 import { createSignal, For, onCleanup } from 'solid-js';
-import { Box, Button, CheckBox, Popup, createHoverAway, Select, Input } from '@suis/ui';
+import { Box, Button, CheckBox, Popup, createHoverAway, Select, Input, createTheme, token, useTheme } from '@suis/ui';
+
+const darkTheme = createTheme({
+  vars: {
+    color: {
+      surface: {
+        main: token.color.gray[900],
+        contrast: token.color.gray[50],
+        high: token.color.gray[800],
+        higher: token.color.gray[700],
+      },
+      text: {
+        main: token.color.gray[50],
+        caption: token.color.gray[600],
+        disabled: token.color.gray[500],
+      },
+    },
+  },
+});
 
 const Star = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
@@ -9,8 +27,13 @@ const Star = () => (
       d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
   </svg>
 );
+const Moon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon-icon lucide-moon"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" /></svg>
+);
 
 export const App = () => {
+  const [theme, setTheme] = useTheme();
+
   return (
     <Box
       w={'100vw'}
@@ -19,8 +42,19 @@ export const App = () => {
       p={'lg'}
       style={{ overflow: 'auto' }}
     >
-      <Box text={'h3'}>
+      <Box text={'h3'} direction={'row'} justify={'space-between'} align={'center'} gap={'md'}>
         SUIS Playground
+        <Button
+          variant={'ghost'}
+          type={'icon'}
+          r={'full'}
+          active={theme() === darkTheme}
+          onClick={() => {
+            setTheme(theme() === darkTheme ? null : darkTheme);
+          }}
+        >
+          <Moon />
+        </Button>
       </Box>
 
       <Box text={'title'} mt={'xl'}>Box</Box>

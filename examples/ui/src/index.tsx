@@ -6,6 +6,10 @@ import { App } from './App';
 import '@suis/ui/style.css';
 
 render(
-  () => <ThemeProvider><App/></ThemeProvider>,
+  () => (
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  ),
   document.querySelector('#app')!,
 );

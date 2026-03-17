@@ -113,7 +113,7 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
       trr: boxStyleProps.trr,
       blr: boxStyleProps.blr,
       brr: boxStyleProps.brr,
-      c: boxStyleProps.c,
+      c: boxStyleProps.c ?? 'text.main',
       bg: boxStyleProps.bg,
       bc: boxStyleProps.bc,
       bw: boxStyleProps.bw ?? (boxStyleProps.bc ? 'md' : undefined),
