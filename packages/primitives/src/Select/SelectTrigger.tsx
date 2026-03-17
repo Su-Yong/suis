@@ -12,6 +12,7 @@ export const SelectTrigger = <T extends ValidComponent>(props: SelectTriggerProp
     <Polymorphic
       {...props as PolymorphicProps<T>}
       as={props.as ?? 'button'}
+      role={'combobox'}
     />
   </PopupTrigger>
 );

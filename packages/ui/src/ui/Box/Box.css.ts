@@ -13,7 +13,6 @@ export const minHeight = createVar();
 export const maxWidth = createVar();
 export const maxHeight = createVar();
 export const flex = createVar();
-export const borderWidth = createVar();
 export const boxSizeStyle = recipe({
   variants: {
     width: { true: layered({ width } , l2Layer)},
@@ -23,7 +22,6 @@ export const boxSizeStyle = recipe({
     maxWidth: { true: layered({ maxWidth } , l2Layer)},
     maxHeight: { true: layered({ maxHeight } , l2Layer)},
     flex: { true: layered({ flex } , l2Layer)},
-    bw: { true: layered({ borderStyle: 'solid', borderWidth } , l2Layer)},
   },
 });
 
@@ -97,7 +95,8 @@ export const boxStyle = recipe({
     // colors
     c: map(colors, (color) => layered({ color }, l2Layer)),
     bg: map(colors, (background) => layered({ background }, l2Layer)),
-    bc: map(colors, (borderColor) => layered({ borderColor }, l2Layer)),
+    bc: map(colors, (borderColor) => layered({ borderStyle: 'solid',borderColor }, l2Layer)),
+    bw: map(vars.size.line, (borderWidth) => layered({ borderStyle: 'solid', borderWidth }, l2Layer)),
 
     // text
     text: vars.font,

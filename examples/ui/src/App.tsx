@@ -1,5 +1,5 @@
 import { createSignal, For, onCleanup } from 'solid-js';
-import { Box, Button, CheckBox, Popup, createHoverAway, Select } from '@suis/ui';
+import { Box, Button, CheckBox, Popup, createHoverAway, Select, Input } from '@suis/ui';
 
 const Star = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
@@ -27,7 +27,7 @@ export const App = () => {
       <Box text={'body'} mb={'md'}>
         Box is a primitive component that can be used to create any layout. It provides a set of props for layout, spacing, colors, and typography. It also supports polymorphic 'as' prop for rendering different HTML elements.
       </Box>
-      <Box r={'lg'} bw bc={'surface.higher'} p={'md'} gap={'md'}>
+      <Box r={'lg'} bc={'surface.higher'} p={'md'} gap={'md'}>
         <Box
           bg={'surface.higher'}
           p={'md'}
@@ -54,7 +54,7 @@ export const App = () => {
       <Box text={'body'} mb={'md'}>
         Button is a component that can be used to trigger an action. It provides various variants and sizes. It also supports disabled and active states.
       </Box>
-      <Box r={'lg'} bw bc={'surface.higher'} p={'md'} gap={'md'}>
+      <Box r={'lg'} bc={'surface.higher'} p={'md'} gap={'md'}>
         <For each={[false, true] as const}>
           {(disabled) => (
             <For each={['default', 'primary', 'secondary', 'ghost'] as const}>
@@ -106,7 +106,7 @@ export const App = () => {
       <Box text={'body'} mb={'md'}>
         CheckBox is a component that can be used to toggle a boolean value. It provides a name prop for labeling the checkbox. It also supports controlled and uncontrolled usage.
       </Box>
-      <Box r={'lg'} bw bc={'surface.higher'} p={'md'} gap={'md'}>
+      <Box r={'lg'} bc={'surface.higher'} p={'md'} gap={'md'}>
         <CheckBox name={'CheckBox 1'} />
         {(() => {
           const [checked, setChecked] = createSignal(false);
@@ -126,7 +126,7 @@ export const App = () => {
       <Box text={'body'} mb={'md'}>
         Popup is a component that can be used to display a floating element. It provides a placement prop for positioning the popup relative to the trigger element. It also supports controlled and uncontrolled usage.
       </Box>
-      <Box r={'lg'} bw bc={'surface.higher'} p={'md'} gap={'md'}>
+      <Box r={'lg'} bc={'surface.higher'} p={'md'} gap={'md'}>
         <Popup
           placement={'bottom'}
           element={
@@ -180,7 +180,7 @@ export const App = () => {
       <Box text={'body'} mb={'md'}>
         Select is a component that can be used to select a value from a list of options. It provides a data prop for the options and a placeholder prop for the placeholder text. It also supports controlled and uncontrolled usage.
       </Box>
-      <Box r={'lg'} bw bc={'surface.higher'} p={'md'} gap={'md'}>
+      <Box r={'lg'} bc={'surface.higher'} p={'md'} gap={'md'}>
         <Select
           data={[
             {
@@ -213,6 +213,14 @@ export const App = () => {
             </Box>
           );
         })()}
+      </Box>
+      <Box text={'title'} mt={'xl'}>Input</Box>
+      <Box text={'body'} mb={'md'}>
+        TODO
+      </Box>
+      <Box r={'lg'} bc={'surface.higher'} p={'md'} gap={'md'}>
+        <Input placeholder={'Type something...'} />
+        <Input type={'file'} placeholder={'file'} />
       </Box>
     </Box>
   );

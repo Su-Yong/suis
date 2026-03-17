@@ -3,7 +3,6 @@ import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { Polymorphic, PolymorphicProps, cx, sx } from '@suis/primitives';
 
 import {
-  borderWidth,
   boxSizeStyle,
   boxStyle,
   type BoxStyleType,
@@ -54,6 +53,7 @@ export const BoxStylePropList = [
   'c',
   'bg',
   'bc',
+  'bw',
 
   // text
   'text',
@@ -66,7 +66,6 @@ export const BoxSizePropList = [
   'maxW',
   'maxH',
   'flex',
-  'bw',
 ] as const;
 export const BoxPropList = [...BoxStylePropList, ...BoxSizePropList] as const;
 
@@ -117,6 +116,7 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
       c: boxStyleProps.c,
       bg: boxStyleProps.bg,
       bc: boxStyleProps.bc,
+      bw: boxStyleProps.bw ?? (boxStyleProps.bc ? 'md' : undefined),
       text: boxStyleProps.text,
     }),
     boxSizeStyle({
@@ -127,7 +127,6 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
       maxWidth: boxSizeProps.maxW !== undefined,
       maxHeight: boxSizeProps.maxH !== undefined,
       flex: boxSizeProps.flex !== undefined,
-      bw: boxSizeProps.bw !== undefined,
     }),
   );
 
@@ -149,7 +148,6 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
           [maxWidth]: boxSizeProps.maxW,
           [maxHeight]: boxSizeProps.maxH,
           [flex]: typeof boxSizeProps.flex === 'boolean' ? '1' : boxSizeProps.flex,
-          [borderWidth]: typeof boxSizeProps.bw === 'boolean' ? '1px' : boxSizeProps.bw,
         }),
         rest.style,
       )}
