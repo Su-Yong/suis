@@ -1,6 +1,6 @@
 import { createVar, fallbackVar, style, styleVariants } from '@vanilla-extract/css';
 
-import { popupAnimation } from './animation';
+import { popupAnimation } from './animation.css';
 
 export const popupXAlignStyle = styleVariants({
   0: {

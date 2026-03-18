@@ -1,17 +1,20 @@
 import { keyframes, StyleRule, styleVariants } from '@vanilla-extract/css';
 
 import { component } from '../component.css';
+import { placementX, placementY } from './Popup.css';
 
 type PopupAnimationKey = 'enter' | 'exit';
 export type PopupAnimation = Record<PopupAnimationKey, string>;
 export const popupAnimation = <T extends Record<PopupAnimationKey, StyleRule>>(
-  animation: T
+  animation: T | ((x: string, y: string) => T),
 ): PopupAnimation => {
+  const resolvedAnimation = typeof animation === 'function' ? animation(placementX, placementY) : animation;
+
   const enterKeyframe = keyframes({
-    '0%': animation.enter,
+    '0%': resolvedAnimation.enter,
   });
   const exitKeyframe = keyframes({
-    '100%': animation.exit,
+    '100%': resolvedAnimation.exit,
   });
 
   return styleVariants({

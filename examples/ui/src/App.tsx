@@ -1,5 +1,5 @@
 import { createSignal, For, onCleanup } from 'solid-js';
-import { Box, Button, CheckBox, Popup, createHoverAway, Select, Input, createTheme, token, useTheme } from '@suis/ui';
+import { Box, Button, CheckBox, Popup, createHoverAway, Select, Input, createTheme, token, useTheme, Tooltip } from '@suis/ui';
 
 const darkTheme = createTheme({
   vars: {
@@ -248,6 +248,7 @@ export const App = () => {
           );
         })()}
       </Box>
+
       <Box text={'title'} mt={'xl'}>Input</Box>
       <Box text={'body'} mb={'md'}>
         TODO
@@ -255,6 +256,20 @@ export const App = () => {
       <Box r={'lg'} bc={'surface.higher'} p={'md'} gap={'md'}>
         <Input placeholder={'Type something...'} />
         <Input type={'file'} placeholder={'file'} />
+      </Box>
+
+      <Box text={'title'} mt={'xl'}>Tooltip</Box>
+      <Box text={'body'} mb={'md'}>
+        TODO
+      </Box>
+      <Box r={'lg'} bc={'surface.higher'} p={'md'} gap={'md'}>
+        <Tooltip
+          content={'This is a tooltip'}
+        >
+          <Button>
+            Hover me
+          </Button>
+        </Tooltip>
       </Box>
     </Box>
   );

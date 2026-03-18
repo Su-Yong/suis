@@ -14,7 +14,7 @@ import {
   sx,
 } from '@suis/primitives';
 
-import { PopupAnimation } from './animation';
+import { PopupAnimation } from './animation.css';
 import { usePopupAnimation } from './usePopupAnimation';
 import { PopupPresence, PopupPresenceProps } from './PopupPresence';
 
@@ -31,6 +31,7 @@ const BasePopupOnlyProps = [
   'shift',
   'flip',
   'autoUpdate',
+  'middleware',
 ] as const;
 
 type PopupOnlyProps = {

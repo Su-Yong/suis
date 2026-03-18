@@ -3,7 +3,7 @@ import { Dynamic } from 'solid-js/web';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { clx, sx } from '@suis/primitives';
 
-import { PopupAnimation } from './animation';
+import { PopupAnimation } from './animation.css';
 import { usePlacement } from './usePlacement';
 
 import { Box, BoxProps } from '../Box';
@@ -42,6 +42,8 @@ export const PopupPresence = <T extends ValidComponent, U extends ValidComponent
   return (
     <Box
       {...rest as BoxProps<T>}
+      data-placement-x={placementOffset().x}
+      data-placement-y={placementOffset().y}
       class={clx({
         [popupXAlignStyle[placementOffset().x]]: true,
         [popupYAlignStyle[placementOffset().y]]: true,
