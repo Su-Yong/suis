@@ -23,9 +23,10 @@ export type PopupProps = {
   strategy?: Strategy;
 
   offset?: OffsetOptions;
-  shift?: ShiftOptions;
-  flip?: FlipOptions;
+  shift?: ShiftOptions | boolean;
+  flip?: FlipOptions | boolean;
   autoUpdate?: AutoUpdateOptions | boolean;
+  middleware?: Middleware[];
 
   children: JSX.Element;
 };
@@ -54,8 +55,9 @@ export const Popup = (props: PopupProps) => {
     const result: Middleware[] = [];
 
     if (local.offset) result.push(offset(local.offset));
-    if (local.shift) result.push(shift(local.shift));
-    if (local.flip) result.push(flip(local.flip));
+    if (local.shift) result.push(shift(typeof local.shift === 'boolean' ? undefined : local.shift));
+    if (local.flip) result.push(flip(typeof local.flip === 'boolean' ? undefined : local.flip));
+    if (local.middleware) result.push(...local.middleware);
 
     return result;
   };

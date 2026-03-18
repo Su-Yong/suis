@@ -1,4 +1,4 @@
-import { createEffect, on } from 'solid-js';
+import { createEffect, on, splitProps } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
 import { SelectItem } from './SelectItem';
@@ -17,14 +17,16 @@ export type SelectProps =
   Omit<PopupProps, keyof SelectOnlyProps>
   & SelectOnlyProps;
 export const Select = (props: SelectProps) => {
+  const [local, rest] = splitProps(props, ['value', 'onChangeValue']);
+
   const [context, setContext] = createStore<SelectContextType>({ value: null });
 
-  createEffect(on(() => props.value, (value) => setContext('value', value ?? null)));
-  createEffect(on(() => context.value, (value) => props.onChangeValue?.(value)));
+  createEffect(on(() => local.value, (value) => setContext('value', value ?? null)));
+  createEffect(on(() => context.value, (value) => local.onChangeValue?.(value)));
 
   return (
     <SelectContext.Provider value={[context, setContext]}>
-      <Popup {...props} />
+      <Popup {...rest} />
     </SelectContext.Provider>
   );
 };

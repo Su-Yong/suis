@@ -45,6 +45,8 @@ const BaseSelectOnlyProps = [
   'offset',
   'shift',
   'flip',
+  'autoUpdate',
+  'middleware',
 ] as const;
 
 type SelectOnlyProps<T extends SelectData> = {
