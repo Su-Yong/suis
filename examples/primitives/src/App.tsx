@@ -1,6 +1,6 @@
 import { createSignal } from 'solid-js';
 
-import { Polymorphic, CheckBox, Popup, Select, sx } from '@suis/primitives';
+import { Polymorphic, CheckBox, Popup, Select, sx, Tooltip, TooltipContent, TooltipTrigger } from '@suis/primitives';
 
 export const App = () => {
   const [open, setOpen] = createSignal(false);
@@ -61,6 +61,15 @@ export const App = () => {
           <Select.Item value="3">Option 3</Select.Item>
         </Select.Content>
       </Select>
+
+      <Tooltip closeDelay={5000}>
+        <TooltipTrigger>
+          <button>Hover me</button>
+        </TooltipTrigger>
+        <TooltipContent>
+          This is a tooltip content.
+        </TooltipContent>
+      </Tooltip>
     </div>
   );
 };

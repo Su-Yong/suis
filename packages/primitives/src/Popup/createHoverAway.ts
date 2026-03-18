@@ -2,14 +2,13 @@ import { Accessor } from 'solid-js';
 
 type HoverAwayElement = Element | null | undefined | Accessor<Element | null | undefined>;
 type HoverAwayCleanUp = () => void;
-type HoverAwayRegister = (element: HoverAwayElement) => HoverAwayCleanUp;
+type HoverAwayRegister = (element: HoverAwayElement, options?: HoverAwayOptions) => HoverAwayCleanUp;
 type HoverAwayOptions = {
   delay?: number;
 };
 export const createHoverAway = (
   onHoverAway: (cleanUp: HoverAwayCleanUp) => void,
-  { delay = 0 }: HoverAwayOptions = {},
-): HoverAwayRegister => (element) => {
+): HoverAwayRegister => (element, { delay = 0 }: HoverAwayOptions = {}) => {
   const resolveElement = () => typeof element === 'function' ? element() : element;
 
   const target = resolveElement();

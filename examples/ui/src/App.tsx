@@ -198,8 +198,8 @@ export const App = () => {
             >
               <Button
                 ref={(element) => {
-                  const register = createHoverAway(() => setPopup1(false), { delay: 500 });
-                  onCleanup(register(element));
+                  const register = createHoverAway(() => setPopup1(false));
+                  onCleanup(register(element, { delay: 500 }));
                 }}
                 onPointerEnter={() => setPopup1(true)}
               >
