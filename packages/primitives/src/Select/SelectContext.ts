@@ -4,6 +4,7 @@ import { SetStoreFunction } from 'solid-js/store';
 import { usePopup } from '../Popup';
 
 export type SelectContextType = {
+  required: boolean;
   value: string | null;
 };
 export const SelectContext = createContext<[SelectContextType, SetStoreFunction<SelectContextType>]>();

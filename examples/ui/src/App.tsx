@@ -1,5 +1,6 @@
 import { createSignal, For, onCleanup } from 'solid-js';
-import { Box, Button, CheckBox, Popup, createHoverAway, Select, Input, createTheme, token, useTheme, Tooltip } from '@suis/ui';
+import { Box, Button, CheckBox, Popup, createHoverAway, Select, Input, createTheme, token, useTheme, Tooltip, spaces } from '@suis/ui';
+import { Playground } from './Playground';
 
 const darkTheme = createTheme({
   vars: {
@@ -83,6 +84,165 @@ export const App = () => {
           Polymorphic Box (button)
         </Box>
       </Box>
+
+      <Playground
+        title={'Box'}
+        description={'test'}
+        data={[
+          {
+            type: 'input',
+            name: 'children',
+            description: 'Content of the box',
+            defaultValue: 'Box',
+          },
+
+          // layout
+          {
+            type: 'select',
+            name: 'pos',
+            description: 'Position of the box',
+            placeholder: 'flex',
+            items: ['relative', 'absolute', 'fixed', 'sticky'],
+          },
+          {
+            type: 'select',
+            name: 'direction',
+            description: 'Flex direction of the box',
+            placeholder: 'flex direction',
+            defaultValue: 'row',
+            items: ['row', 'row-reverse', 'column', 'column-reverse'],
+          },
+          {
+            type: 'select',
+            name: 'justify',
+            description: 'Justify content of the box',
+            placeholder: 'justify content',
+            items: ['flex-start', 'flex-end', 'center', 'space-between', 'space-around', 'space-evenly'],
+          },
+          {
+            type: 'select',
+            name: 'align',
+            description: 'Align items of the box',
+            placeholder: 'align items',
+            items: ['flex-start', 'flex-end', 'center', 'baseline', 'stretch'],
+          },
+          {
+            type: 'select',
+            name: 'wrap',
+            description: 'Flex wrap of the box',
+            placeholder: 'flex wrap',
+            items: ['nowrap', 'wrap', 'wrap-reverse'],
+          },
+          {
+            type: 'select',
+            name: 'gap',
+            description: 'Gap between items in the box',
+            placeholder: 'space token',
+            items: Object.keys(spaces),
+          },
+
+          // paddings
+          {
+            type: 'select',
+            name: 'p',
+            description: 'Padding of the box',
+            placeholder: 'space token',
+            items: Object.keys(spaces),
+          },
+          {
+            type: 'select',
+            name: 'px',
+            description: 'Horizontal padding of the box',
+            placeholder: 'space token',
+            items: Object.keys(spaces),
+          },
+          {
+            type: 'select',
+            name: 'py',
+            description: 'Vertical padding of the box',
+            placeholder: 'space token',
+            items: Object.keys(spaces),
+          },
+          {
+            type: 'select',
+            name: 'pt',
+            description: 'Padding top of the box',
+            placeholder: 'space token',
+            items: Object.keys(spaces),
+          },
+          {
+            type: 'select',
+            name: 'pb',
+            description: 'Padding bottom of the box',
+            placeholder: 'space token',
+            items: Object.keys(spaces),
+          },
+          {
+            type: 'select',
+            name: 'pl',
+            description: 'Padding left of the box',
+            placeholder: 'space token',
+            items: Object.keys(spaces),
+          },
+          {
+            type: 'select',
+            name: 'pr',
+            description: 'Padding right of the box',
+            placeholder: 'space token',
+            items: Object.keys(spaces),
+          },
+        ]}
+      >
+        {(props) => <Box {...props} />}
+      </Playground>
+
+      <Playground
+        title={'Button'}
+        description={'test'}
+        data={[
+          {
+            type: 'select',
+            name: 'variant',
+            description: 'Variant of the button',
+            defaultValue: 'default',
+            items: ['default', 'primary', 'secondary', 'ghost'],
+          },
+          {
+            type: 'select',
+            name: 'size',
+            description: 'Size of the button',
+            defaultValue: 'md',
+            items: ['xs', 'sm', 'md', 'lg', 'xl'],
+          },
+          {
+            type: 'select',
+            name: 'type',
+            description: 'Type of the button',
+            defaultValue: 'button',
+            items: ['button', 'icon'],
+          },
+          {
+            type: 'checkbox',
+            name: 'disabled',
+            description: 'Disabled state of the button',
+            defaultValue: false,
+          },
+          {
+            type: 'checkbox',
+            name: 'active',
+            description: 'Active state of the button',
+            defaultValue: false,
+          },
+          {
+            type: 'input',
+            name: 'children',
+            description: 'Content of the button',
+            defaultValue: 'Button',
+          }
+        ]}
+      >
+        {(props) => <Button {...props} />}
+      </Playground>
 
       <Box text={'title'} mt={'xl'}>Button</Box>
       <Box text={'body'} mb={'md'}>

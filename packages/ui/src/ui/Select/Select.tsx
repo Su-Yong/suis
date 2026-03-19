@@ -37,6 +37,7 @@ const SelectOnlyProps = [
   'itemProps',
 ] as const;
 const BaseSelectOnlyProps = [
+  'required',
   'value',
   'onChangeValue',
 
@@ -65,18 +66,19 @@ type SelectOnlyProps<T extends SelectData> = {
   groupProps?: SelectGroupProps<ValidComponent>;
   itemProps?: SelectItemProps<ValidComponent>;
 };
-export type SelectProps<T extends ValidComponent, U extends SelectData> =
-  Omit<BoxProps<T>, keyof SelectOnlyProps<U> | keyof BaseSelectProps>
-  & Omit<BaseSelectProps, keyof SelectOnlyProps<U>>
+export type SelectProps<T extends ValidComponent, U extends SelectData, R extends boolean> =
+  Omit<BoxProps<T>, keyof SelectOnlyProps<U> | keyof BaseSelectProps<R>>
+  & Omit<BaseSelectProps<R>, keyof SelectOnlyProps<U>>
   & SelectOnlyProps<U>;
-export const Select = <T extends ValidComponent, U extends SelectData>(
-  props: SelectProps<T, U>
+export const Select = <T extends ValidComponent, U extends SelectData, R extends boolean>(
+  props: SelectProps<T, U, R>
 ) => {
   const [local, baseProps, rest] = splitProps(
     mergeProps(
       {
-        flip: true,
         offset: 4,
+        size: true,
+        flip: true,
 
         renderValue: (value: U) => value,
         renderIndicator: SelectIndicator,
@@ -135,7 +137,7 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
           {(value) => (
             <Show
               when={value !== null}
-              fallback={local.placeholder}
+              fallback={local.placeholder ?? ' '}
             >
               {local.renderValue(value)}
             </Show>

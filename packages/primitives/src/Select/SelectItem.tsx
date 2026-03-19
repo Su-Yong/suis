@@ -15,7 +15,8 @@ export const SelectItem = <T extends ValidComponent>(props: SelectItemProps<T>) 
 
   const onSetup = (element: Element) => {
     const listener = () => {
-      setValue(local.value);
+      if (!context.required && local.value === context.value) setValue(null);
+      else setValue(local.value);
     };
 
     element.addEventListener('click', listener);
