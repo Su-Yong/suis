@@ -7,18 +7,21 @@
     "build": "pnpm -r build",
     "build:primitives": "pnpm --filter primitives build",
     "build:ui": "pnpm --filter ui build",
-
     "example:primitives": "pnpm --filter example-primitives dev",
-    "example:ui": "pnpm --filter example-ui dev"
+    "example:ui": "pnpm --filter example-ui dev",
+    "changeset": "changeset",
+    "version-packages": "changeset version && pnpm install",
+    "release": "changeset publish"
   },
   "keywords": [],
   "author": "Su-Yong",
   "license": "MIT",
   "devDependencies": {
-    "vite": "8.0.0",
+    "@changesets/cli": "^2.30.0",
+    "@microsoft/api-extractor": "7.57.6",
     "typescript": "5.9.3",
-    "vite-plugin-solid": "2.11.10",
     "unplugin-dts": "1.0.0-beta.6",
-    "@microsoft/api-extractor": "7.57.6"
+    "vite": "8.0.0",
+    "vite-plugin-solid": "2.11.10"
   }
 }

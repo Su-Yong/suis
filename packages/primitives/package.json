@@ -4,15 +4,19 @@
   "description": "SUIS, UI library for Solid",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.umd.js"
     },
     "./dist/*": "./dist/*"
   },
   "scripts": {
     "build": "vite build"
   },
+  "files": [
+    "dist",
+    "package.json"
+  ],
   "keywords": [],
   "author": "Su-Yong",
   "license": "MIT",
