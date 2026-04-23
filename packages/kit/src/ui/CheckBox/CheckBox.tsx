@@ -7,7 +7,7 @@ import {
   CheckBoxProps as BaseCheckBoxProps,
   CheckBoxLabelProps as BaseCheckBoxLabelProps,
   CheckBoxIndicatorProps as BaseCheckBoxIndicatorProps,
-} from '@suis/primitives';
+} from '@suis-ui/primitives';
 
 import { checkStyle, containerStyle, indicatorStyle, inputStyle } from './CheckBox.css';
 

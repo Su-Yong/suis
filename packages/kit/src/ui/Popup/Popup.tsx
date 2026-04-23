@@ -12,7 +12,7 @@ import {
   PopupElement,
   createPopupController,
   sx,
-} from '@suis/primitives';
+} from '@suis-ui/primitives';
 
 import { PopupAnimation } from './animation.css';
 import { usePopupAnimation } from './usePopupAnimation';

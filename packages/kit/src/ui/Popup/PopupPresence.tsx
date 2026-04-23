@@ -1,14 +1,15 @@
 import { JSX, mergeProps, splitProps, ValidComponent } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
-import { clx, sx } from '@suis/primitives';
+import { clx, sx } from '@suis-ui/primitives';
 
 import { PopupAnimation } from './animation.css';
+import { placementX, placementY } from './placement.css';
 import { usePlacement } from './usePlacement';
 
 import { Box, BoxProps } from '../Box';
 
-import { animationStyle, placementX, placementY, popupXAlignStyle, popupYAlignStyle } from './Popup.css';
+import { animationStyle, popupXAlignStyle, popupYAlignStyle } from './Popup.css';
 
 type PopupPresenceOnlyProps<T extends ValidComponent> = {
   enter: boolean;

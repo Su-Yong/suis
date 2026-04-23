@@ -1,4 +1,4 @@
-import { clx } from '@suis/primitives';
+import { clx } from '@suis-ui/primitives';
 
 import { Box, BoxProps } from '../Box';
 

@@ -1,5 +1,5 @@
 {
-  "name": "@suis/ui",
+  "name": "@suis-ui/kit",
   "version": "0.1.0",
   "description": "SUIS, UI library for Solid",
   "exports": {
@@ -8,7 +8,7 @@
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js"
     },
-    "./style.css": "./dist/ui.css",
+    "./style.css": "./dist/kit.css",
     "./dist/*": "./dist/*"
   },
   "scripts": {
@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@floating-ui/dom": "1.7.5",
-    "@suis/primitives": "workspace:*",
+    "@suis-ui/primitives": "workspace:*",
     "@vanilla-extract/css": "1.18.0",
     "@vanilla-extract/dynamic": "2.1.5",
     "@vanilla-extract/recipes": "0.5.7",

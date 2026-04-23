@@ -1,9 +1,9 @@
 import { render } from 'solid-js/web';
-import { ThemeProvider } from '@suis/ui';
+import { ThemeProvider } from '@suis-ui/kit';
 
 import { App } from './App';
 
-import '@suis/ui/style.css';
+import '@suis-ui/kit/style.css';
 
 render(
   () => (

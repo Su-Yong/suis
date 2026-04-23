@@ -1,6 +1,6 @@
 import { createVar, fallbackVar, style, styleVariants } from '@vanilla-extract/css';
 
-import { popupAnimation } from './animation.css';
+import { popupAnimation, placementX, placementY } from './animation.css';
 
 export const popupXAlignStyle = styleVariants({
   0: {
@@ -28,8 +28,6 @@ export const popupYAlignStyle = styleVariants({
 export const maxWidth = createVar();
 export const maxHeight = createVar();
 
-export const placementX = createVar();
-export const placementY = createVar();
 export const animationStyle = style({
   width: '100%',
   maxWidth: maxWidth,

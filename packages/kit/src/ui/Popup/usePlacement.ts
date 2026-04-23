@@ -1,6 +1,6 @@
 import { Accessor } from 'solid-js';
 
-import { usePopup as useBasePopup } from '@suis/primitives';
+import { usePopup as useBasePopup } from '@suis-ui/primitives';
 
 type PlacementOffset = 0 | 0.5 | 1;
 type PlacementOffsets = {

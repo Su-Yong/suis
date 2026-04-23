@@ -1,6 +1,6 @@
 import { splitProps, type ValidComponent } from 'solid-js';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
-import { Polymorphic, PolymorphicProps, cx, sx } from '@suis/primitives';
+import { Polymorphic, PolymorphicProps, cx, sx } from '@suis-ui/primitives';
 
 import {
   boxSizeStyle,

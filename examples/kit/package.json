@@ -1,7 +1,8 @@
 {
-  "name": "@suis/example-ui",
+  "name": "@suis-ui/kit-example",
   "version": "0.1.0",
   "description": "A example of SUIS primitives",
+  "private": true,
   "scripts": {
     "dev": "vite dev"
   },
@@ -10,6 +11,6 @@
   "license": "MIT",
   "dependencies": {
     "solid-js": "^1.6.0",
-    "@suis/ui": "workspace:*"
+    "@suis-ui/kit": "workspace:*"
   }
 }

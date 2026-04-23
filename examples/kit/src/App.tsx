@@ -1,5 +1,5 @@
 import { createSignal, For, onCleanup } from 'solid-js';
-import { Box, Button, CheckBox, Popup, createHoverAway, Select, Input, createTheme, token, useTheme, Tooltip } from '@suis/ui';
+import { Box, Button, CheckBox, Popup, createHoverAway, Select, Input, createTheme, token, useTheme, Tooltip } from '@suis-ui/kit';
 
 const darkTheme = createTheme({
   vars: {

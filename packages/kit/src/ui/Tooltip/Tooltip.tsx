@@ -6,7 +6,7 @@ import {
   TooltipProps as BaseTooltipProps,
   createPopupController,
   clx,
-} from '@suis/primitives';
+} from '@suis-ui/primitives';
 
 import { Box, BoxProps } from '../Box';
 import { PopupPresence } from '../Popup/PopupPresence';

@@ -12,7 +12,7 @@ import {
   clx,
   createPopupController,
   createClickAway,
-} from '@suis/primitives';
+} from '@suis-ui/primitives';
 
 import { SelectData, useSelectData } from './useSelectData';
 
