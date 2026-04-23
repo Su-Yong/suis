@@ -1,9 +1,7 @@
-import { createVar, keyframes, StyleRule, styleVariants } from '@vanilla-extract/css';
+import { keyframes, StyleRule, styleVariants } from '@vanilla-extract/css';
 
 import { component } from '../component.css';
-
-export const placementX = createVar();
-export const placementY = createVar();
+import { placementX, placementY } from './placement.css';
 
 type PopupAnimationKey = 'enter' | 'exit';
 export type PopupAnimation = Record<PopupAnimationKey, string>;
