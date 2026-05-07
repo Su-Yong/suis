@@ -1,5 +1,5 @@
 import { Box, vars } from '@suis-ui/kit';
-import { ColorOptions, ColorSwatch, SizeOptions } from '../constants';
+import { ColorOptions, ColorSwatch, LineOptions, ShadowOptions, SizeOptions, TextOptions } from '../constants';
 import { Playground, PlaygroundData } from '../playground';
 
 const LayoutData: PlaygroundData[] = [
@@ -213,17 +213,129 @@ const ColorData: PlaygroundData[] = [
     renderer: ColorSwatch,
   },
 ];
+const BorderData: PlaygroundData[] = [
+  {
+    type: 'select',
+    name: 'bd',
+    description: 'Border width of the box',
+    placeholder: 'line token',
+    items: LineOptions,
+  },
+  {
+    type: 'select',
+    name: 'bdl',
+    description: 'Left border width of the box',
+    placeholder: 'line token',
+    items: LineOptions,
+  },
+  {
+    type: 'select',
+    name: 'bdr',
+    description: 'Right border width of the box',
+    placeholder: 'line token',
+    items: LineOptions,
+  },
+  {
+    type: 'select',
+    name: 'bdt',
+    description: 'Top border width of the box',
+    placeholder: 'line token',
+    items: LineOptions,
+  },
+  {
+    type: 'select',
+    name: 'bdb',
+    description: 'Bottom border width of the box',
+    placeholder: 'line token',
+    items: LineOptions,
+  },
+  {
+    type: 'select',
+    name: 'blc',
+    description: 'Left border color of the box',
+    placeholder: 'color token',
+    items: ColorOptions,
+    renderer: ColorSwatch,
+  },
+  {
+    type: 'select',
+    name: 'brc',
+    description: 'Right border color of the box',
+    placeholder: 'color token',
+    items: ColorOptions,
+    renderer: ColorSwatch,
+  },
+  {
+    type: 'select',
+    name: 'btc',
+    description: 'Top border color of the box',
+    placeholder: 'color token',
+    items: ColorOptions,
+    renderer: ColorSwatch,
+  },
+  {
+    type: 'select',
+    name: 'bbc',
+    description: 'Bottom border color of the box',
+    placeholder: 'color token',
+    items: ColorOptions,
+    renderer: ColorSwatch,
+  },
+];
+const PositionData: PlaygroundData[] = [
+  {
+    type: 'input',
+    name: 't',
+    description: 'Top offset of the box',
+    placeholder: 'CSS length',
+  },
+  {
+    type: 'input',
+    name: 'r',
+    description: 'Right offset of the box',
+    placeholder: 'CSS length',
+  },
+  {
+    type: 'input',
+    name: 'b',
+    description: 'Bottom offset of the box',
+    placeholder: 'CSS length',
+  },
+  {
+    type: 'input',
+    name: 'l',
+    description: 'Left offset of the box',
+    placeholder: 'CSS length',
+  },
+  {
+    type: 'input',
+    name: 'z',
+    description: 'Z-index of the box',
+    placeholder: 'z-index',
+  },
+];
 const OtherData: PlaygroundData[] = [
   {
     type: 'select',
     name: 'text',
     description: 'Text style of the box',
     placeholder: 'text token',
-    items: Object.keys(vars.font).map((key) => ({
-      value: key,
-      label: key,
-    })),
-  }
+    items: TextOptions,
+  },
+  {
+    type: 'select',
+    name: 'shadow',
+    description: 'Shadow of the box',
+    placeholder: 'shadow token',
+    items: ShadowOptions,
+  },
+  {
+    type: 'select',
+    name: 'overflow',
+    description: 'Overflow behavior of the box',
+    placeholder: 'overflow value',
+    items: ['auto', 'hidden', 'visible', 'scroll', 'xAuto', 'xHidden', 'xVisible', 'xScroll', 'yAuto', 'yHidden', 'yVisible', 'yScroll'],
+  },
 ];
 
 export const BoxPlaygroundData: PlaygroundData[] = [
@@ -233,6 +345,13 @@ export const BoxPlaygroundData: PlaygroundData[] = [
     name: 'Layout',
     description: 'Layout related properties',
     items: LayoutData,
+  },
+  // position
+  {
+    type: 'group',
+    name: 'Position',
+    description: 'Position offset properties',
+    items: PositionData,
   },
   // padding
   {
@@ -261,6 +380,13 @@ export const BoxPlaygroundData: PlaygroundData[] = [
     name: 'Colors',
     description: 'Color related properties',
     items: ColorData,
+  },
+  // border
+  {
+    type: 'group',
+    name: 'Border',
+    description: 'Border related properties',
+    items: BorderData,
   },
   // others
   ...OtherData,

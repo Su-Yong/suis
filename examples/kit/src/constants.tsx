@@ -17,6 +17,19 @@ export const SizeOptions: SelectData[] = [
   },
 ];
 
+export const LineOptions: SelectData[] = Object.keys(vars.size.line).map((key) => ({
+  value: key,
+  label: key,
+}));
+export const TextOptions: SelectData[] = Object.keys(vars.font).map((key) => ({
+  value: key,
+  label: key,
+}));
+export const ShadowOptions: SelectData[] = Object.keys(vars.shadow).map((key) => ({
+  value: key,
+  label: key,
+}));
+
 export const ColorOptions: SelectData[] = [
   ...Object.entries(vars.color).map(([parentKey, values]) => ({
     label: `${parentKey} - vars`,
@@ -40,6 +53,7 @@ export const ColorSwatch = (itemProps: SelectItemProps) => (
     r={'full'}
     bg={itemProps.value}
     bc={'text.caption'}
+    bd={'md'}
   >
   </Box>
 );

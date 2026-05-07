@@ -88,10 +88,11 @@ export const Playground = (props: PlaygroundProps) => {
         direction={'row'}
         align={'stretch'}
         bc={'surface.higher'}
+        bd={'md'}
         r={'lg'}
         gap={'md'}
         mt={'md'}
-        style={{ overflow: 'hidden' }}
+        overflow={'hidden'}
       >
         <Box
           flex
@@ -108,10 +109,8 @@ export const Playground = (props: PlaygroundProps) => {
         >
           <Box
             pos={'absolute'}
-            style={{
-              top: vars.size.space.md,
-              right: vars.size.space.md,
-            }}
+            t={vars.size.space.md}
+            r={vars.size.space.md}
           >
             <Select
               value={backgroundType()}
@@ -128,7 +127,7 @@ export const Playground = (props: PlaygroundProps) => {
           align={'stretch'}
           gap={'md'}
           p={'md'}
-          style={{ overflow: 'auto' }}
+          overflow={'auto'}
         >
           <For each={props.data}>
             {(data) => (
@@ -184,7 +183,7 @@ const DataRenderer = (props: DataRendererProps) => {
           </Box>
           <Show when={expand()}>
 
-            <Box pl={'md'} gap={'md'} bc={'surface.higher'} style={{ 'border-style': 'none', "border-left-style": 'solid' }}>
+            <Box pl={'md'} gap={'md'} blc={'surface.higher'} bdl={'md'}>
               <For each={(props.data as GroupPlaygroundData).items}>
                 {(item) => (
                   <DataRenderer
