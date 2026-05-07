@@ -10,7 +10,8 @@
   "author": "Su-Yong",
   "license": "MIT",
   "dependencies": {
-    "solid-js": "^1.6.0",
-    "@suis-ui/kit": "workspace:*"
+    "@suis-ui/kit": "workspace:*",
+    "lucide-solid": "1.14.0",
+    "solid-js": "^1.6.0"
   }
 }
