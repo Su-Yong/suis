@@ -12,7 +12,12 @@ import {
   maxWidth,
   minHeight,
   minWidth,
-  width
+  width,
+  top,
+  right,
+  bottom,
+  left,
+  zIndex,
 } from './Box.css';
 
 export const BoxStylePropList = [
@@ -52,11 +57,23 @@ export const BoxStylePropList = [
   // colors
   'c',
   'bg',
-  'bc',
-  'bw',
 
-  // text
+  // border
+  'bc',
+  'bd',
+  'bdl',
+  'bdr',
+  'bdt',
+  'bdb',
+  'blc',
+  'brc',
+  'btc',
+  'bbc',
+
+  // others
   'text',
+  'shadow',
+  'overflow',
 ] as const;
 export const BoxSizePropList = [
   'w',
@@ -66,6 +83,11 @@ export const BoxSizePropList = [
   'maxW',
   'maxH',
   'flex',
+  't',
+  'r',
+  'b',
+  'l',
+  'z',
 ] as const;
 export const BoxPropList = [...BoxStylePropList, ...BoxSizePropList] as const;
 
@@ -77,7 +99,11 @@ export type BoxSizeProps = {
   maxW?: string;
   maxH?: string;
   flex?: string | number | boolean;
-  bw?: string | boolean;
+  t?: string;
+  r?: string;
+  b?: string;
+  l?: string;
+  z?: string | number;
 };
 export type BoxOverrideProps = {
   props?: Record<string, unknown>;
@@ -116,8 +142,18 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
       c: boxStyleProps.c ?? 'text.main',
       bg: boxStyleProps.bg,
       bc: boxStyleProps.bc,
-      bw: boxStyleProps.bw ?? (boxStyleProps.bc ? 'md' : undefined),
+      bd: boxStyleProps.bd,
+      bdl: boxStyleProps.bdl,
+      bdr: boxStyleProps.bdr,
+      bdt: boxStyleProps.bdt,
+      bdb: boxStyleProps.bdb,
+      blc: boxStyleProps.blc,
+      brc: boxStyleProps.brc,
+      btc: boxStyleProps.btc,
+      bbc: boxStyleProps.bbc,
       text: boxStyleProps.text,
+      shadow: boxStyleProps.shadow,
+      overflow: boxStyleProps.overflow,
     }),
     boxSizeStyle({
       width: boxSizeProps.w !== undefined,
@@ -127,6 +163,11 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
       maxWidth: boxSizeProps.maxW !== undefined,
       maxHeight: boxSizeProps.maxH !== undefined,
       flex: boxSizeProps.flex !== undefined,
+      t: boxSizeProps.t !== undefined,
+      r: boxSizeProps.r !== undefined,
+      b: boxSizeProps.b !== undefined,
+      l: boxSizeProps.l !== undefined,
+      z: boxSizeProps.z !== undefined,
     }),
   );
 
@@ -148,6 +189,11 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
           [maxWidth]: boxSizeProps.maxW,
           [maxHeight]: boxSizeProps.maxH,
           [flex]: typeof boxSizeProps.flex === 'boolean' ? '1' : boxSizeProps.flex,
+          [top]: boxSizeProps.t,
+          [right]: boxSizeProps.r,
+          [bottom]: boxSizeProps.b,
+          [left]: boxSizeProps.l,
+          [zIndex]: boxSizeProps.z,
         }),
         rest.style,
       )}

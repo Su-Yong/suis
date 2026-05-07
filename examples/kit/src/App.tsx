@@ -37,8 +37,8 @@ export const App = () => {
       h={'100vh'}
       bg={'surface.main'}
       align={'center'}
+      overflow={'auto'}
       style={{
-        overflow: 'auto',
         'scroll-behavior': 'smooth',
         'scroll-snap-align': 'center'
       }}
@@ -53,11 +53,11 @@ export const App = () => {
         align={'center'}
         gap={'md'}
         p={'md'}
-        zIndex={1}
+        t={'0'}
+        z={100}
         bc={'surface.higher'}
+        bd={'md'}
         style={{
-          top: 0,
-          'z-index': 100,
           'backdrop-filter': 'blur(10px)',
         }}
       >
@@ -82,16 +82,15 @@ export const App = () => {
         pos={'absolute'}
         w={'20rem'}
         m={'md'}
-        style={{
-          top: '5.6rem',
-          left: 0,
-          'z-index': 100,
-        }}
+        t={'5.6rem'}
+        l={'0'}
+        z={100}
       >
         <Box
           as={'ul'}
           bg={'surface.main'}
           bc={'surface.higher'}
+          bd={'md'}
           p={'xs'}
           r={'md'}
           gap={'xs'}

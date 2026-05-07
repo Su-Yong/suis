@@ -63,6 +63,7 @@ export const PopupPlayground = () => {
               p={'md'}
               bg={'surface.main'}
               bc={'surface.higher'}
+              bd={'md'}
               r={'md'}
             >
               Popup Content
