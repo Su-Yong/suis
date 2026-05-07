@@ -1,24 +1,24 @@
 ## Summary
 
-<!-- Briefly describe what this PR changes and why. -->
+<!-- Provide a concise summary of the changes and their purpose. -->
 
 ## Changes
 
-<!-- List the main changes in this PR. -->
+<!-- Document the main changes included in this PR. -->
 
 - 
 
 ## Checklist
 
-- [ ] I ran `pnpm build`
-- [ ] I added or updated documentation where needed
-- [ ] I added a changeset with `pnpm changeset`, or this change does not require one
-- [ ] I checked affected packages: `kit`, `primitives`, or examples
+- [ ] `pnpm build` completed successfully
+- [ ] Documentation added or updated where needed
+- [ ] Changeset added with `pnpm changeset`, or confirmed as not required
+- [ ] Affected packages checked: `kit`, `primitives`, or examples
 
 ## Screenshots
 
-<!-- Add screenshots or recordings for visual UI changes. Otherwise, write "N/A". -->
+<!-- Include screenshots or recordings for visual UI changes. Use "N/A" when not applicable. -->
 
 ## Notes for Reviewers
 
-<!-- Mention anything reviewers should pay special attention to. -->
+<!-- Note any areas that require particular reviewer attention. -->
