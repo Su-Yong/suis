@@ -1,5 +1,9 @@
 import { createSignal, For, onCleanup } from 'solid-js';
 import { Box, Button, CheckBox, Popup, createHoverAway, Select, Input, createTheme, token, useTheme, Tooltip } from '@suis-ui/kit';
+import { Moon, Star } from 'lucide-solid';
+
+import { Playground } from './playground';
+import { BoxPlayground } from './components/box';
 
 const darkTheme = createTheme({
   vars: {
@@ -18,18 +22,6 @@ const darkTheme = createTheme({
     },
   },
 });
-
-const Star = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-    class="lucide lucide-star-icon lucide-star">
-    <path
-      d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
-  </svg>
-);
-const Moon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon-icon lucide-moon"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" /></svg>
-);
 
 export const App = () => {
   const [theme, setTheme] = useTheme();
@@ -57,32 +49,54 @@ export const App = () => {
         </Button>
       </Box>
 
-      <Box text={'title'} mt={'xl'}>Box</Box>
-      <Box text={'body'} mb={'md'}>
-        Box is a primitive component that can be used to create any layout. It provides a set of props for layout, spacing, colors, and typography. It also supports polymorphic 'as' prop for rendering different HTML elements.
-      </Box>
-      <Box r={'lg'} bc={'surface.higher'} p={'md'} gap={'md'}>
-        <Box
-          bg={'surface.higher'}
-          p={'md'}
-        >
-          Box 1
-        </Box>
-        <Box
-          bg={'surface.higher'}
-          p={'md'}
-          text={'title'}
-        >
-          Box with title text
-        </Box>
-        <Box
-          as={'button'}
-          bg={'surface.higher'}
-          p={'md'}
-        >
-          Polymorphic Box (button)
-        </Box>
-      </Box>
+      <BoxPlayground />
+      <Playground
+        title={'Button'}
+        description={'test'}
+        data={[
+          {
+            type: 'select',
+            name: 'variant',
+            description: 'Variant of the button',
+            defaultValue: 'default',
+            items: ['default', 'primary', 'secondary', 'ghost'],
+          },
+          {
+            type: 'select',
+            name: 'size',
+            description: 'Size of the button',
+            defaultValue: 'md',
+            items: ['xs', 'sm', 'md', 'lg', 'xl'],
+          },
+          {
+            type: 'select',
+            name: 'type',
+            description: 'Type of the button',
+            defaultValue: 'button',
+            items: ['button', 'icon'],
+          },
+          {
+            type: 'checkbox',
+            name: 'disabled',
+            description: 'Disabled state of the button',
+            defaultValue: false,
+          },
+          {
+            type: 'checkbox',
+            name: 'active',
+            description: 'Active state of the button',
+            defaultValue: false,
+          },
+          {
+            type: 'input',
+            name: 'children',
+            description: 'Content of the button',
+            defaultValue: 'Button',
+          }
+        ]}
+      >
+        {(props) => <Button {...props} />}
+      </Playground>
 
       <Box text={'title'} mt={'xl'}>Button</Box>
       <Box text={'body'} mb={'md'}>

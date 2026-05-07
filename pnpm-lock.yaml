@@ -32,6 +32,9 @@ importers:
       '@suis-ui/kit':
         specifier: workspace:*
         version: link:../../packages/kit
+      lucide-solid:
+        specifier: 1.14.0
+        version: 1.14.0(solid-js@1.9.7)
       solid-js:
         specifier: ^1.6.0
         version: 1.9.7
@@ -1246,6 +1249,11 @@ packages:
   lru-cache@6.0.0:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
     engines: {node: '>=10'}
+
+  lucide-solid@1.14.0:
+    resolution: {integrity: sha512-OeuC91agcJS3CyneSo96VpdkUAQdQO8c8r0QO5/FIkGnlfJ7Gd0fw3Z6CcdKnG94P0Ydwt+He2ar3oeTzbuNnw==}
+    peerDependencies:
+      solid-js: ^1.4.7
 
   magic-string@0.30.17:
     resolution: {integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==}
@@ -2887,6 +2895,10 @@ snapshots:
   lru-cache@6.0.0:
     dependencies:
       yallist: 4.0.0
+
+  lucide-solid@1.14.0(solid-js@1.9.7):
+    dependencies:
+      solid-js: 1.9.7
 
   magic-string@0.30.17:
     dependencies:
