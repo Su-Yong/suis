@@ -1,6 +1,6 @@
 # Input
 
-`Input` is the styled input component in `@suis-ui/kit`. It renders `Box` as an `input` and adds the kit input class.
+`Input` is the styled input component in `@suis-ui/kit`. It renders `Box` as an `input` or `textarea` and adds the matching kit input class.
 
 ```tsx
 import { Input } from '@suis-ui/kit';
@@ -16,13 +16,21 @@ import { Input } from '@suis-ui/kit';
 
 ## Props
 
-`Input` accepts native input props and Box style props, except `as`.
+`Input` accepts native input props and Box style props. The `as` prop is limited to `input` or `textarea`.
 
 ```tsx
 <Input
   type="text"
   placeholder="Search"
   w="320px"
+/>
+```
+
+```tsx
+<Input
+  as="textarea"
+  placeholder="Message"
+  minH="120px"
 />
 ```
 

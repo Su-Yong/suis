@@ -5,6 +5,7 @@ This table of contents mirrors the main docs index.
 ## Guides
 
 - [Introduction](./introduction.md)
+- [Design Principles](./design-principles.md)
 - [Customization](./customization.md)
 
 ## `@suis-ui/kit`

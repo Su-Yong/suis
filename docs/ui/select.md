@@ -1,6 +1,6 @@
 # Select
 
-`Select` is the styled select component in `@suis-ui/kit`. It composes primitive Select, Popup, FocusManager, and kit styles.
+`Select` is the styled select component in `@suis-ui/kit`. It composes primitive Select, Popup, FocusManager, and kit styles behind a single component API.
 
 ```tsx
 import { createSignal } from 'solid-js';
@@ -42,6 +42,8 @@ const data = [
 
 Simple strings use the same string for value and label. Grouped data is flattened for selection and grouped again for rendering.
 
+Primitive Select is assembled manually from `Select.Trigger`, `Select.Value`, `Select.Content`, and `Select.Item`. Kit Select owns that structure and exposes customization through `*Props` and `render*` props.
+
 ## Props
 
 | Prop | Type | Description |
@@ -60,6 +62,23 @@ Simple strings use the same string for value and label. Grouped data is flattene
 | `itemProps` | `SelectItemProps` | Props for items. |
 
 `Select` also accepts Popup positioning props such as `placement`, `offset`, `shift`, `flip`, `autoUpdate`, and `middleware`.
+
+## Custom Parts
+
+Use `*Props` when you want to pass props to a generated part. Use `render*` when you want to replace a generated part.
+
+```tsx
+import { Select, SelectItem } from '@suis-ui/kit';
+
+<Select
+  data={['Small', 'Medium', 'Large']}
+  renderItem={(props) => (
+    <SelectItem {...props} bg={props.selected ? 'primary.container' : undefined} />
+  )}
+/>;
+```
+
+The current Select API exposes customization for value, indicator, groups, items, and the selected-item indicator. It does not expose `contentProps` or `renderContent`.
 
 ## Defaults
 

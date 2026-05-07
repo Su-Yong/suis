@@ -1,6 +1,6 @@
 # CheckBox
 
-`CheckBox` is the styled checkbox component in `@suis-ui/kit`. It composes the primitive checkbox root, label, and input indicator.
+`CheckBox` is the styled checkbox component in `@suis-ui/kit`. It composes the primitive checkbox root, label, and input indicator behind a single component API.
 
 ```tsx
 import { createSignal } from 'solid-js';
@@ -34,6 +34,8 @@ import { CheckBox } from '@suis-ui/kit';
 The rendered label text comes from the `name` prop.
 
 ## Custom Indicator
+
+Use `inputProps` and `labelProps` to pass props to the internal primitive parts. Use `renderIndicator` to replace the visual indicator.
 
 ```tsx
 <CheckBox
