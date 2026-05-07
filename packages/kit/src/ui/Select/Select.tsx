@@ -266,7 +266,7 @@ export const SelectIndicator = <T extends ValidComponent>(props: SelectIndicator
   );
 };
 
-export type SelectGroupProps<T extends ValidComponent> = BoxProps<T> & {};
+export type SelectGroupProps<T extends ValidComponent = ValidComponent> = BoxProps<T> & {};
 export const SelectGroup = <T extends ValidComponent>(props: SelectGroupProps<T>) => (
   <Box
     {...props}
@@ -277,7 +277,7 @@ export const SelectGroup = <T extends ValidComponent>(props: SelectGroupProps<T>
   </Box>
 );
 
-export type SelectItemProps<T extends ValidComponent> = BaseSelectItemProps<T> & BoxProps<T> & {
+export type SelectItemProps<T extends ValidComponent = ValidComponent> = BaseSelectItemProps<T> & BoxProps<T> & {
   selected: boolean;
   children?: JSX.Element;
 
@@ -300,7 +300,7 @@ export const SelectItem = <T extends ValidComponent>(props: SelectItemProps<T>) 
   );
 };
 
-export type SelectCheckIndicatorProps<T extends ValidComponent> = BoxProps<T> & {};
+export type SelectCheckIndicatorProps<T extends ValidComponent = ValidComponent> = BoxProps<T> & {};
 export const SelectCheckIndicator = <T extends ValidComponent>(props: SelectCheckIndicatorProps<T>) => (
   <Box
     {...props}
