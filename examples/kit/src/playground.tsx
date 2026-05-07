@@ -60,14 +60,8 @@ export const Playground = (props: PlaygroundProps) => {
     const initPlaygroundData: Record<string, unknown> = {};
 
     props.data.forEach((data) => {
-      if (data.type === 'input' && (data as InputPlaygroundData).defaultValue !== undefined) {
-        initPlaygroundData[data.name] = (data as InputPlaygroundData).defaultValue;
-      } else if (data.type === 'select' && (data as SelectPlaygroundData).defaultValue !== undefined) {
-        initPlaygroundData[data.name] = (data as SelectPlaygroundData).defaultValue;
-      } else if (data.type === 'checkbox' && (data as CheckBoxPlaygroundData).defaultValue !== undefined) {
-        initPlaygroundData[data.name] = (data as CheckBoxPlaygroundData).defaultValue;
-      } else if (data.type === 'json' && (data as JsonPlaygroundData).defaultValue !== undefined) {
-        initPlaygroundData[data.name] = (data as JsonPlaygroundData).defaultValue;
+      if ('defaultValue' in data) {
+        initPlaygroundData[data.name] = data.defaultValue;
       }
     });
 
