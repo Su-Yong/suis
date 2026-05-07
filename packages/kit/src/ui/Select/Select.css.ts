@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { createVar, style } from '@vanilla-extract/css';
 
 import { vars } from '@/theme/token';
 
@@ -94,14 +94,19 @@ export const indicatorStyle = style({
   }
 });
 
+export const maxHeight = createVar();
 export const contentStyle = style({
   width: 'fit-content',
   minWidth: '20ch',
+  maxHeight: maxHeight,
+  boxSizing: 'border-box',
 
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
   alignItems: 'stretch',
+  overflowY: 'auto',
+  overscrollBehavior: 'contain',
 
   background: component.select.content.background,
 

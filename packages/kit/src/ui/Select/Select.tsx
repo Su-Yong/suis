@@ -1,5 +1,7 @@
-import { createEffect, createSignal, For, getOwner, JSX, Match, mergeProps, on, onCleanup, runWithOwner, Show, splitProps, Switch, ValidComponent } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, getOwner, JSX, Match, mergeProps, on, onCleanup, runWithOwner, Show, splitProps, Switch, ValidComponent } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
+import { assignInlineVars } from '@vanilla-extract/dynamic';
+import { size } from '@floating-ui/dom';
 import {
   Select as BaseSelect,
   SelectTrigger as BaseSelectTrigger,
@@ -20,7 +22,7 @@ import { Box, BoxProps } from '../Box';
 import { PopupPresence } from '../Popup/PopupPresence';
 import { usePopupAnimation } from '../Popup/usePopupAnimation';
 
-import { selectAnimation, triggerStyle, indicatorStyle, contentStyle, groupStyle, groupTitleStyle, itemStyle, checkStyle } from './Select.css';
+import { selectAnimation, triggerStyle, indicatorStyle, maxHeight, contentStyle, groupStyle, groupTitleStyle, itemStyle, checkStyle } from './Select.css';
 
 const SelectOnlyProps = [
   'data',
@@ -91,9 +93,18 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
   );
 
   const [animationElement, setAnimationElement] = createSignal<HTMLElement | null>(null);
+  const [availableHeight, setAvailableHeight] = createSignal<number | null>(null);
   const { state, runAnimation } = usePopupAnimation(animationElement);
 
   const { groupedList } = useSelectData(() => local.data);
+  const middleware = createMemo(() => [
+    size({
+      apply: ({ availableHeight }) => {
+        setAvailableHeight(Math.max(0, availableHeight));
+      },
+    }),
+    ...(baseProps.middleware ?? []),
+  ]);
 
   const SelectTrigger = () => {
     const [context, { requestOpen }] = useBaseSelect();
@@ -153,7 +164,12 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
     const [context] = useBaseSelect();
 
     return (
-      <Box class={contentStyle}>
+      <Box
+        class={contentStyle}
+        style={assignInlineVars({
+          [maxHeight]: `${availableHeight() ?? 0}px`,
+        })}
+      >
         <For each={groupedList()}>
           {({ group, data }) => (
             <Switch>
@@ -205,7 +221,10 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
   };
 
   return (
-    <BaseSelect {...baseProps}>
+    <BaseSelect
+      {...baseProps}
+      middleware={middleware()}
+    >
       <SelectTrigger />
       <BaseSelectContent
         as={PopupPresence}
