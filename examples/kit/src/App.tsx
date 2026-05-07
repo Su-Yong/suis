@@ -1,8 +1,7 @@
-import { createSignal, For, onCleanup } from 'solid-js';
-import { Box, Button, CheckBox, Popup, createHoverAway, Select, Input, createTheme, token, useTheme, Tooltip } from '@suis-ui/kit';
-import { Moon, Star } from 'lucide-solid';
+import { For } from 'solid-js';
+import { Box, Button, createTheme, token, useTheme } from '@suis-ui/kit';
+import { Moon } from 'lucide-solid';
 
-import { Playground } from './playground';
 import { BoxPlayground } from './components/box';
 import { ButtonPlayground } from './components/button';
 import { CheckboxPlayground } from './components/checkbox';
