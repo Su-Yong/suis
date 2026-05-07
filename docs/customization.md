@@ -4,7 +4,7 @@
 
 ## ThemeProvider
 
-`ThemeProvider` mounts the default token, component, and light theme classes on `document.body`.
+`ThemeProvider` mounts the default `token`, `component`, and light `vars` theme classes on `document.body`.
 
 ```tsx
 import '@suis-ui/kit/style.css';
@@ -45,7 +45,7 @@ The setter accepts:
 
 ## createTheme
 
-`createTheme` accepts partial `token`, `vars`, and `component` overrides and returns `[className, mount]`.
+`createTheme` accepts partial `component`, `vars`, and `token` overrides and returns `[className, mount]`.
 
 ```tsx
 import { createTheme, useTheme } from '@suis-ui/kit';
@@ -75,10 +75,23 @@ The generated theme mounts a `<style>` element and adds the generated class to `
 
 ## Theme Layers
 
-Use the exported contracts according to their scope:
+Use the exported contracts according to their scope and priority:
 
-- `token`: base design values such as color palettes, space, and size.
-- `vars`: semantic aliases such as semantic colors, fonts, shadows, and sizes.
-- `component`: component-specific values for Button, CheckBox, Popup, Select, Input, and Tooltip.
+| Priority | Export | Scope |
+| --- | --- | --- |
+| 1 | `component` | Component-specific values for Button, CheckBox, Popup, Select, Input, and Tooltip. |
+| 2 | `vars` | Semantic aliases such as semantic colors, fonts, shadows, spaces, and line sizes. |
+| 3 | `token` | Raw design values such as color palettes, space, and size. |
 
-Prefer semantic `vars` in application-level customization. Override `component` values when a specific component needs different styling.
+Prefer `component` when changing the look of a SUIS component. Prefer semantic `vars` in application-level customization. Use raw `token` values only when neither `component` nor `vars` expresses the needed value.
+
+## Component Customization
+
+Kit components often wrap multiple primitive components into a single styled API. For example, primitive Select is composed from `Select.Trigger`, `Select.Value`, `Select.Content`, and `Select.Item`, while kit Select exposes a single `Select` component.
+
+When kit manages the internal structure, customize internal parts through `*Props` and `render*` props instead of rebuilding the primitive structure:
+
+- `*Props` passes props to an internal part, such as `itemProps`.
+- `render*` replaces an internal part, such as `renderItem`.
+
+Only use props that are documented for the component. Pattern names such as `contentProps` or `renderContent` describe the convention, but they are not available unless that component explicitly documents them.

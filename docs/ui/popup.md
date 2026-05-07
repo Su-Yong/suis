@@ -37,6 +37,8 @@ import { Popup } from '@suis-ui/kit';
 
 `Popup` also accepts Box props for the popup content wrapper.
 
+Popup keeps primitive `Popup.Anchor`, `Popup.Trigger`, and `Popup.Element` behind a single styled component. Pass Box props to customize the content wrapper, and use `element` for the rendered popup content.
+
 ## Trigger Behavior
 
 If `open` is not provided, the child is used as a click trigger and toggles the popup.
