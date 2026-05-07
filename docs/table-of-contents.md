@@ -1,6 +1,6 @@
 # SUIS Docs
 
-SUIS is a SolidJS UI library split into low-level primitives and styled kit components.
+This table of contents mirrors the main docs index.
 
 ## Guides
 

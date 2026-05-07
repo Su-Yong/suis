@@ -1,0 +1,87 @@
+# SUIS
+
+SUIS is a SolidJS UI library monorepo. It is managed with pnpm workspaces and built with Vite, TypeScript, SolidJS, and vanilla-extract.
+
+Use this file as the primary orientation guide for coding agents working in this repository.
+
+## Project Map
+
+- `packages/primitives`: `@suis-ui/primitives`, the low-level Solid primitive package.
+- `packages/kit`: `@suis-ui/kit`, the styled component and theme package built on top of primitives.
+- `docs`: project documentation. Treat it as incomplete and verify behavior against source files and package manifests.
+
+Do not use generated output or installed dependencies as source of truth. Avoid touching generated `dist` output, `node_modules`, example app files, or unrelated dirty files unless the user explicitly asks for that scope.
+
+## Packages
+
+### `@suis-ui/primitives`
+
+This package exposes low-level Solid primitives and helpers:
+
+- `Polymorphic`
+- `CheckBox`
+- `Popup`
+- `Select`
+- `FocusManager`
+- `Tooltip`
+- `helper`
+
+Keep this package focused on behavior, accessibility, state wiring, DOM event handling, and composable primitives. Do not add styled kit-specific theme or visual-token behavior here.
+
+### `@suis-ui/kit`
+
+This package exposes styled UI components and theme APIs:
+
+- UI components: `Box`, `Button`, `CheckBox`, `Popup`, `Select`, `Input`, `Tooltip`
+- Theme APIs: color, space, `ThemeProvider`, `token`, and `vars`
+- CSS entrypoint: `@suis-ui/kit/style.css`
+
+Keep this package focused on public styled components, theme tokens, vanilla-extract styles, and composition over `@suis-ui/primitives`.
+
+## Commands
+
+Use pnpm from the repository root.
+
+```bash
+pnpm install
+pnpm build
+pnpm build:primitives
+pnpm build:kit
+```
+
+There is no dedicated test command in the current root package scripts. For documentation-only changes, verify by reviewing the file and running `pnpm build` when practical.
+
+## Coding Guidelines
+
+- Preserve the existing SolidJS component style, including function components, attached subcomponents, `createEffect`, `createMemo`, `createStore`, `splitProps`, and context hooks where already used.
+- Preserve strict TypeScript settings. Avoid introducing unused locals, unused parameters, implicit `any`, or fallthrough switch behavior.
+- Keep primitive behavior and styled kit behavior separated.
+- Prefer package manifests, source exports, and implementation files over incomplete docs when deciding what is public or canonical.
+- Keep changes narrowly scoped to the requested package or behavior.
+- Do not rewrite formatting, imports, or unrelated code unless required for the requested change.
+- Do not revert existing user changes in the worktree.
+
+## Harness-Writing Guidance
+
+When adding fuzzing or randomized test harnesses, follow these rules:
+
+- Use narrow, deterministic harnesses. The same input must always produce the same behavior.
+- Validate arbitrary inputs before indexing, parsing, constructing DOM state, or calling target APIs.
+- Keep each harness focused on related behavior. Do not combine unrelated UI subsystems in one harness.
+- Avoid logging in hot harness loops.
+- Avoid leaking timers, event listeners, mounted Solid roots, DOM nodes, focus state, or global state between iterations.
+- Prefer controlled in-memory fixtures over real network, filesystem, time, random, or browser-global side effects.
+- For DOM harnesses, use controlled jsdom or browser fixtures and always clean up listeners, timers, mounted roots, and focus state.
+
+Good initial harness targets in this repository are:
+
+- `packages/primitives/src/helper.ts`: class and style string composition helpers.
+- `packages/kit/src/ui/Select/useSelectData.ts`: normalization of simple, single, and grouped select data.
+- `packages/kit/src/ui/Popup/usePlacement.ts`: placement-to-offset mapping.
+- `packages/primitives/src/Popup/PopupContext.ts`: Popup open and mount request transitions.
+- `packages/primitives/src/Popup/createClickAway.ts`: click-away listener behavior.
+- `packages/primitives/src/Popup/createHoverAway.ts`: hover-away delay and cleanup behavior.
+- `packages/primitives/src/FocusManager/useFloatingFocus.ts`: keyboard navigation mapping and focus movement.
+- `packages/primitives/src/FocusManager/useFocusTrap.ts`: tab trapping and focus cycling behavior.
+
+Harnesses for Solid or DOM behavior should mount the minimum component or fixture needed to reach the target code path, then dispose it before returning. If a target uses timers or async work, the harness must control time and wait for pending work before cleanup.
