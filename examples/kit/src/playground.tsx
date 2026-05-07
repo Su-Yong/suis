@@ -54,7 +54,7 @@ export type PlaygroundProps = {
 export const Playground = (props: PlaygroundProps) => {
   const [playgroundData, setPlaygroundData] = createStore<Record<string, unknown>>({});
 
-  const [backgroundType, setBackgroundType] = createSignal('light');
+  const [backgroundType, setBackgroundType] = createSignal('auto');
 
   createEffect(() => {
     const initPlaygroundData: Record<string, unknown> = {};
@@ -71,7 +71,6 @@ export const Playground = (props: PlaygroundProps) => {
       }
     });
 
-    console.log('initPlaygroundData', initPlaygroundData);
     setPlaygroundData(initPlaygroundData);
   });
 
@@ -122,7 +121,7 @@ export const Playground = (props: PlaygroundProps) => {
           >
             <Select
               value={backgroundType()}
-              data={['light', 'dark']}
+              data={['auto', 'light', 'dark']}
               onChangeValue={(value: string | null) => value && setBackgroundType(value)}
             />
           </Box>
