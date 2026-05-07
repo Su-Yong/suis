@@ -13,6 +13,11 @@ type InputPlaygroundData = BasePlaygroundData & {
   placeholder?: string;
   defaultValue?: string;
 };
+type NumberPlaygroundData = BasePlaygroundData & {
+  type: 'number';
+  placeholder?: string;
+  defaultValue?: number;
+};
 type SelectPlaygroundData = BasePlaygroundData & {
   type: 'select';
   required?: boolean;
@@ -25,8 +30,12 @@ type CheckBoxPlaygroundData = BasePlaygroundData & {
   type: 'checkbox';
   defaultValue?: boolean;
 };
+type JsonPlaygroundData = BasePlaygroundData & {
+  type: 'json';
+  defaultValue?: unknown;
+};
 
-type SinglePlaygroundData = InputPlaygroundData | SelectPlaygroundData | CheckBoxPlaygroundData;
+type SinglePlaygroundData = InputPlaygroundData | NumberPlaygroundData | SelectPlaygroundData | CheckBoxPlaygroundData | JsonPlaygroundData;
 type GroupPlaygroundData = {
   type: 'group';
   name: string;
@@ -57,20 +66,24 @@ export const Playground = (props: PlaygroundProps) => {
         initPlaygroundData[data.name] = (data as SelectPlaygroundData).defaultValue;
       } else if (data.type === 'checkbox' && (data as CheckBoxPlaygroundData).defaultValue !== undefined) {
         initPlaygroundData[data.name] = (data as CheckBoxPlaygroundData).defaultValue;
+      } else if (data.type === 'json' && (data as JsonPlaygroundData).defaultValue !== undefined) {
+        initPlaygroundData[data.name] = (data as JsonPlaygroundData).defaultValue;
       }
     });
 
+    console.log('initPlaygroundData', initPlaygroundData);
     setPlaygroundData(initPlaygroundData);
   });
 
   return (
     <Box
+      id={props.title}
+      as={'section'}
       w={'100%'}
       maxH={'60vh'}
       justify={'flex-start'}
       align={'stretch'}
       gap={'xs'}
-      mt={'xl'}
     >
       <Box text={'title'}>
         {props.title}
@@ -149,6 +162,8 @@ type DataRendererProps = {
 const DataRenderer = (props: DataRendererProps) => {
   const [expand, setExpand] = createSignal(props.initialExpand ?? true);
 
+  const isVertical = () => props.data.type === 'json';
+
   return (
     <Switch>
       <Match when={props.data.type === 'group'}>
@@ -192,7 +207,12 @@ const DataRenderer = (props: DataRendererProps) => {
         </Box>
       </Match>
       <Match when={props.data.type !== 'group'}>
-        <Box direction={'row'} justify={'space-between'} align={'center'} gap={'xs'}>
+        <Box
+          direction={isVertical() ? 'column' : 'row'}
+          justify={isVertical() ? 'center' : 'space-between'}
+          align={isVertical() ? 'flex-start' : 'center'}
+          gap={'xs'}
+        >
           <Box>
             <Box text={'body'}>
               {props.data.name}
@@ -204,6 +224,14 @@ const DataRenderer = (props: DataRendererProps) => {
             </Show>
           </Box>
           <Switch>
+            <Match when={props.data.type === 'number'}>
+              <Input
+                type={'number'}
+                value={props.state[props.data.name] as string}
+                placeholder={(props.data as NumberPlaygroundData).placeholder}
+                onChange={(e) => props.onStateChange(props.data.name, e.currentTarget.value)}
+              />
+            </Match>
             <Match when={props.data.type === 'input'}>
               <Input
                 value={props.state[props.data.name] as string}
@@ -232,6 +260,21 @@ const DataRenderer = (props: DataRendererProps) => {
               <CheckBox
                 checked={props.state[props.data.name] as boolean}
                 onChecked={(checked: boolean) => props.onStateChange(props.data.name, checked)}
+              />
+            </Match>
+            <Match when={props.data.type === 'json'}>
+              <Input
+                as={'textarea'}
+                value={JSON.stringify(props.state[props.data.name], null, 2)}
+                onChange={(e) => {
+                  const value = e.currentTarget.value;
+                  try {
+                    const json = JSON.parse(value);
+                    props.onStateChange(props.data.name, json);
+                  } catch (error) {
+                    props.onStateChange(props.data.name, props.state[props.data.name]);
+                  }
+                }}
               />
             </Match>
           </Switch>

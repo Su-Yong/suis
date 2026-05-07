@@ -279,7 +279,6 @@ export const BoxPlayground = () => {
           description: 'Content of the box',
           defaultValue: 'Box',
         },
-
       ]}
     >
       {(props) => <Box {...props} />}
