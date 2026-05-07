@@ -109,8 +109,8 @@ export const Playground = (props: PlaygroundProps) => {
         >
           <Box
             pos={'absolute'}
-            t={vars.size.space.md}
-            r={vars.size.space.md}
+            top={vars.size.space.md}
+            right={vars.size.space.md}
           >
             <Select
               value={backgroundType()}

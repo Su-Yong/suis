@@ -53,10 +53,10 @@ export const App = () => {
         align={'center'}
         gap={'md'}
         p={'md'}
-        t={'0'}
+        top={'0'}
         z={100}
         bc={'surface.higher'}
-        bd={'md'}
+        bbd={'md'}
         style={{
           'backdrop-filter': 'blur(10px)',
         }}
@@ -82,8 +82,8 @@ export const App = () => {
         pos={'absolute'}
         w={'20rem'}
         m={'md'}
-        t={'5.6rem'}
-        l={'0'}
+        top={'5.6rem'}
+        left={'0'}
         z={100}
       >
         <Box
