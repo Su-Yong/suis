@@ -1,4 +1,4 @@
-import { Box, vars } from '@suis-ui/kit';
+import { Box } from '@suis-ui/kit';
 import { ColorOptions, ColorSwatch, LineOptions, ShadowOptions, SizeOptions, TextOptions } from '../constants';
 import { Playground, PlaygroundData } from '../playground';
 
@@ -285,25 +285,25 @@ const BorderData: PlaygroundData[] = [
 const PositionData: PlaygroundData[] = [
   {
     type: 'input',
-    name: 't',
+    name: 'top',
     description: 'Top offset of the box',
     placeholder: 'CSS length',
   },
   {
     type: 'input',
-    name: 'r',
+    name: 'right',
     description: 'Right offset of the box',
     placeholder: 'CSS length',
   },
   {
     type: 'input',
-    name: 'b',
+    name: 'bottom',
     description: 'Bottom offset of the box',
     placeholder: 'CSS length',
   },
   {
     type: 'input',
-    name: 'l',
+    name: 'left',
     description: 'Left offset of the box',
     placeholder: 'CSS length',
   },

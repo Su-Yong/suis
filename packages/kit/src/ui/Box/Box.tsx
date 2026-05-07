@@ -83,10 +83,10 @@ export const BoxSizePropList = [
   'maxW',
   'maxH',
   'flex',
-  't',
-  'r',
-  'b',
-  'l',
+  'top',
+  'right',
+  'bottom',
+  'left',
   'z',
 ] as const;
 export const BoxPropList = [...BoxStylePropList, ...BoxSizePropList] as const;
@@ -99,10 +99,10 @@ export type BoxSizeProps = {
   maxW?: string;
   maxH?: string;
   flex?: string | number | boolean;
-  t?: string;
-  r?: string;
-  b?: string;
-  l?: string;
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
   z?: string | number;
 };
 export type BoxOverrideProps = {
@@ -163,10 +163,10 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
       maxWidth: boxSizeProps.maxW !== undefined,
       maxHeight: boxSizeProps.maxH !== undefined,
       flex: boxSizeProps.flex !== undefined,
-      t: boxSizeProps.t !== undefined,
-      r: boxSizeProps.r !== undefined,
-      b: boxSizeProps.b !== undefined,
-      l: boxSizeProps.l !== undefined,
+      top: boxSizeProps.top !== undefined,
+      right: boxSizeProps.right !== undefined,
+      bottom: boxSizeProps.bottom !== undefined,
+      left: boxSizeProps.left !== undefined,
       z: boxSizeProps.z !== undefined,
     }),
   );
@@ -189,10 +189,10 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
           [maxWidth]: boxSizeProps.maxW,
           [maxHeight]: boxSizeProps.maxH,
           [flex]: typeof boxSizeProps.flex === 'boolean' ? '1' : boxSizeProps.flex,
-          [top]: boxSizeProps.t,
-          [right]: boxSizeProps.r,
-          [bottom]: boxSizeProps.b,
-          [left]: boxSizeProps.l,
+          [top]: boxSizeProps.top,
+          [right]: boxSizeProps.right,
+          [bottom]: boxSizeProps.bottom,
+          [left]: boxSizeProps.left,
           [zIndex]: boxSizeProps.z,
         }),
         rest.style,
