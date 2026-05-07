@@ -11,12 +11,7 @@ type InputOnlyProps = {
 export type InputProps = Omit<BoxProps<'input'>, keyof InputOnlyProps> & InputOnlyProps;
 export const Input = (props: InputProps) => {
   const [local, rest] = splitProps(props, ['as']);
-  console.log('clx', clx(
-        local.as === 'input' && inputStyle.default,
-        local.as === 'textarea' && inputStyle.textarea,
-        rest.class,
-        rest.classList,
-      ))
+
   return (
     <Box
       {...rest}
