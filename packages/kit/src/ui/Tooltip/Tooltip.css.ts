@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { createVar, style } from '@vanilla-extract/css';
 
 import { popupAnimation } from '../Popup/animation.css';
 import { component } from '../component.css';
@@ -15,6 +15,8 @@ export const tooltipAnimation = popupAnimation((x, y) => ({
 }));
 
 export const contentStyle = style({
+  position: 'relative',
+
   background: component.tooltip.content.background,
   color: component.tooltip.content.color,
   boxShadow: component.tooltip.content.boxShadow,
@@ -31,9 +33,18 @@ export const contentStyle = style({
   letterSpacing: component.tooltip.content.font.letterSpacing,
 });
 
+export const arrowX = createVar();
+export const arrowY = createVar();
 export const arrowStyle = style({
+  position: 'absolute',
+  left: arrowX,
+  top: arrowY,
+  right: '',
+  bottom: '',
   background: component.tooltip.content.background,
   width: component.tooltip.arrow.size,
   height: component.tooltip.arrow.size,
   transform: 'rotate(45deg)',
 });
+
+export const arrowStaticOffset = `calc(${component.tooltip.arrow.size} / -2)`;

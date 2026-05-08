@@ -15,7 +15,7 @@ export const DefaultTooltipVars = {
     paddingY: vars.size.space.xs,
   },
   arrow: {
-    size: vars.size.space.md,
+    size: vars.size.space.sm,
   },
 };
 
