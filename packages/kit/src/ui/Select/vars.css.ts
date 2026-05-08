@@ -60,24 +60,6 @@ export const DefaultSelectVars = {
       paddingY: vars.size.space.xs,
     },
   },
-  item: {
-    default: {
-      background: vars.color.surface.main,
-      color: vars.color.surface.contrast,
-      borderRadius: vars.size.space.md,
-
-      paddingX: vars.size.space.md,
-      paddingY: vars.size.space.sm,
-    },
-    hover: {
-      background: vars.color.surface.high,
-      color: vars.color.surface.contrast,
-    },
-    active: {
-      background: vars.color.surface.higher,
-      color: vars.color.surface.contrast,
-    },
-  },
   check: {
     size: '1.6rem',
     color: vars.color.surface.contrast,

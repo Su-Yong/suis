@@ -79,7 +79,7 @@ Use the exported contracts according to their scope and priority:
 
 | Priority | Export | Scope |
 | --- | --- | --- |
-| 1 | `component` | Component-specific values for Button, CheckBox, Popup, Select, Input, and Tooltip. |
+| 1 | `component` | Component-specific values for Button, CheckBox, Popup, Select, Input, Item, and Tooltip. |
 | 2 | `vars` | Semantic aliases such as semantic colors, fonts, shadows, spaces, and line sizes. |
 | 3 | `token` | Raw design values such as color palettes, space, and size. |
 
