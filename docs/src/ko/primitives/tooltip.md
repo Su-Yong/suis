@@ -1,6 +1,6 @@
 # Tooltip Primitive
 
-The primitive Tooltip composes Popup with pointer-enter and hover-away behavior.
+Primitive Tooltip은 Popup을 pointer-enter 및 hover-away 동작과 조합합니다.
 
 ```tsx
 import { Tooltip } from '@suis-ui/primitives';
@@ -28,25 +28,25 @@ import {
 
 ## Tooltip Props
 
-`Tooltip` accepts Popup props plus:
+`Tooltip`은 Popup props와 다음 props를 받습니다.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `openDelay` | `number` | `0` | Delay before opening after pointer enter. |
-| `closeDelay` | `number` | `0` | Delay before closing after pointer leave. |
+| `openDelay` | `number` | `0` | Pointer enter 이후 열리기 전 delay입니다. |
+| `closeDelay` | `number` | `0` | Pointer leave 이후 닫히기 전 delay입니다. |
 
 ## Components
 
 ### `Tooltip.Trigger`
 
-Registers its DOM child as the popup anchor, opens after `openDelay` on pointer enter, and closes after `closeDelay` on hover away.
+DOM child를 popup anchor로 등록하고, pointer enter 시 `openDelay` 이후 열며 hover away 시 `closeDelay` 이후 닫습니다.
 
-While active, the anchor receives `aria-describedby` pointing to the tooltip content id.
+활성 상태일 때 anchor는 tooltip content id를 가리키는 `aria-describedby`를 받습니다.
 
 ### `Tooltip.Content`
 
-Renders popup content in a portal, applies `role="tooltip"`, and receives a generated `id`.
+Popup content를 portal에 렌더링하고 `role="tooltip"`을 적용하며 생성된 `id`를 받습니다.
 
 ## Hook
 
-`useTooltip` returns merged Tooltip and Popup context plus Popup actions. Call it only inside a Tooltip provider.
+`useTooltip`은 Tooltip과 Popup context 및 Popup actions를 합쳐 반환합니다. Tooltip provider 내부에서만 호출하세요.

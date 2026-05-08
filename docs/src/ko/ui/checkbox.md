@@ -1,6 +1,6 @@
 # CheckBox
 
-`CheckBox` is the styled checkbox component in `@suis-ui/kit`. It composes the primitive checkbox root, label, and input indicator behind a single component API.
+`CheckBox`는 `@suis-ui/kit`의 스타일 checkbox 컴포넌트입니다. Primitive checkbox root, label, input indicator를 하나의 컴포넌트 API 뒤에서 조합합니다.
 
 ```tsx
 import { createSignal } from 'solid-js';
@@ -25,17 +25,17 @@ import { CheckBox } from '@suis-ui/kit';
 
 | Prop | Type | Description |
 | --- | --- | --- |
-| `checked` | `boolean` | Passed to the underlying checkbox input. |
-| `onChecked` | `(checked: boolean) => void` | Called from the input change event. |
-| `inputProps` | primitive `CheckBoxIndicatorProps` | Props for the underlying `input type="checkbox"`. |
-| `labelProps` | primitive `CheckBoxLabelProps` | Props for the underlying `label`. |
-| `renderIndicator` | `(props: { checked?: boolean }) => JSX.Element` | Custom visual indicator renderer. |
+| `checked` | `boolean` | 하위 checkbox input으로 전달됩니다. |
+| `onChecked` | `(checked: boolean) => void` | Input change event에서 호출됩니다. |
+| `inputProps` | primitive `CheckBoxIndicatorProps` | 하위 `input type="checkbox"`에 전달할 props입니다. |
+| `labelProps` | primitive `CheckBoxLabelProps` | 하위 `label`에 전달할 props입니다. |
+| `renderIndicator` | `(props: { checked?: boolean }) => JSX.Element` | Custom visual indicator renderer입니다. |
 
-The rendered label text comes from the `name` prop.
+렌더링되는 label text는 `name` prop에서 가져옵니다.
 
 ## Custom Indicator
 
-Use `inputProps` and `labelProps` to pass props to the internal primitive parts. Use `renderIndicator` to replace the visual indicator.
+`inputProps`와 `labelProps`로 내부 primitive part에 props를 전달하세요. `renderIndicator`로 visual indicator를 교체하세요.
 
 ```tsx
 <CheckBox
@@ -48,6 +48,6 @@ Use `inputProps` and `labelProps` to pass props to the internal primitive parts.
 />;
 ```
 
-## Notes
+## 참고
 
-`CheckBox` is controlled by the `checked` value you pass. Keep the signal or state in sync through `onChecked`.
+`CheckBox`는 전달한 `checked` 값으로 제어됩니다. `onChecked`를 통해 signal이나 state를 동기화하세요.

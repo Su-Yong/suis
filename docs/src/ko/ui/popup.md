@@ -1,6 +1,6 @@
 # Popup
 
-`Popup` is the styled popup component in `@suis-ui/kit`. It wraps the primitive Popup with animated presence and styled content placement.
+`Popup`은 `@suis-ui/kit`의 스타일 popup 컴포넌트입니다. Primitive Popup을 animated presence와 스타일 content placement로 감쌉니다.
 
 ```tsx
 import { Popup, Button, Box } from '@suis-ui/kit';
@@ -23,27 +23,27 @@ import { Popup } from '@suis-ui/kit';
 
 | Prop | Type | Description |
 | --- | --- | --- |
-| `children` | `JSX.Element` | Anchor or trigger element. |
-| `element` | `JSX.Element` | Popup content rendered in a portal. |
-| `open` | `boolean` | When provided, controls open state externally. |
-| `placement` | Floating UI `Placement` | Preferred placement. |
-| `strategy` | Floating UI `Strategy` | Positioning strategy. |
-| `offset` | Floating UI `OffsetOptions` | Offset middleware config. |
-| `shift` | `ShiftOptions | boolean` | Enables or configures shift middleware. |
-| `flip` | `FlipOptions | boolean` | Enables or configures flip middleware. |
-| `autoUpdate` | `AutoUpdateOptions | boolean` | Enables or configures automatic positioning updates. |
-| `middleware` | `Middleware[]` | Additional Floating UI middleware. |
-| `animation` | `PopupAnimation` | Custom enter and exit animation classes. |
+| `children` | `JSX.Element` | Anchor 또는 trigger element입니다. |
+| `element` | `JSX.Element` | Portal에 렌더링되는 popup content입니다. |
+| `open` | `boolean` | 제공되면 open state를 외부에서 제어합니다. |
+| `placement` | Floating UI `Placement` | 선호 placement입니다. |
+| `strategy` | Floating UI `Strategy` | Positioning strategy입니다. |
+| `offset` | Floating UI `OffsetOptions` | Offset middleware config입니다. |
+| `shift` | `ShiftOptions | boolean` | Shift middleware를 활성화하거나 설정합니다. |
+| `flip` | `FlipOptions | boolean` | Flip middleware를 활성화하거나 설정합니다. |
+| `autoUpdate` | `AutoUpdateOptions | boolean` | Automatic positioning update를 활성화하거나 설정합니다. |
+| `middleware` | `Middleware[]` | 추가 Floating UI middleware입니다. |
+| `animation` | `PopupAnimation` | Custom enter/exit animation class입니다. |
 
-`Popup` also accepts Box props for the popup content wrapper.
+`Popup`은 popup content wrapper에 적용할 Box props도 받습니다.
 
-Popup keeps primitive `Popup.Anchor`, `Popup.Trigger`, and `Popup.Element` behind a single styled component. Pass Box props to customize the content wrapper, and use `element` for the rendered popup content.
+Popup은 primitive `Popup.Anchor`, `Popup.Trigger`, `Popup.Element`를 하나의 스타일 컴포넌트 뒤에 둡니다. Content wrapper를 커스터마이징하려면 Box props를 전달하고, 렌더링할 popup content에는 `element`를 사용하세요.
 
 ## Trigger Behavior
 
-If `open` is not provided, the child is used as a click trigger and toggles the popup.
+`open`이 제공되지 않으면 child는 click trigger로 사용되어 popup을 toggle합니다.
 
-If `open` is provided, the child is used as an anchor only. Update the `open` value from your own state.
+`open`이 제공되면 child는 anchor로만 사용됩니다. 자신의 state에서 `open` 값을 업데이트하세요.
 
 ```tsx
 <Popup
@@ -57,4 +57,4 @@ If `open` is provided, the child is used as an anchor only. Update the `open` va
 
 ## Positioning
 
-Positioning is handled by `@floating-ui/dom`. The default `autoUpdate` behavior comes from the primitive Popup. Pass `offset`, `shift`, `flip`, and `middleware` when the popup needs collision handling or custom sizing.
+Positioning은 `@floating-ui/dom`이 처리합니다. 기본 `autoUpdate` 동작은 primitive Popup에서 가져옵니다. Popup에 collision handling이나 custom sizing이 필요하면 `offset`, `shift`, `flip`, `middleware`를 전달하세요.

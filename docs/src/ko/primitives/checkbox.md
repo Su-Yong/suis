@@ -1,6 +1,6 @@
 # CheckBox Primitive
 
-The primitive CheckBox provides the root context, label wiring, and checkbox input without kit styling.
+Primitive CheckBox는 kit 스타일 없이 root context, label 연결, checkbox input을 제공합니다.
 
 ```tsx
 import { CheckBox } from '@suis-ui/primitives';
@@ -25,26 +25,26 @@ import {
 
 ### `CheckBox`
 
-The root creates checkbox context and renders a polymorphic element.
+Root는 checkbox context를 만들고 polymorphic element를 렌더링합니다.
 
 | Prop | Type | Description |
 | --- | --- | --- |
-| `id` | `string` | Input id used by `CheckBoxIndicator` and `CheckBoxLabel`. |
-| `rootId` | `string` | DOM id applied to the root element. |
-| `as` | `ValidComponent` | Root element type. |
+| `id` | `string` | `CheckBoxIndicator`와 `CheckBoxLabel`이 사용하는 input id입니다. |
+| `rootId` | `string` | Root element에 적용되는 DOM id입니다. |
+| `as` | `ValidComponent` | Root element type입니다. |
 
 ### `CheckBox.Label`
 
-Renders a `label` with `for` bound to the checkbox context id.
+Checkbox context id에 바인딩된 `for`를 가진 `label`을 렌더링합니다.
 
-It accepts label HTML attributes except `for`.
+`for`를 제외한 label HTML attribute를 받습니다.
 
 ### `CheckBox.Indicator`
 
-Renders an `input` with `type="checkbox"` and `id` bound to the checkbox context id, followed by its children.
+Checkbox context id에 바인딩된 `id`와 `type="checkbox"`를 가진 `input`을 렌더링하고, 그 뒤에 children을 렌더링합니다.
 
-It accepts input HTML attributes except `type` and `id`.
+`type`과 `id`를 제외한 input HTML attribute를 받습니다.
 
-## Notes
+## 참고
 
-Use this primitive when you need full control over layout and visual indicator rendering. Use `@suis-ui/kit` `CheckBox` for the styled version.
+레이아웃과 시각적 indicator 렌더링을 완전히 제어해야 할 때 이 primitive를 사용하세요. 스타일이 적용된 버전은 `@suis-ui/kit`의 `CheckBox`를 사용하세요.

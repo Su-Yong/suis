@@ -1,6 +1,6 @@
 # Select Primitive
 
-The primitive Select composes Popup and FocusManager with select-specific value context.
+Primitive Select는 Popup과 FocusManager를 select 전용 value context와 조합합니다.
 
 ```tsx
 import { createSignal } from 'solid-js';
@@ -36,22 +36,22 @@ import {
 
 ## Select Props
 
-`Select` accepts Popup props plus:
+`Select`는 Popup props와 다음 props를 받습니다.
 
 | Prop | Type | Description |
 | --- | --- | --- |
-| `value` | `string | null` | Current selected value. |
-| `onChangeValue` | `(value: string | null) => void` | Called when the context value changes. |
+| `value` | `string | null` | 현재 선택된 값입니다. |
+| `onChangeValue` | `(value: string | null) => void` | Context value가 바뀔 때 호출됩니다. |
 
 ## Components
 
 ### `Select.Trigger`
 
-Renders a polymorphic trigger, defaulting to `button`, with `role="combobox"`. It uses Popup trigger behavior.
+기본값이 `button`인 polymorphic trigger를 렌더링하고 `role="combobox"`를 설정합니다. Popup trigger 동작을 사용합니다.
 
 ### `Select.Value`
 
-Receives the current value through a render function:
+Render function을 통해 현재 value를 받습니다.
 
 ```tsx
 <Select.Value>
@@ -61,23 +61,23 @@ Receives the current value through a render function:
 
 ### `Select.Content`
 
-Renders the listbox in a popup portal. It defaults to `ul`, sets `role="listbox"`, and installs focus behavior while the popup is open.
+Listbox를 popup portal에 렌더링합니다. 기본값은 `ul`이고, `role="listbox"`를 설정하며 popup이 열려 있는 동안 focus 동작을 설치합니다.
 
 ### `Select.Item`
 
-Renders an option, defaulting to `li`.
+기본값이 `li`인 option을 렌더링합니다.
 
 | Prop | Type | Description |
 | --- | --- | --- |
-| `value` | `string` | Value written to Select context on click. |
+| `value` | `string` | Click 시 Select context에 쓰이는 값입니다. |
 
-Each item receives `role="option"`, `data-value`, `aria-selected`, and `tabindex={-1}`.
+각 item은 `role="option"`, `data-value`, `aria-selected`, `tabindex={-1}`를 받습니다.
 
 ## Hook
 
-`useSelect` returns merged Select and Popup context plus actions:
+`useSelect`는 Select와 Popup context 및 actions를 합쳐 반환합니다.
 
 - `setValue(value)`
 - `requestOpen(open)`
 
-Call it only inside a Select provider.
+Select provider 내부에서만 호출하세요.

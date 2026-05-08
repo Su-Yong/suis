@@ -1,35 +1,35 @@
-# Introduction
+# 소개
 
-SUIS is a SolidJS UI library. The repository is organized as a pnpm workspace with two library packages:
+SUIS는 SolidJS UI 라이브러리입니다. 이 저장소는 두 라이브러리 패키지를 가진 pnpm workspace로 구성되어 있습니다.
 
-- `@suis-ui/primitives` provides behavior-focused primitives.
-- `@suis-ui/kit` provides styled components, theme APIs, and the SUIS CSS entrypoint built on top of the primitives.
+- `@suis-ui/primitives`는 동작 중심 primitive를 제공합니다.
+- `@suis-ui/kit`은 primitive 위에 구축된 스타일 컴포넌트, 테마 API, SUIS CSS 엔트리포인트를 제공합니다.
 
-Use `@suis-ui/kit` when you want ready-to-use styled components. Use `@suis-ui/primitives` when you want to compose behavior and accessibility yourself.
+바로 사용할 수 있는 스타일 컴포넌트가 필요하면 `@suis-ui/kit`을 사용하세요. 동작과 접근성을 직접 조합하고 싶다면 `@suis-ui/primitives`를 사용하세요.
 
-## Installation
+## 설치
 
-Install the kit package for the styled component library:
+스타일 컴포넌트 라이브러리를 사용하려면 kit 패키지를 설치합니다.
 
 ```bash
 pnpm add @suis-ui/kit solid-js
 ```
 
-Install primitives directly when building custom components:
+커스텀 컴포넌트를 만들 때 primitive를 직접 사용하려면 다음 패키지를 설치합니다.
 
 ```bash
 pnpm add @suis-ui/primitives solid-js
 ```
 
-## Basic Setup
+## 기본 설정
 
-Import the kit CSS entrypoint once in your application:
+애플리케이션에서 kit CSS 엔트리포인트를 한 번 import합니다.
 
 ```tsx
 import '@suis-ui/kit/style.css';
 ```
 
-Wrap your app with `ThemeProvider` to mount the default `token`, `component`, and light `vars` theme classes on `document.body`:
+`ThemeProvider`로 앱을 감싸 기본 `token`, `component`, light `vars` 테마 클래스를 `document.body`에 마운트합니다.
 
 ```tsx
 import { ThemeProvider } from '@suis-ui/kit';
@@ -41,18 +41,18 @@ export const App = () => (
 );
 ```
 
-## Package Roles
+## 패키지 역할
 
-`@suis-ui/primitives` owns state wiring, DOM behavior, focus handling, portals, popup positioning, and composition helpers.
+`@suis-ui/primitives`는 상태 연결, DOM 동작, 포커스 처리, portal, popup positioning, 조합 helper를 담당합니다.
 
-`@suis-ui/kit` owns visual styling, vanilla-extract recipes, `component`, `vars`, `token`, color and space maps, and styled wrappers around primitives.
+`@suis-ui/kit`은 시각적 스타일, vanilla-extract recipe, `component`, `vars`, `token`, color/space map, primitive를 감싼 스타일 wrapper를 담당합니다.
 
-Keep those roles separate when adding new features. A behavior change normally belongs in primitives first. A visual or token change belongs in kit.
+새 기능을 추가할 때는 이 역할을 분리해서 유지하세요. 동작 변경은 보통 primitives에 먼저 들어가고, 시각적 변경이나 토큰 변경은 kit에 들어갑니다.
 
-## Customization Model
+## 커스터마이징 모델
 
-Some interactions exist in both packages. Primitives expose compound components such as `Select.Trigger`, `Select.Content`, and `Select.Item` for direct composition. Kit usually exposes a single styled component for the same interaction, such as `Select`.
+일부 상호작용은 두 패키지에 모두 존재합니다. Primitives는 직접 조합할 수 있도록 `Select.Trigger`, `Select.Content`, `Select.Item` 같은 compound component를 노출합니다. Kit은 보통 같은 상호작용을 `Select`처럼 하나의 스타일 컴포넌트로 제공합니다.
 
-Kit components expose sub-element customization through `*Props` and `render*` props when the internal structure needs to stay managed by the kit component. For example, `Select` provides `itemProps`, `renderItem`, and related props for customizing generated parts without rebuilding the primitive composition yourself.
+Kit 컴포넌트는 내부 구조를 컴포넌트가 계속 관리해야 할 때 `*Props`와 `render*` props로 하위 요소를 커스터마이징할 수 있게 합니다. 예를 들어 `Select`는 primitive 조합을 직접 다시 만들지 않고도 생성되는 part를 커스터마이징할 수 있도록 `itemProps`, `renderItem` 및 관련 props를 제공합니다.
 
-When choosing design values, prefer `component` first, then `vars`, then `token`. See [Design Principles](./design-principles.md) for the full rule.
+디자인 값을 선택할 때는 `component`, `vars`, `token` 순서로 우선 사용하세요. 전체 규칙은 [디자인 원칙](./design-principles.md)을 참고하세요.

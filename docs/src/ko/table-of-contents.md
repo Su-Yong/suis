@@ -1,12 +1,12 @@
-# SUIS Docs
+# SUIS 문서
 
-This table of contents mirrors the main docs index.
+이 목차는 주요 문서 인덱스를 반영합니다.
 
-## Guides
+## 가이드
 
-- [Introduction](./introduction.md)
-- [Design Principles](./design-principles.md)
-- [Customization](./customization.md)
+- [소개](./introduction.md)
+- [디자인 원칙](./design-principles.md)
+- [커스터마이징](./customization.md)
 
 ## `@suis-ui/kit`
 

@@ -1,6 +1,6 @@
 # Select
 
-`Select` is the styled select component in `@suis-ui/kit`. It composes primitive Select, Popup, FocusManager, and kit styles behind a single component API.
+`Select`는 `@suis-ui/kit`의 스타일 select 컴포넌트입니다. Primitive Select, Popup, FocusManager, kit style을 하나의 컴포넌트 API 뒤에서 조합합니다.
 
 ```tsx
 import { createSignal } from 'solid-js';
@@ -24,7 +24,7 @@ import { Select } from '@suis-ui/kit';
 
 ## Data
 
-`data` accepts simple values, labeled values, or grouped values:
+`data`는 simple value, labeled value, grouped value를 받습니다.
 
 ```tsx
 const data = [
@@ -40,32 +40,32 @@ const data = [
 ];
 ```
 
-Simple strings use the same string for value and label. Grouped data is flattened for selection and grouped again for rendering.
+단순 문자열은 같은 문자열을 value와 label로 사용합니다. Grouped data는 선택을 위해 flatten되고, 렌더링할 때 다시 group으로 구성됩니다.
 
-Primitive Select is assembled manually from `Select.Trigger`, `Select.Value`, `Select.Content`, and `Select.Item`. Kit Select owns that structure and exposes customization through `*Props` and `render*` props.
+Primitive Select는 `Select.Trigger`, `Select.Value`, `Select.Content`, `Select.Item`으로 직접 조립합니다. Kit Select는 그 구조를 소유하고 `*Props`와 `render*` props로 커스터마이징을 노출합니다.
 
 ## Props
 
 | Prop | Type | Description |
 | --- | --- | --- |
-| `data` | `SelectData[]` | Required option data. |
-| `value` | `string | null` | Current selected value. |
-| `onChangeValue` | `(value: string | null) => void` | Called when the selected value changes. |
-| `placeholder` | `string` | Text shown when no value is selected. |
-| `renderValue` | `(value: T) => JSX.Element` | Custom selected value renderer. |
-| `renderIndicator` | `(props) => JSX.Element` | Custom trigger indicator. |
-| `renderGroup` | `(props) => JSX.Element` | Custom group wrapper. |
-| `renderItem` | `(props) => JSX.Element` | Custom item wrapper. |
-| `renderCheckIndicator` | `(props) => JSX.Element` | Custom selected-item indicator. |
-| `indicatorProps` | `SelectIndicatorProps` | Props for the trigger indicator. |
-| `groupProps` | `SelectGroupProps` | Props for group wrappers. |
-| `itemProps` | `SelectItemProps` | Props for items. |
+| `data` | `SelectData[]` | 필수 option data입니다. |
+| `value` | `string | null` | 현재 선택된 값입니다. |
+| `onChangeValue` | `(value: string | null) => void` | 선택 값이 바뀔 때 호출됩니다. |
+| `placeholder` | `string` | 선택된 값이 없을 때 표시되는 text입니다. |
+| `renderValue` | `(value: T) => JSX.Element` | Custom selected value renderer입니다. |
+| `renderIndicator` | `(props) => JSX.Element` | Custom trigger indicator입니다. |
+| `renderGroup` | `(props) => JSX.Element` | Custom group wrapper입니다. |
+| `renderItem` | `(props) => JSX.Element` | Custom item wrapper입니다. |
+| `renderCheckIndicator` | `(props) => JSX.Element` | Custom selected-item indicator입니다. |
+| `indicatorProps` | `SelectIndicatorProps` | Trigger indicator에 전달할 props입니다. |
+| `groupProps` | `SelectGroupProps` | Group wrapper에 전달할 props입니다. |
+| `itemProps` | `SelectItemProps` | Item에 전달할 props입니다. |
 
-`Select` also accepts Popup positioning props such as `placement`, `offset`, `shift`, `flip`, `autoUpdate`, and `middleware`.
+`Select`는 `placement`, `offset`, `shift`, `flip`, `autoUpdate`, `middleware` 같은 Popup positioning props도 받습니다.
 
 ## Custom Parts
 
-Use `*Props` when you want to pass props to a generated part. Use `render*` when you want to replace a generated part.
+생성된 part에 props를 전달하려면 `*Props`를 사용하세요. 생성된 part를 교체하려면 `render*`를 사용하세요.
 
 ```tsx
 import { Select, SelectItem } from '@suis-ui/kit';
@@ -78,11 +78,11 @@ import { Select, SelectItem } from '@suis-ui/kit';
 />;
 ```
 
-The current Select API exposes customization for value, indicator, groups, items, and the selected-item indicator. It does not expose `contentProps` or `renderContent`.
+현재 Select API는 value, indicator, group, item, selected-item indicator 커스터마이징을 노출합니다. `contentProps`나 `renderContent`는 노출하지 않습니다.
 
 ## Defaults
 
-- `flip` defaults to `true`.
-- `offset` defaults to `4`.
-- The trigger renders as a `button`.
-- The popup content uses animated presence and vertical keyboard navigation.
+- `flip`의 기본값은 `true`입니다.
+- `offset`의 기본값은 `4`입니다.
+- Trigger는 `button`으로 렌더링됩니다.
+- Popup content는 animated presence와 vertical keyboard navigation을 사용합니다.

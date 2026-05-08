@@ -1,6 +1,6 @@
 # Polymorphic
 
-`Polymorphic` is the low-level dynamic element primitive exported by `@suis-ui/primitives`.
+`Polymorphic`은 `@suis-ui/primitives`에서 export하는 낮은 수준의 동적 element primitive입니다.
 
 ```tsx
 import { Polymorphic } from '@suis-ui/primitives';
@@ -18,17 +18,17 @@ import { Polymorphic, forwardRef } from '@suis-ui/primitives';
 
 ## Props
 
-`PolymorphicProps<T>` includes the props for the selected Solid component or intrinsic element, plus:
+`PolymorphicProps<T>`는 선택한 Solid 컴포넌트나 intrinsic element의 props와 다음 prop을 포함합니다.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `as` | `T` | `div` | Element or component to render. |
+| `as` | `T` | `div` | 렌더링할 element 또는 component입니다. |
 
-Any remaining props are forwarded to Solid's `Dynamic` component.
+나머지 props는 Solid의 `Dynamic` 컴포넌트로 전달됩니다.
 
 ## forwardRef
 
-Use `forwardRef` when a primitive needs to run setup code and still respect a caller-provided ref:
+Primitive가 setup code를 실행하면서 호출자가 제공한 ref도 존중해야 할 때 `forwardRef`를 사용하세요.
 
 ```tsx
 import { forwardRef, Polymorphic } from '@suis-ui/primitives';
@@ -43,4 +43,4 @@ const onSetup = (element: HTMLButtonElement) => {
 />;
 ```
 
-`forwardRef` calls the external callback ref first, then calls the local setup callback.
+`forwardRef`는 외부 callback ref를 먼저 호출한 다음 local setup callback을 호출합니다.

@@ -1,50 +1,50 @@
-# Design Principles
+# 디자인 원칙
 
-SUIS separates behavior, styling, and design tokens so each layer can be customized at the right level.
+SUIS는 동작, 스타일, 디자인 토큰을 분리해 각 layer를 적절한 수준에서 커스터마이징할 수 있게 합니다.
 
-Use `@suis-ui/primitives` when you need low-level behavior and composition. Use `@suis-ui/kit` when you want ready-to-use styled components that follow the SUIS design system.
+낮은 수준의 동작과 조합이 필요하면 `@suis-ui/primitives`를 사용하세요. SUIS 디자인 시스템을 따르는 바로 사용할 수 있는 스타일 컴포넌트가 필요하면 `@suis-ui/kit`을 사용하세요.
 
-## Design System Layers
+## 디자인 시스템 Layer
 
-When styling SUIS or building components with SUIS, choose exported theme values in this order:
+SUIS를 스타일링하거나 SUIS로 컴포넌트를 만들 때는 export된 테마 값을 다음 순서로 선택하세요.
 
-| Priority | Export | Meaning | Use When |
+| 우선순위 | Export | 의미 | 사용할 때 |
 | --- | --- | --- | --- |
-| 1 | `component` | Tokens directly tied to a specific SUIS component | Matching Button, Tooltip, Select, Input, Item, Popup, or CheckBox styling |
-| 2 | `vars` | Semantic tokens | Choosing colors, fonts, shadows, spacing, or line sizes for app-specific components and layouts |
-| 3 | `token` | Raw tokens available in SUIS | Handling exceptional details that cannot be expressed with `component` or `vars` |
+| 1 | `component` | 특정 SUIS 컴포넌트에 직접 연결된 토큰 | Button, Tooltip, Select, Input, Item, Popup, CheckBox 스타일을 맞출 때 |
+| 2 | `vars` | Semantic token | 앱 전용 컴포넌트와 레이아웃의 색상, 폰트, 그림자, 간격, 선 크기를 선택할 때 |
+| 3 | `token` | SUIS에서 사용할 수 있는 raw token | `component`나 `vars`로 표현할 수 없는 예외적인 세부 값을 다룰 때 |
 
-Prefer `component` for SUIS component overrides because those values are scoped to the component contract. Prefer `vars` for application surfaces because semantic names communicate intent. Use `token` only when a raw palette, size, or space value is required.
+SUIS 컴포넌트 override에는 `component`를 선호하세요. 이 값들은 컴포넌트 contract에 scope가 한정되어 있습니다. 애플리케이션 surface에는 의도를 전달하는 semantic name을 가진 `vars`를 선호하세요. Raw palette, size, space 값이 꼭 필요할 때만 `token`을 사용하세요.
 
 ```tsx
 import { component, vars, token } from '@suis-ui/kit';
 ```
 
-## Component Layers
+## 컴포넌트 Layer
 
-The same interaction may exist in both packages, but the shape is different.
+같은 상호작용이 두 패키지에 모두 있을 수 있지만 형태는 다릅니다.
 
-`@suis-ui/primitives` exposes compound components for direct composition. For example, primitive Select is assembled from `Select.Trigger`, `Select.Value`, `Select.Content`, and `Select.Item`.
+`@suis-ui/primitives`는 직접 조합할 수 있는 compound component를 노출합니다. 예를 들어 primitive Select는 `Select.Trigger`, `Select.Value`, `Select.Content`, `Select.Item`으로 조립합니다.
 
-`@suis-ui/kit` exposes a styled single component for the common case. For example, kit Select accepts `data`, renders the trigger, content, groups, items, and selected indicators for you, and keeps the primitive behavior underneath.
+`@suis-ui/kit`은 일반적인 사용 사례를 위해 스타일이 적용된 단일 컴포넌트를 노출합니다. 예를 들어 kit Select는 `data`를 받고 trigger, content, group, item, selected indicator를 렌더링하며, 내부에서는 primitive 동작을 유지합니다.
 
-Use primitives when structure is the customization point. Use kit when the structure is standard and styling or sub-element rendering is the customization point.
+구조 자체가 커스터마이징 지점이면 primitives를 사용하세요. 구조는 표준이고 스타일이나 하위 요소 렌더링이 커스터마이징 지점이면 kit을 사용하세요.
 
-## Kit Customization Pattern
+## Kit 커스터마이징 패턴
 
-Kit components that wrap multiple primitive subcomponents should expose sub-element customization through two prop families:
+여러 primitive 하위 컴포넌트를 감싸는 Kit 컴포넌트는 두 prop family로 하위 요소 커스터마이징을 제공해야 합니다.
 
-- `*Props` passes props to an internal sub-element.
-- `render*` replaces the rendered sub-element or part.
+- `*Props`는 내부 하위 요소에 props를 전달합니다.
+- `render*`는 렌더링되는 하위 요소나 part를 교체합니다.
 
-For example, `Select` currently exposes `indicatorProps`, `groupProps`, `itemProps`, `renderValue`, `renderIndicator`, `renderGroup`, `renderItem`, and `renderCheckIndicator`.
+예를 들어 현재 `Select`는 `indicatorProps`, `groupProps`, `itemProps`, `renderValue`, `renderIndicator`, `renderGroup`, `renderItem`, `renderCheckIndicator`를 노출합니다.
 
-When adding a new kit component, keep the public component simple first. Add `*Props` and `render*` only for sub-elements users need to customize without dropping down to primitives.
+새 kit 컴포넌트를 추가할 때는 먼저 public component를 단순하게 유지하세요. 사용자가 primitives로 내려가지 않고 커스터마이징해야 하는 하위 요소에만 `*Props`와 `render*`를 추가하세요.
 
-## Package Responsibilities
+## 패키지 책임
 
-Primitives own behavior: state, context, DOM event wiring, focus handling, portals, popup positioning, and accessibility attributes.
+Primitives는 동작을 담당합니다. 상태, context, DOM event wiring, focus handling, portal, popup positioning, 접근성 attribute가 여기에 속합니다.
 
-Kit owns presentation: styled components, vanilla-extract recipes, component tokens, semantic tokens, raw tokens, and single-component APIs built on top of primitives.
+Kit은 표현을 담당합니다. 스타일 컴포넌트, vanilla-extract recipe, component token, semantic token, raw token, primitive 위에 구축된 단일 컴포넌트 API가 여기에 속합니다.
 
-Do not put kit theme contracts into primitives. Do not duplicate primitive behavior in kit when a primitive already owns it.
+Kit 테마 contract를 primitives에 넣지 마세요. 이미 primitive가 담당하는 동작을 kit에서 중복 구현하지 마세요.
