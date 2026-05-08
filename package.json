@@ -12,7 +12,7 @@
     "example:kit": "pnpm --filter kit-example dev",
 
     "changeset": "changeset",
-    "version": "changeset version && pnpm install",
+    "version-changeset": "changeset version && pnpm install",
     "release": "changeset publish"
   },
   "keywords": [],
