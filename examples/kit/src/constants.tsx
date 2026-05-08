@@ -1,4 +1,5 @@
-import { token, vars, SelectData, Box, SelectItemProps } from '@suis-ui/kit';
+import { token, vars, SelectData, Box, SelectItemProps, BoxProps } from '@suis-ui/kit';
+import { ValidComponent } from 'solid-js';
 
 export const SizeOptions: SelectData[] = [
   {
@@ -51,7 +52,7 @@ export const ColorSwatch = (itemProps: SelectItemProps) => (
     w={'1.6rem'}
     h={'1.6rem'}
     r={'full'}
-    bg={itemProps.value}
+    bg={itemProps.value as BoxProps<ValidComponent>['bg']}
     bc={'text.caption'}
     bd={'md'}
   >

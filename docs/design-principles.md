@@ -10,7 +10,7 @@ When styling SUIS or building components with SUIS, choose exported theme values
 
 | Priority | Export | Meaning | Use When |
 | --- | --- | --- | --- |
-| 1 | `component` | Tokens directly tied to a specific SUIS component | Matching Button, Tooltip, Select, Input, Popup, or CheckBox styling |
+| 1 | `component` | Tokens directly tied to a specific SUIS component | Matching Button, Tooltip, Select, Input, Item, Popup, or CheckBox styling |
 | 2 | `vars` | Semantic tokens | Choosing colors, fonts, shadows, spacing, or line sizes for app-specific components and layouts |
 | 3 | `token` | Raw tokens available in SUIS | Handling exceptional details that cannot be expressed with `component` or `vars` |
 

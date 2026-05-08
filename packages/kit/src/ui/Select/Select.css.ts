@@ -141,48 +141,6 @@ export const groupTitleStyle = style({
   paddingBottom: component.select.group.title.paddingY,
 });
 
-export const itemStyle = style({
-  width: '100%',
-
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  gap: vars.size.space.xs,
-
-  cursor: 'pointer',
-  border: 'none',
-
-  color: component.select.item.default.color,
-  background: component.select.item.default.background,
-  borderRadius: component.select.item.default.borderRadius,
-
-  paddingLeft: component.select.item.default.paddingX,
-  paddingRight: component.select.item.default.paddingX,
-  paddingTop: component.select.item.default.paddingY,
-  paddingBottom: component.select.item.default.paddingY,
-
-  selectors: {
-    '&:focus-visible': {
-      zIndex: 1,
-      outlineStyle: 'solid',
-      outlineOffset: component.select.focus.offset,
-      outlineColor: component.select.focus.color,
-      outlineWidth: component.select.focus.width,
-    },
-    '&:hover': {
-      color: component.select.item.hover.color,
-      background: component.select.item.hover.background,
-      borderRadius: component.select.item.default.borderRadius,
-    },
-    '&:active': {
-      color: component.select.item.active.color,
-      background: component.select.item.active.background,
-      borderRadius: component.select.item.default.borderRadius,
-    },
-  },
-});
-
 export const checkStyle = style({
   width: component.select.check.size,
   height: component.select.check.size,
