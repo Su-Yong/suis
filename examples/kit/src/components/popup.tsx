@@ -23,7 +23,7 @@ export const PopupPlaygroundData: PlaygroundData[] = [
     items: ['absolute', 'fixed'],
   },
   {
-    type: 'input',
+    type: 'number',
     name: 'offset',
     description: 'Offset of the popup from the reference element',
     placeholder: 'offset value',

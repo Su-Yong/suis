@@ -10,6 +10,7 @@ import {
 } from '@suis-ui/primitives';
 
 import { checkStyle, containerStyle, indicatorStyle, inputStyle } from './CheckBox.css';
+import { Box } from '../Box';
 
 type CheckBoxOnlyProps = {
   checked?: boolean;
@@ -37,7 +38,10 @@ export const CheckBox = <T extends ValidComponent = 'input'>(props: CheckBoxProp
   );
 
   return (
-    <BaseCheckBox {...rest as CheckBoxOnlyProps}>
+    <Box
+      {...rest as CheckBoxOnlyProps}
+      as={BaseCheckBox}
+    >
       <BaseCheckBoxLabel
         {...elementProps.labelProps}
         classList={{
@@ -65,7 +69,7 @@ export const CheckBox = <T extends ValidComponent = 'input'>(props: CheckBoxProp
         </BaseCheckBoxIndicator>
         {props.name}
       </BaseCheckBoxLabel>
-    </BaseCheckBox>
+    </Box>
   );
 };
 

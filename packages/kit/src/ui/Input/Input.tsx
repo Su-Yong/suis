@@ -1,9 +1,9 @@
+import { splitProps } from 'solid-js';
 import { clx } from '@suis-ui/primitives';
 
 import { Box, BoxProps } from '../Box';
 
 import { inputStyle } from './Input.css';
-import { splitProps } from 'solid-js';
 
 type InputOnlyProps = {
   as?: 'input' | 'textarea';

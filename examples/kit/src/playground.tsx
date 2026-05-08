@@ -219,9 +219,9 @@ const DataRenderer = (props: DataRendererProps) => {
             <Match when={props.data.type === 'number'}>
               <Input
                 type={'number'}
-                value={props.state[props.data.name] as string}
+                value={String(props.state[props.data.name])}
                 placeholder={(props.data as NumberPlaygroundData).placeholder}
-                onChange={(e) => props.onStateChange(props.data.name, e.currentTarget.value)}
+                onChange={(e) => props.onStateChange(props.data.name, e.currentTarget.valueAsNumber)}
               />
             </Match>
             <Match when={props.data.type === 'input'}>
