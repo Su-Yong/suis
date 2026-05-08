@@ -4,7 +4,7 @@
 ## Installation
 
 ```bash
-npm install @suis/ui
+npm install @suis-ui/kit
 ```
 
 ## Docs

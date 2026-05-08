@@ -3,25 +3,27 @@
   "version": "0.1.0",
   "description": "SUIS, UI library for Solid",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "build": "pnpm -r build",
     "build:primitives": "pnpm --filter primitives build",
-    "build:ui": "pnpm --filter ui build",
-    "example:primitives": "pnpm --filter example-primitives dev",
-    "example:ui": "pnpm --filter example-ui dev",
+    "build:kit": "pnpm --filter kit build",
+    "example:primitives": "pnpm --filter primitives-example dev",
+    "example:kit": "pnpm --filter kit-example dev",
+
     "changeset": "changeset",
-    "version-packages": "changeset version && pnpm install",
+    "version": "changeset version && pnpm install",
     "release": "changeset publish"
   },
   "keywords": [],
   "author": "Su-Yong",
   "license": "MIT",
   "devDependencies": {
-    "@changesets/cli": "^2.30.0",
-    "@microsoft/api-extractor": "7.57.6",
-    "typescript": "5.9.3",
+    "@changesets/cli": "2.31.0",
+    "@microsoft/api-extractor": "7.58.7",
+    "typescript": "5.9.2",
     "unplugin-dts": "1.0.0-beta.6",
-    "vite": "8.0.0",
-    "vite-plugin-solid": "2.11.10"
+    "vite": "8.0.10",
+    "vite-plugin-solid": "2.11.12"
   }
 }

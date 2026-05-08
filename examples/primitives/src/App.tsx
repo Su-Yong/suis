@@ -1,6 +1,6 @@
 import { createSignal } from 'solid-js';
 
-import { Polymorphic, CheckBox, Popup, Select, sx, Tooltip, TooltipContent, TooltipTrigger } from '@suis/primitives';
+import { Polymorphic, CheckBox, Popup, Select, sx, Tooltip, TooltipContent, TooltipTrigger } from '@suis-ui/primitives';
 
 export const App = () => {
   const [open, setOpen] = createSignal(false);
