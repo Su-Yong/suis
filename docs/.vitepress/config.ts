@@ -3,6 +3,7 @@ import { join as pathJoin, posix } from 'node:path';
 import { defineVersionedConfig } from '@viteplus/versions';
 
 const repositoryUrl = 'https://github.com/Su-Yong/suis';
+const siteBase = '/suis/';
 
 const currentVersion = 'v0.1';
 const enCurrent = `/en/${currentVersion}`;
@@ -92,7 +93,7 @@ const createSidebar = (
     text: labels.resources,
     skipVersioning: true,
     items: [
-      { text: 'llms.txt', link: '/llms.txt', skipVersioning: true },
+      { text: 'llms.txt', link: `${siteBase}llms.txt`, skipVersioning: true },
     ],
   },
 ];
@@ -101,6 +102,7 @@ const config = defineVersionedConfig({
   lang: 'en-US',
   title: 'SUIS',
   description: 'Solid UI System',
+  base: siteBase,
   cleanUrls: true,
   versionsConfig: {
     current: currentVersion,

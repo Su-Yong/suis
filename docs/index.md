@@ -11,7 +11,7 @@ hero:
       link: /en/v0.1/introduction
     - theme: alt
       text: llms.txt
-      link: /llms.txt
+      link: /suis/llms.txt
 
 features:
   - title: Behavior Primitives
