@@ -8,10 +8,10 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /en/v0.1/introduction
+      link: ./introduction
     - theme: alt
-      text: llms.txt
-      link: /llms.txt
+      text: View Components
+      link: ./ui/button
 
 features:
   - title: Behavior Primitives
@@ -29,8 +29,8 @@ SUIS is split into two packages:
 - `@suis-ui/kit` provides styled components, theme APIs, and the SUIS CSS entrypoint.
 - `@suis-ui/primitives` provides behavior-focused primitives for custom component composition.
 
-Read the [Introduction](/en/v0.1/introduction), review the [Design Principles](/en/v0.1/design-principles), or jump into [Customization](/en/v0.1/customization).
+Read the [Introduction](./introduction.md), review the [Design Principles](./design-principles.md), or jump into [Customization](./customization.md).
 
 ## Packages
 
-Use [Kit components](/en/v0.1/ui/box) when you want ready-to-use UI. Use [Primitives](/en/v0.1/primitives/polymorphic) when you want to own markup and styling while reusing SUIS behavior.
+Use [Kit components](./ui/box.md) when you want ready-to-use UI. Use [Primitives](./primitives/polymorphic.md) when you want to own markup and styling while reusing SUIS behavior.

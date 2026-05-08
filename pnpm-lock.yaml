@@ -29,6 +29,9 @@ importers:
 
   docs:
     devDependencies:
+      '@viteplus/versions':
+        specifier: ^2.0.2
+        version: 2.0.6(vitepress@2.0.0-alpha.17(@types/node@24.0.10)(lightningcss@1.32.0)(postcss@8.5.14)(typescript@5.9.3))
       vitepress:
         specifier: next
         version: 2.0.0-alpha.17(@types/node@24.0.10)(lightningcss@1.32.0)(postcss@8.5.14)(typescript@5.9.3)
@@ -666,6 +669,10 @@ packages:
   '@oxc-project/types@0.127.0':
     resolution: {integrity: sha512-aIYXQBo4lCbO4z0R3FHeucQHpF46l2LbMdxRvqvuRuW2OxdnSkcng5B8+K12spgLDj93rtN3+J2Vac/TIO+ciQ==}
 
+  '@remotex-labs/xansi@1.3.7':
+    resolution: {integrity: sha512-U7pzj4bWxQF16MPGnwf9uWnxV/pyFmjppzsbCsEEEtCrBS/gAJMURkYHsLz5rW0+mT9RCA55l2BjTp9SPLYQoQ==}
+    engines: {node: '>=20'}
+
   '@rolldown/binding-android-arm64@1.0.0-rc.17':
     resolution: {integrity: sha512-s70pVGhw4zqGeFnXWvAzJDlvxhlRollagdCCKRgOsgUOH3N1l0LIxf83AtGzmb5SiVM4Hjl5HyarMRfdfj3DaQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -1031,6 +1038,15 @@ packages:
     peerDependencies:
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
       vue: ^3.2.25
+
+  '@viteplus/versions@2.0.6':
+    resolution: {integrity: sha512-13XNud+sCGTOs1L6Z0Ru7TxwkYmTknGSm/KU7/5wXR7vwMPqaPByC/A4H6R2R3aF8uK4Y1Y9bXyBQYJyYc3/Cw==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      vitepress: ^1.6.4 || ^2.0.0
+    peerDependenciesMeta:
+      vitepress:
+        optional: true
 
   '@volar/language-core@2.4.17':
     resolution: {integrity: sha512-chmRZMbKmcGpKMoO7Reb70uiLrzo0KWC2CkFttKUuKvrE+VYgi+fL9vWMJ07Fv5ulX0V1TAyyacN9q3nc5/ecA==}
@@ -2847,6 +2863,8 @@ snapshots:
 
   '@oxc-project/types@0.127.0': {}
 
+  '@remotex-labs/xansi@1.3.7': {}
+
   '@rolldown/binding-android-arm64@1.0.0-rc.17':
     optional: true
 
@@ -3203,6 +3221,12 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-rc.13
       vite: 7.3.3(@types/node@24.0.10)(lightningcss@1.32.0)
       vue: 3.5.34(typescript@5.9.3)
+
+  '@viteplus/versions@2.0.6(vitepress@2.0.0-alpha.17(@types/node@24.0.10)(lightningcss@1.32.0)(postcss@8.5.14)(typescript@5.9.3))':
+    dependencies:
+      '@remotex-labs/xansi': 1.3.7
+    optionalDependencies:
+      vitepress: 2.0.0-alpha.17(@types/node@24.0.10)(lightningcss@1.32.0)(postcss@8.5.14)(typescript@5.9.3)
 
   '@volar/language-core@2.4.17':
     dependencies:
