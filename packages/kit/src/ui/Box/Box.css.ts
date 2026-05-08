@@ -13,6 +13,11 @@ export const minHeight = createVar();
 export const maxWidth = createVar();
 export const maxHeight = createVar();
 export const flex = createVar();
+export const top = createVar();
+export const right = createVar();
+export const bottom = createVar();
+export const left = createVar();
+export const zIndex = createVar();
 export const boxSizeStyle = recipe({
   variants: {
     width: { true: layered({ width } , l2Layer)},
@@ -22,6 +27,11 @@ export const boxSizeStyle = recipe({
     maxWidth: { true: layered({ maxWidth } , l2Layer)},
     maxHeight: { true: layered({ maxHeight } , l2Layer)},
     flex: { true: layered({ flex } , l2Layer)},
+    top: { true: layered({ top }, l2Layer) },
+    right: { true: layered({ right }, l2Layer) },
+    bottom: { true: layered({ bottom }, l2Layer) },
+    left: { true: layered({ left }, l2Layer) },
+    z: { true: layered({ zIndex }, l2Layer) },
   },
 });
 
@@ -95,11 +105,38 @@ export const boxStyle = recipe({
     // colors
     c: map(colors, (color) => layered({ color }, l2Layer)),
     bg: map(colors, (background) => layered({ background }, l2Layer)),
-    bc: map(colors, (borderColor) => layered({ borderStyle: 'solid',borderColor }, l2Layer)),
-    bw: map(vars.size.line, (borderWidth) => layered({ borderStyle: 'solid', borderWidth }, l2Layer)),
 
-    // text
+    // border
+    bc: map(colors, (borderColor) => layered({ borderColor }, l2Layer)),
+    bd: map(vars.size.line, (borderWidth) => layered({ borderStyle: 'solid', borderWidth }, l2Layer)),
+    bdl: map(vars.size.line, (borderWidth) => layered({ borderLeftStyle: 'solid', borderLeftWidth: borderWidth }, l2Layer)),
+    bdr: map(vars.size.line, (borderWidth) => layered({ borderRightStyle: 'solid', borderRightWidth: borderWidth }, l2Layer)),
+    bdt: map(vars.size.line, (borderWidth) => layered({ borderTopStyle: 'solid', borderTopWidth: borderWidth }, l2Layer)),
+    bdb: map(vars.size.line, (borderWidth) => layered({ borderBottomStyle: 'solid', borderBottomWidth: borderWidth }, l2Layer)),
+    blc: map(colors, (borderColor) => layered({ borderLeftColor: borderColor }, l2Layer)),
+    brc: map(colors, (borderColor) => layered({ borderRightColor: borderColor }, l2Layer)),
+    btc: map(colors, (borderColor) => layered({ borderTopColor: borderColor }, l2Layer)),
+    bbc: map(colors, (borderColor) => layered({ borderBottomColor: borderColor }, l2Layer)),
+
+    // others
     text: vars.font,
+    shadow: map(vars.shadow, (boxShadow) => layered({ boxShadow }, l2Layer)),
+    overflow: {
+      auto: layered({ overflow: 'auto' }, l2Layer),
+      hidden: layered({ overflow: 'hidden' }, l2Layer),
+      visible: layered({ overflow: 'visible' }, l2Layer),
+      scroll: layered({ overflow: 'scroll' }, l2Layer),
+
+      xAuto: layered({ overflowX: 'auto' }, l2Layer),
+      xHidden: layered({ overflowX: 'hidden' }, l2Layer),
+      xVisible: layered({ overflowX: 'visible' }, l2Layer),
+      xScroll: layered({ overflowX: 'scroll' }, l2Layer),
+
+      yAuto: layered({ overflowY: 'auto' }, l2Layer),
+      yHidden: layered({ overflowY: 'hidden' }, l2Layer),
+      yVisible: layered({ overflowY: 'visible' }, l2Layer),
+      yScroll: layered({ overflowY: 'scroll' }, l2Layer),
+    },
   },
 
   defaultVariants: {

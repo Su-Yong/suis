@@ -2,7 +2,7 @@ import { JSX } from 'solid-js/jsx-runtime';
 
 type Maybe<T> = T | undefined | null;
 type ClassListType = Record<string, boolean | undefined>;
-type ClxObject = ClassListType | string;
+type ClxObject = ClassListType | string | boolean;
 
 export const cx = (...classNames: unknown[]): string => classNames.filter(Boolean).join(' ');
 export const cl = (obj?: ClassListType): string => {

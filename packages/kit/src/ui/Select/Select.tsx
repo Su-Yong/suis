@@ -1,5 +1,7 @@
-import { createEffect, createSignal, For, getOwner, JSX, Match, mergeProps, on, onCleanup, runWithOwner, Show, splitProps, Switch, ValidComponent } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, getOwner, JSX, Match, mergeProps, on, onCleanup, runWithOwner, Show, splitProps, Switch, ValidComponent } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
+import { assignInlineVars } from '@vanilla-extract/dynamic';
+import { size } from '@floating-ui/dom';
 import {
   Select as BaseSelect,
   SelectTrigger as BaseSelectTrigger,
@@ -12,6 +14,7 @@ import {
   clx,
   createPopupController,
   createClickAway,
+  sx,
 } from '@suis-ui/primitives';
 
 import { SelectData, useSelectData } from './useSelectData';
@@ -20,7 +23,7 @@ import { Box, BoxProps } from '../Box';
 import { PopupPresence } from '../Popup/PopupPresence';
 import { usePopupAnimation } from '../Popup/usePopupAnimation';
 
-import { selectAnimation, triggerStyle, indicatorStyle, contentStyle, groupStyle, groupTitleStyle, itemStyle, checkStyle } from './Select.css';
+import { selectAnimation, triggerStyle, indicatorStyle, maxHeight, contentStyle, groupStyle, groupTitleStyle, itemStyle, checkStyle } from './Select.css';
 
 const SelectOnlyProps = [
   'data',
@@ -28,13 +31,16 @@ const SelectOnlyProps = [
 
   'renderValue',
   'renderIndicator',
+  'renderContent',
   'renderGroup',
   'renderItem',
   'renderCheckIndicator',
 
   'indicatorProps',
+  'contentProps',
   'groupProps',
   'itemProps',
+  'checkIndicatorProps',
 ] as const;
 const BaseSelectOnlyProps = [
   'value',
@@ -49,6 +55,8 @@ const BaseSelectOnlyProps = [
   'middleware',
 ] as const;
 
+export type SelectContentProps<T extends ValidComponent = ValidComponent> = BoxProps<T> & {};
+
 type SelectOnlyProps<T extends SelectData> = {
   data: T[];
   placeholder?: string;
@@ -57,13 +65,16 @@ type SelectOnlyProps<T extends SelectData> = {
 
   renderValue?: (value: T) => JSX.Element;
   renderIndicator?: <T extends ValidComponent>(props: SelectIndicatorProps<T>) => JSX.Element;
+  renderContent?: <T extends ValidComponent>(props: SelectContentProps<T>) => JSX.Element;
   renderGroup?: <T extends ValidComponent>(props: SelectGroupProps<T>) => JSX.Element;
   renderItem?: <T extends ValidComponent>(props: SelectItemProps<T>) => JSX.Element;
   renderCheckIndicator?: <T extends ValidComponent>(props: SelectCheckIndicatorProps<T>) => JSX.Element;
 
   indicatorProps?: SelectIndicatorProps<ValidComponent>;
+  contentProps?: SelectContentProps<ValidComponent>;
   groupProps?: SelectGroupProps<ValidComponent>;
   itemProps?: SelectItemProps<ValidComponent>;
+  checkIndicatorProps?: SelectCheckIndicatorProps<ValidComponent>;
 };
 export type SelectProps<T extends ValidComponent, U extends SelectData> =
   Omit<BoxProps<T>, keyof SelectOnlyProps<U> | keyof BaseSelectProps>
@@ -80,6 +91,7 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
 
         renderValue: (value: U) => value,
         renderIndicator: SelectIndicator,
+        renderContent: Box,
         renderGroup: SelectGroup,
         renderItem: SelectItem,
         renderCheckIndicator: SelectCheckIndicator,
@@ -91,9 +103,18 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
   );
 
   const [animationElement, setAnimationElement] = createSignal<HTMLElement | null>(null);
+  const [availableHeight, setAvailableHeight] = createSignal<number | null>(null);
   const { state, runAnimation } = usePopupAnimation(animationElement);
 
   const { groupedList } = useSelectData(() => local.data);
+  const middleware = createMemo(() => [
+    size({
+      apply: ({ availableHeight }) => {
+        setAvailableHeight(Math.max(0, availableHeight));
+      },
+    }),
+    ...(baseProps.middleware ?? []),
+  ]);
 
   const SelectTrigger = () => {
     const [context, { requestOpen }] = useBaseSelect();
@@ -153,7 +174,17 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
     const [context] = useBaseSelect();
 
     return (
-      <Box class={contentStyle}>
+      <Box<((props: SelectContentProps) => JSX.Element) >
+        {...local.contentProps}
+        as={local.renderContent}
+        class={clx(contentStyle, local.contentProps?.class, local.contentProps?.classList)}
+        style={sx(
+          assignInlineVars({
+            [maxHeight]: `${availableHeight() ?? 0}px`,
+          }),
+          local.contentProps?.style,
+        )}
+      >
         <For each={groupedList()}>
           {({ group, data }) => (
             <Switch>
@@ -162,9 +193,7 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
                   {...local.groupProps}
                   as={local.renderGroup ?? 'ul'}
                 >
-                  <Box
-                    class={groupTitleStyle}
-                  >
+                  <Box class={groupTitleStyle}>
                     {group}
                   </Box>
                   <For each={data}>
@@ -175,6 +204,7 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
                         value={value}
                         selected={value === context.value}
                         renderCheckIndicator={local.renderCheckIndicator}
+                        checkIndicatorProps={local.checkIndicatorProps}
                       >
                         {label}
                       </BaseSelectItem>
@@ -191,6 +221,7 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
                       value={value}
                       selected={value === context.value}
                       renderCheckIndicator={local.renderCheckIndicator}
+                      checkIndicatorProps={local.checkIndicatorProps}
                     >
                       {label}
                     </BaseSelectItem>
@@ -205,7 +236,10 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
   };
 
   return (
-    <BaseSelect {...baseProps}>
+    <BaseSelect
+      {...baseProps}
+      middleware={middleware()}
+    >
       <SelectTrigger />
       <BaseSelectContent
         as={PopupPresence}
@@ -247,7 +281,7 @@ export const SelectIndicator = <T extends ValidComponent>(props: SelectIndicator
   );
 };
 
-export type SelectGroupProps<T extends ValidComponent> = BoxProps<T> & {};
+export type SelectGroupProps<T extends ValidComponent = ValidComponent> = BoxProps<T> & {};
 export const SelectGroup = <T extends ValidComponent>(props: SelectGroupProps<T>) => (
   <Box
     {...props}
@@ -258,14 +292,15 @@ export const SelectGroup = <T extends ValidComponent>(props: SelectGroupProps<T>
   </Box>
 );
 
-export type SelectItemProps<T extends ValidComponent> = BaseSelectItemProps<T> & BoxProps<T> & {
+export type SelectItemProps<T extends ValidComponent = ValidComponent> = BaseSelectItemProps<T> & BoxProps<T> & {
   selected: boolean;
   children?: JSX.Element;
 
-  renderCheckIndicator?: () => JSX.Element;
+  renderCheckIndicator?: <T extends ValidComponent>(props: SelectCheckIndicatorProps<T>) => JSX.Element;
+  checkIndicatorProps?: SelectCheckIndicatorProps<ValidComponent>;
 };
 export const SelectItem = <T extends ValidComponent>(props: SelectItemProps<T>) => {
-  const [local, rest] = splitProps(props, ['selected', 'renderCheckIndicator']);
+  const [local, rest] = splitProps(props, ['selected', 'renderCheckIndicator', 'checkIndicatorProps']);
 
   return (
     <Box
@@ -275,13 +310,16 @@ export const SelectItem = <T extends ValidComponent>(props: SelectItemProps<T>) 
     >
       {rest.children}
       <Show when={local.selected}>
-        <Dynamic component={local.renderCheckIndicator ?? SelectCheckIndicator} />
+        <Dynamic
+          {...local.checkIndicatorProps as BoxProps<ValidComponent>}
+          component={local.renderCheckIndicator ?? SelectCheckIndicator}
+        />
       </Show>
     </Box>
   );
 };
 
-export type SelectCheckIndicatorProps<T extends ValidComponent> = BoxProps<T> & {};
+export type SelectCheckIndicatorProps<T extends ValidComponent = ValidComponent> = BoxProps<T> & {};
 export const SelectCheckIndicator = <T extends ValidComponent>(props: SelectCheckIndicatorProps<T>) => (
   <Box
     {...props}

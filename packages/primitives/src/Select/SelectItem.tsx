@@ -30,6 +30,7 @@ export const SelectItem = <T extends ValidComponent>(props: SelectItemProps<T>) 
       tabindex={-1}
       {...rest as PolymorphicProps<T>}
       as={rest.as ?? 'li'}
+      value={typeof rest.as !== 'string' ? local.value : undefined}
       ref={forwardRef(onSetup, rest.ref)}
     >
       {rest.children}

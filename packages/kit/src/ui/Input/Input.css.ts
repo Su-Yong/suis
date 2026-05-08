@@ -1,11 +1,10 @@
-import { style } from '@vanilla-extract/css';
+import { style, styleVariants } from '@vanilla-extract/css';
 
 import { vars } from '@/theme/token';
 
 import { component } from '../component.css';
 
-export const inputStyle = style({
-  width: 'fit-content',
+const baseInputStyle = style({
   minWidth: '20ch',
 
   display: 'flex',
@@ -75,3 +74,12 @@ export const inputStyle = style({
     },
   },
 });
+export const inputStyle = styleVariants({
+  default: [baseInputStyle, {
+    width: 'fit-content',
+  }],
+  textarea: [baseInputStyle, {
+    width: '100%',
+    minHeight: '6lh',
+  }],
+})

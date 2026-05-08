@@ -13,15 +13,15 @@ import {
   createPopupController,
   sx,
 } from '@suis-ui/primitives';
+import { Dynamic } from 'solid-js/web';
 
-import { PopupAnimation } from './animation.css';
 import { usePopupAnimation } from './usePopupAnimation';
 import { PopupPresence, PopupPresenceProps } from './PopupPresence';
 
 import { BoxProps } from '../Box';
 
 import { defaultAnimation } from './Popup.css';
-import { Dynamic } from 'solid-js/web';
+import { PopupAnimation } from './animation.css';
 
 const BasePopupOnlyProps = [
   'open',
