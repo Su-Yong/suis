@@ -41,11 +41,18 @@ jobs:
       - name: Test
         run: pnpm test --if-present
 
+      - name: Verify npm auth
+        run: npm whoami --registry=https://registry.npmjs.org
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.TOKEN_NPM }}
+
       - name: Create Release PR or Publish
         uses: changesets/action@v1
         with:
-          version: pnpm version
+          version: pnpm version-changeset
           publish: pnpm release
+          createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
           NPM_TOKEN: ${{ secrets.TOKEN_NPM }}
+          NODE_AUTH_TOKEN: ${{ secrets.TOKEN_NPM }}
