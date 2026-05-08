@@ -305,20 +305,22 @@ export const SelectItem = <T extends ValidComponent>(props: SelectItemProps<T>) 
   const [local, rest] = splitProps(props, ['selected', 'renderCheckIndicator', 'checkIndicatorProps']);
 
   return (
-    <Item
-      {...rest as ItemProps<'div'>}
-      as={Button}
-      variant={'ghost'}
-      title={rest.children}
-      action={
-        <Show when={local.selected}>
-          <Dynamic
-            {...local.checkIndicatorProps as BoxProps<ValidComponent>}
-            component={local.renderCheckIndicator ?? SelectCheckIndicator}
-          />
-        </Show>
-      }
-    />
+    <Box as={'li'}>
+      <Item
+        {...rest as ItemProps<'div'>}
+        as={Button}
+        variant={'ghost'}
+        title={rest.children}
+        action={
+          <Show when={local.selected}>
+            <Dynamic
+              {...local.checkIndicatorProps as BoxProps<ValidComponent>}
+              component={local.renderCheckIndicator ?? SelectCheckIndicator}
+            />
+          </Show>
+        }
+      />
+    </Box>
   );
 };
 
