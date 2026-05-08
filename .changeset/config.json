@@ -9,6 +9,7 @@
   "updateInternalDependencies": "patch",
   "ignore": [
     "@suis-ui/kit-example",
-    "@suis-ui/primitives-example"
+    "@suis-ui/primitives-example",
+    "@suis-ui/docs"
   ]
 }
