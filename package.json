@@ -1,5 +1,5 @@
 {
-  "name": "suis",
+  "name": "@suis-ui/core",
   "version": "0.1.0",
   "description": "SUIS, UI library for Solid",
   "main": "index.js",
@@ -8,8 +8,13 @@
     "build": "pnpm -r build",
     "build:primitives": "pnpm --filter primitives build",
     "build:kit": "pnpm --filter kit build",
+
     "example:primitives": "pnpm --filter primitives-example dev",
     "example:kit": "pnpm --filter kit-example dev",
+
+    "docs:dev": "pnpm --filter @suis-ui/docs dev",
+    "docs:build": "pnpm --filter @suis-ui/docs build",
+    "docs:preview": "pnpm --filter @suis-ui/docs preview",
 
     "changeset": "changeset",
     "version-changeset": "changeset version && pnpm install",

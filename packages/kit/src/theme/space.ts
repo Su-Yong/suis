@@ -2,13 +2,13 @@ import { token, vars } from './token';
 
 type CSSVarFunction = `var(--${string})` | `var(--${string}, ${string | number})`;
 
-type TokenSpace = typeof token.space;
+type TokenSpace = typeof token.size;
 export type TokenSpaceMapKey = `token.${keyof TokenSpace}`;
 export type TokenSpaceMap = {
   [Key in TokenSpaceMapKey]: CSSVarFunction;
 };
 
-export const tokenSpaces = Object.entries(token.space)
+export const tokenSpaces = Object.entries(token.size)
   .reduce((acc, [key, value]) => ({ ...acc, [`token.${key}`]: value }), {}) as TokenSpaceMap;
 
 type VarsSpace = typeof vars.size.space;

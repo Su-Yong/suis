@@ -1,9 +1,9 @@
 import { createThemeContract } from '@vanilla-extract/css';
 
-import { DefaultSize } from '../../default/size.css';
+import { DefaultTextSize } from '../../default/text-size.css';
 
 export const DefaultBody = {
-  fontSize: DefaultSize[0],
+  fontSize: DefaultTextSize[0],
   lineHeight: 'normal',
   fontWeight: '400',
   letterSpacing: '0',

@@ -1,4 +1,4 @@
-import type { ComplexStyleRule } from '@vanilla-extract/css';
+import type { ComplexStyleRule, StyleRule } from '@vanilla-extract/css';
 
 import { l1Layer } from './layer.css';
 
@@ -36,4 +36,26 @@ export const layered = (rules: ComplexStyleRule, layer = l1Layer): ComplexStyleR
       [layer]: rules,
     },
   } satisfies ComplexStyleRule;
+};
+
+export const layerWith = (...rules: ComplexStyleRule[]): ComplexStyleRule => {
+  const isLayered = rules.every((rule): rule is { '@layer': Record<string, StyleRule> } => '@layer' in rule);
+  if (!isLayered) throw new Error('All rules must be layered');
+
+  const layerResult: Record<string, StyleRule> = {};
+
+  rules.forEach((rule) => {
+    Object.entries(rule['@layer']).forEach(([layer, style]) => {
+      if (layer in layerResult) {
+        layerResult[layer] = {
+          ...layerResult[layer],
+          ...style,
+        };
+      } else {
+        layerResult[layer] = style;
+      }
+    });
+  });
+
+  return { '@layer': layerResult };
 };

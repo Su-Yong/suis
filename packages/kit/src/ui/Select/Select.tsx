@@ -19,11 +19,13 @@ import {
 
 import { SelectData, useSelectData } from './useSelectData';
 
+import { Button } from '../Button';
 import { Box, BoxProps } from '../Box';
+import { Item, ItemProps } from '../Item';
 import { PopupPresence } from '../Popup/PopupPresence';
 import { usePopupAnimation } from '../Popup/usePopupAnimation';
 
-import { selectAnimation, triggerStyle, indicatorStyle, maxHeight, contentStyle, groupStyle, groupTitleStyle, itemStyle, checkStyle } from './Select.css';
+import { selectAnimation, triggerStyle, indicatorStyle, maxHeight, contentStyle, groupStyle, groupTitleStyle, checkStyle } from './Select.css';
 
 const SelectOnlyProps = [
   'data',
@@ -292,7 +294,7 @@ export const SelectGroup = <T extends ValidComponent>(props: SelectGroupProps<T>
   </Box>
 );
 
-export type SelectItemProps<T extends ValidComponent = ValidComponent> = BaseSelectItemProps<T> & BoxProps<T> & {
+export type SelectItemProps<T extends ValidComponent = ValidComponent> = BaseSelectItemProps<T> & ItemProps<T> & {
   selected: boolean;
   children?: JSX.Element;
 
@@ -303,18 +305,21 @@ export const SelectItem = <T extends ValidComponent>(props: SelectItemProps<T>) 
   const [local, rest] = splitProps(props, ['selected', 'renderCheckIndicator', 'checkIndicatorProps']);
 
   return (
-    <Box
-      {...rest as BoxProps<T>}
-      as={rest.as ?? 'li'}
-      class={clx(itemStyle, rest.class, rest.classList)}
-    >
-      {rest.children}
-      <Show when={local.selected}>
-        <Dynamic
-          {...local.checkIndicatorProps as BoxProps<ValidComponent>}
-          component={local.renderCheckIndicator ?? SelectCheckIndicator}
-        />
-      </Show>
+    <Box as={'li'}>
+      <Item
+        {...rest as ItemProps<'div'>}
+        as={Button}
+        variant={'ghost'}
+        title={rest.children}
+        action={
+          <Show when={local.selected}>
+            <Dynamic
+              {...local.checkIndicatorProps as BoxProps<ValidComponent>}
+              component={local.renderCheckIndicator ?? SelectCheckIndicator}
+            />
+          </Show>
+        }
+      />
     </Box>
   );
 };

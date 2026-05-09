@@ -1,13 +1,17 @@
 import { createTheme, createThemeContract } from '@vanilla-extract/css';
 
 import { DefaultColor } from './color.css';
-import { DefaultSpace } from './space.css';
+import { DefaultMotion } from './motion.css';
 import { DefaultSize } from './size.css';
+import { DefaultTextSize } from './text-size.css';
+import { DefaultZIndex } from './z-index.css';
 
 export const DefaultToken = {
   color: DefaultColor,
-  space: DefaultSpace,
+  motion: DefaultMotion,
   size: DefaultSize,
+  textSize: DefaultTextSize,
+  zIndex: DefaultZIndex,
 };
 
 export const token = createThemeContract(DefaultToken);

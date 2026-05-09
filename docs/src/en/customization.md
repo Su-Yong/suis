@@ -79,9 +79,9 @@ Use the exported contracts according to their scope and priority:
 
 | Priority | Export | Scope |
 | --- | --- | --- |
-| 1 | `component` | Component-specific values for Button, CheckBox, Popup, Select, Input, and Tooltip. |
-| 2 | `vars` | Semantic aliases such as semantic colors, fonts, shadows, spaces, and line sizes. |
-| 3 | `token` | Raw design values such as color palettes, space, and size. |
+| 1 | `component` | Component-specific values for Button, CheckBox, Popup, Select, Input, Item, and Tooltip. |
+| 2 | `vars` | Semantic aliases such as colors, fonts, shadows, spaces, line sizes, z-index, and motion. |
+| 3 | `token` | Raw design values such as color palettes, size, text size, z-index, and motion. |
 
 Prefer `component` when changing the look of a SUIS component. Prefer semantic `vars` in application-level customization. Use raw `token` values only when neither `component` nor `vars` expresses the needed value.
 

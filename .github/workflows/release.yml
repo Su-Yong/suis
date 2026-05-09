@@ -41,11 +41,6 @@ jobs:
       - name: Test
         run: pnpm test --if-present
 
-      - name: Verify npm auth
-        run: npm whoami --registry=https://registry.npmjs.org
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.TOKEN_NPM }}
-
       - name: Create Release PR or Publish
         uses: changesets/action@v1
         with:
