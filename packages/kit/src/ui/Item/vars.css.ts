@@ -19,27 +19,27 @@ export const DefaultItemVars = {
     xSmall: {
       x: vars.size.space.xs,
       y: vars.size.space.xxs,
-      radius: vars.size.space.xs,
+      radius: vars.size.round.xs,
     },
     small: {
       x: vars.size.space.sm,
       y: vars.size.space.xs,
-      radius: vars.size.space.sm,
+      radius: vars.size.round.sm,
     },
     medium: {
       x: vars.size.space.md,
       y: vars.size.space.sm,
-      radius: vars.size.space.md,
+      radius: vars.size.round.md,
     },
     large: {
       x: vars.size.space.lg,
       y: vars.size.space.md,
-      radius: vars.size.space.lg,
+      radius: vars.size.round.lg,
     },
     xLarge: {
       x: vars.size.space.xl,
       y: vars.size.space.lg,
-      radius: vars.size.space.xl,
+      radius: vars.size.round.xl,
     },
   },
 };

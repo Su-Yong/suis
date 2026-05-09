@@ -1,7 +1,7 @@
 import { recipe, type RecipeVariants } from '@vanilla-extract/recipes';
 import { createVar } from '@vanilla-extract/css';
 
-import { colors, spaces } from '@/theme';
+import { colors, rounds, spaces } from '@/theme';
 import { vars } from '@/theme/token';
 import { layered, map } from '@/theme/util';
 import { l2Layer } from '@/theme/layer.css';
@@ -96,11 +96,11 @@ export const boxStyle = recipe({
     mr: map(spaces, (marginRight) => layered({ marginRight }, l2Layer)),
 
     // radius
-    r: map(spaces, (borderRadius) => layered({ borderRadius }, l2Layer)),
-    tlr: map(spaces, (borderRadius) => layered({ borderTopLeftRadius: borderRadius }, l2Layer)),
-    trr: map(spaces, (borderRadius) => layered({ borderTopRightRadius: borderRadius }, l2Layer)),
-    blr: map(spaces, (borderRadius) => layered({ borderBottomLeftRadius: borderRadius }, l2Layer)),
-    brr: map(spaces, (borderRadius) => layered({ borderBottomRightRadius: borderRadius }, l2Layer)),
+    r: map(rounds, (borderRadius) => layered({ borderRadius }, l2Layer)),
+    tlr: map(rounds, (borderRadius) => layered({ borderTopLeftRadius: borderRadius }, l2Layer)),
+    trr: map(rounds, (borderRadius) => layered({ borderTopRightRadius: borderRadius }, l2Layer)),
+    blr: map(rounds, (borderRadius) => layered({ borderBottomLeftRadius: borderRadius }, l2Layer)),
+    brr: map(rounds, (borderRadius) => layered({ borderBottomRightRadius: borderRadius }, l2Layer)),
 
     // colors
     c: map(colors, (color) => layered({ color }, l2Layer)),

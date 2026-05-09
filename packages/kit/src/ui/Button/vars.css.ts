@@ -16,27 +16,27 @@ export const DefaultButtonVars = {
     xSmall: {
       x: vars.size.space.xs,
       y: vars.size.space.xxs,
-      radius: vars.size.space.xxs,
+      radius: vars.size.round.xxs,
     },
     small: {
       x: vars.size.space.sm,
       y: vars.size.space.xs,
-      radius: vars.size.space.xs,
+      radius: vars.size.round.xs,
     },
     medium: {
       x: vars.size.space.md,
       y: vars.size.space.sm,
-      radius: vars.size.space.sm,
+      radius: vars.size.round.sm,
     },
     large: {
       x: vars.size.space.lg,
       y: vars.size.space.md,
-      radius: vars.size.space.md,
+      radius: vars.size.round.md,
     },
     xLarge: {
       x: vars.size.space.xl,
       y: vars.size.space.lg,
-      radius: vars.size.space.lg,
+      radius: vars.size.round.lg,
     },
   },
   font: {

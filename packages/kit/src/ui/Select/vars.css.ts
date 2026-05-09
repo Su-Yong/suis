@@ -14,7 +14,7 @@ export const DefaultSelectVars = {
       color: vars.color.surface.contrast,
       borderWidth: vars.size.line.md,
       borderColor: vars.color.surface.higher,
-      borderRadius: vars.size.space.md,
+      borderRadius: vars.size.round.md,
       boxShadow: vars.shadow.xs,
 
       paddingX: vars.size.space.md,
@@ -25,7 +25,7 @@ export const DefaultSelectVars = {
       color: vars.color.surface.contrast,
       borderWidth: vars.size.line.md,
       borderColor: vars.color.surface.higher,
-      borderRadius: vars.size.space.md,
+      borderRadius: vars.size.round.md,
       boxShadow: vars.shadow.xs,
     },
     active: {
@@ -33,7 +33,7 @@ export const DefaultSelectVars = {
       color: vars.color.surface.contrast,
       borderWidth: vars.size.line.md,
       borderColor: vars.color.surface.higher,
-      borderRadius: vars.size.space.md,
+      borderRadius: vars.size.round.md,
       boxShadow: vars.shadow.xs,
     },
   },
@@ -47,7 +47,7 @@ export const DefaultSelectVars = {
 
     borderWidth: vars.size.line.md,
     borderColor: vars.color.surface.higher,
-    borderRadius: vars.size.space.lg,
+    borderRadius: vars.size.round.lg,
     boxShadow: vars.shadow.md,
 
     padding: vars.size.space.xs,

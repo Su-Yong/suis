@@ -1,7 +1,7 @@
 import { DefaultSize } from '../../default/size.css';
 import { createThemeContract } from '@vanilla-extract/css';
 
-export const DefaultSemanticSpace = {
+export const DefaultSemanticRound = {
   'none': '0',
   'xxs': DefaultSize[-4],
   'xs': DefaultSize[-3],
@@ -13,4 +13,4 @@ export const DefaultSemanticSpace = {
   'full': '100%',
 };
 
-export const SemanticSpaceToken = createThemeContract(DefaultSemanticSpace);
+export const SemanticRoundToken = createThemeContract(DefaultSemanticRound);

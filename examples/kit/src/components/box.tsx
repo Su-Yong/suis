@@ -1,5 +1,5 @@
 import { Box } from '@suis-ui/kit';
-import { ColorOptions, ColorSwatch, LineOptions, ShadowOptions, SizeOptions, TextOptions } from '../constants';
+import { ColorOptions, ColorSwatch, LineOptions, RoundOptions, ShadowOptions, SizeOptions, TextOptions } from '../constants';
 import { Playground, PlaygroundData } from '../playground';
 
 const LayoutData: PlaygroundData[] = [
@@ -155,36 +155,36 @@ const RadiusData: PlaygroundData[] = [
     type: 'select',
     name: 'r',
     description: 'Border radius of the box',
-    placeholder: 'space token',
-    items: SizeOptions,
+    placeholder: 'round token',
+    items: RoundOptions,
   },
   {
     type: 'select',
     name: 'tlr',
     description: 'Top left border radius of the box',
-    placeholder: 'space token',
-    items: SizeOptions,
+    placeholder: 'round token',
+    items: RoundOptions,
   },
   {
     type: 'select',
     name: 'trr',
     description: 'Top right border radius of the box',
-    placeholder: 'space token',
-    items: SizeOptions,
+    placeholder: 'round token',
+    items: RoundOptions,
   },
   {
     type: 'select',
     name: 'blr',
     description: 'Bottom left border radius of the box',
-    placeholder: 'space token',
-    items: SizeOptions,
+    placeholder: 'round token',
+    items: RoundOptions,
   },
   {
     type: 'select',
     name: 'brr',
     description: 'Bottom right border radius of the box',
-    placeholder: 'space token',
-    items: SizeOptions,
+    placeholder: 'round token',
+    items: RoundOptions,
   },
 ];
 const ColorData: PlaygroundData[] = [

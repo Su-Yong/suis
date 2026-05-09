@@ -9,7 +9,7 @@ export const DefaultTooltipVars = {
     background: vars.color.surface.main,
     color: vars.color.surface.contrast,
     boxShadow: vars.shadow.xl,
-    borderRadius: vars.size.space.sm,
+    borderRadius: vars.size.round.sm,
 
     paddingX: vars.size.space.sm,
     paddingY: vars.size.space.xs,

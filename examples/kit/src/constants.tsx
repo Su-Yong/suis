@@ -18,6 +18,11 @@ export const SizeOptions: SelectData[] = [
   },
 ];
 
+export const RoundOptions: SelectData[] = Object.keys(vars.size.round).map((key) => ({
+  value: key,
+  label: key,
+}));
+
 export const LineOptions: SelectData[] = Object.keys(vars.size.line).map((key) => ({
   value: key,
   label: key,
