@@ -1,13 +1,15 @@
 import { createThemeContract } from '@vanilla-extract/css';
 
+import { vars } from '@/theme/token';
+
 export const DefaultPopupVars = {
   enter: {
-    duration: '0.6s',
-    easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+    duration: vars.motion.duration.normal,
+    easing: vars.motion.easing.emphasized,
   },
   exit: {
-    duration: '0.6s',
-    easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+    duration: vars.motion.duration.normal,
+    easing: vars.motion.easing.emphasized,
   },
 };
 

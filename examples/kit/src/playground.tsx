@@ -6,6 +6,7 @@ import { Dynamic } from 'solid-js/web';
 
 type BasePlaygroundData = {
   name: string;
+  title?: string;
   description?: string;
 };
 type InputPlaygroundData = BasePlaygroundData & {
@@ -24,11 +25,13 @@ type SelectPlaygroundData = BasePlaygroundData & {
   placeholder?: string;
   defaultValue?: string;
   items: SelectData[];
-  renderer?: (itemProps: SelectData) => JSX.Element;
+  mapper?: (value: string) => unknown;
+  renderer?: (itemProps: SelectItemProps) => JSX.Element;
 };
 type CheckBoxPlaygroundData = BasePlaygroundData & {
   type: 'checkbox';
   defaultValue?: boolean;
+  mapper?: (value: boolean) => unknown;
 };
 type JsonPlaygroundData = BasePlaygroundData & {
   type: 'json';
@@ -36,10 +39,8 @@ type JsonPlaygroundData = BasePlaygroundData & {
 };
 
 type SinglePlaygroundData = InputPlaygroundData | NumberPlaygroundData | SelectPlaygroundData | CheckBoxPlaygroundData | JsonPlaygroundData;
-type GroupPlaygroundData = {
+type GroupPlaygroundData = BasePlaygroundData & {
   type: 'group';
-  name: string;
-  description?: string;
   expand?: boolean;
   items: PlaygroundData[];
 };
@@ -53,8 +54,26 @@ export type PlaygroundProps = {
 };
 export const Playground = (props: PlaygroundProps) => {
   const [playgroundData, setPlaygroundData] = createStore<Record<string, unknown>>({});
-
   const [backgroundType, setBackgroundType] = createSignal('auto');
+
+  const state = () => {
+    const result = { ...playgroundData };
+
+    const data = [...props.data];
+    while (data.length > 0) {
+      const target = data.shift();
+
+      if (!target) continue;
+
+      if (target.type === 'group') data.push(...target.items);
+      if ('mapper' in target && target.mapper) {
+        if (target.type === 'checkbox') result[target.name] = target.mapper(result[target.name] as boolean);
+        if (target.type === 'select') result[target.name] = target.mapper(result[target.name] as string);
+      }
+    }
+
+    return result;
+  };
 
   createEffect(() => {
     const initPlaygroundData: Record<string, unknown> = {};
@@ -118,7 +137,7 @@ export const Playground = (props: PlaygroundProps) => {
               onChangeValue={(value: string | null) => value && setBackgroundType(value)}
             />
           </Box>
-          <Dynamic component={props.children} {...playgroundData} />
+          <Dynamic component={props.children} {...state()} />
         </Box>
         <Box
           w={'40rem'}
@@ -163,7 +182,7 @@ const DataRenderer = (props: DataRendererProps) => {
           <Box direction={'row'} justify={'space-between'} align={'center'}>
             <Box>
               <Box text={'body'}>
-                {props.data.name}
+                {props.data.title ?? props.data.name}
               </Box>
               <Show when={props.data.description}>
                 <Box text={'caption'} c={'text.caption'}>
@@ -182,7 +201,6 @@ const DataRenderer = (props: DataRendererProps) => {
             </Button>
           </Box>
           <Show when={expand()}>
-
             <Box pl={'md'} gap={'md'} blc={'surface.higher'} bdl={'md'}>
               <For each={(props.data as GroupPlaygroundData).items}>
                 {(item) => (
@@ -207,7 +225,7 @@ const DataRenderer = (props: DataRendererProps) => {
         >
           <Box>
             <Box text={'body'}>
-              {props.data.name}
+              {props.data.title ?? props.data.name}
             </Box>
             <Show when={props.data.description}>
               <Box text={'caption'} c={'text.caption'}>
@@ -241,7 +259,10 @@ const DataRenderer = (props: DataRendererProps) => {
                 renderItem={(itemProps: SelectItemProps) => (
                   <SelectItem {...itemProps}>
                     <Box direction={'row'} align={'center'} gap={'md'}>
-                      <Dynamic component={(props.data as SelectPlaygroundData).renderer} value={itemProps.value} />
+                      <Dynamic
+                        {...itemProps}
+                        component={(props.data as SelectPlaygroundData).renderer}
+                      />
                       {itemProps.children}
                     </Box>
                   </SelectItem>

@@ -1,5 +1,6 @@
 import { Select, SelectData } from '@suis-ui/kit';
 
+import { BoxPlaygroundData } from './box';
 import { PopupPlaygroundData } from './popup';
 import { Playground } from '../playground';
 
@@ -9,6 +10,13 @@ export const SelectPlayground = () => {
       title={'Select'}
       description={'Select is a component that can be used to select an option from a list of options. It provides various variants and sizes. It also supports disabled state.'}
       data={[
+        {
+          type: 'group',
+          name: 'Box',
+          description: 'Box related properties',
+          items: BoxPlaygroundData,
+          expand: false,
+        },
         {
           type: 'group',
           name: 'Popup',

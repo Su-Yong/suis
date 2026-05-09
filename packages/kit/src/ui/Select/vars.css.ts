@@ -14,7 +14,7 @@ export const DefaultSelectVars = {
       color: vars.color.surface.contrast,
       borderWidth: vars.size.line.md,
       borderColor: vars.color.surface.higher,
-      borderRadius: vars.size.space.md,
+      borderRadius: vars.size.round.md,
       boxShadow: vars.shadow.xs,
 
       paddingX: vars.size.space.md,
@@ -25,7 +25,7 @@ export const DefaultSelectVars = {
       color: vars.color.surface.contrast,
       borderWidth: vars.size.line.md,
       borderColor: vars.color.surface.higher,
-      borderRadius: vars.size.space.md,
+      borderRadius: vars.size.round.md,
       boxShadow: vars.shadow.xs,
     },
     active: {
@@ -33,13 +33,13 @@ export const DefaultSelectVars = {
       color: vars.color.surface.contrast,
       borderWidth: vars.size.line.md,
       borderColor: vars.color.surface.higher,
-      borderRadius: vars.size.space.md,
+      borderRadius: vars.size.round.md,
       boxShadow: vars.shadow.xs,
     },
   },
   indicator: {
     size: vars.size.space.lg,
-    transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+    transition: vars.motion.transition.normal,
     transform: 'rotate(180deg)',
   },
   content: {
@@ -47,7 +47,7 @@ export const DefaultSelectVars = {
 
     borderWidth: vars.size.line.md,
     borderColor: vars.color.surface.higher,
-    borderRadius: vars.size.space.lg,
+    borderRadius: vars.size.round.lg,
     boxShadow: vars.shadow.md,
 
     padding: vars.size.space.xs,
@@ -58,24 +58,6 @@ export const DefaultSelectVars = {
       color: vars.color.text.caption,
       paddingX: vars.size.space.md,
       paddingY: vars.size.space.xs,
-    },
-  },
-  item: {
-    default: {
-      background: vars.color.surface.main,
-      color: vars.color.surface.contrast,
-      borderRadius: vars.size.space.md,
-
-      paddingX: vars.size.space.md,
-      paddingY: vars.size.space.sm,
-    },
-    hover: {
-      background: vars.color.surface.high,
-      color: vars.color.surface.contrast,
-    },
-    active: {
-      background: vars.color.surface.higher,
-      color: vars.color.surface.contrast,
     },
   },
   check: {

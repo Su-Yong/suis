@@ -14,6 +14,7 @@ This table of contents mirrors the main docs index.
 - [Button](./ui/button.md)
 - [CheckBox](./ui/checkbox.md)
 - [Input](./ui/input.md)
+- [Item](./ui/item.md)
 - [Popup](./ui/popup.md)
 - [Select](./ui/select.md)
 - [Tooltip](./ui/tooltip.md)

@@ -13,7 +13,7 @@ export const DefaultInputVars = {
     color: vars.color.surface.contrast,
     borderWidth: vars.size.line.md,
     borderColor: vars.color.surface.higher,
-    borderRadius: vars.size.space.md,
+    borderRadius: vars.size.round.md,
 
     paddingX: vars.size.space.md,
     paddingY: vars.size.space.sm,
@@ -23,14 +23,14 @@ export const DefaultInputVars = {
     color: vars.color.surface.contrast,
     borderWidth: vars.size.line.md,
     borderColor: vars.color.surface.higher,
-    borderRadius: vars.size.space.md,
+    borderRadius: vars.size.round.md,
   },
   active: {
     background: vars.color.surface.higher,
     color: vars.color.surface.contrast,
     borderWidth: vars.size.line.md,
     borderColor: vars.color.surface.higher,
-    borderRadius: vars.size.space.md,
+    borderRadius: vars.size.round.md,
   },
 
   placeholder: {
@@ -41,7 +41,7 @@ export const DefaultInputVars = {
     color: vars.color.surface.contrast,
     borderWidth: vars.size.line.md,
     borderColor: vars.color.surface.higher,
-    borderRadius: vars.size.space.sm,
+    borderRadius: vars.size.round.sm,
 
     paddingX: vars.size.space.sm,
     paddingY: vars.size.space.xs,

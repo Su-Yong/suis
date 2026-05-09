@@ -1,6 +1,6 @@
 import { For } from 'solid-js';
-import { Box, Button, createTheme, token, useTheme } from '@suis-ui/kit';
-import { Moon } from 'lucide-solid';
+import { Box, Button, createTheme, Item, token, useTheme } from '@suis-ui/kit';
+import { ChevronRight, Moon } from 'lucide-solid';
 
 import { BoxPlayground } from './components/box';
 import { ButtonPlayground } from './components/button';
@@ -8,6 +8,7 @@ import { CheckboxPlayground } from './components/checkbox';
 import { PopupPlayground } from './components/popup';
 import { SelectPlayground } from './components/select';
 import { InputPlayground } from './components/input';
+import { ItemPlayground } from './components/item';
 import { TooltipPlayground } from './components/tooltip';
 
 const darkTheme = createTheme({
@@ -81,7 +82,7 @@ export const App = () => {
         as={'aside'}
         pos={'absolute'}
         w={'20rem'}
-        m={'md'}
+        m={'xl'}
         top={'5.6rem'}
         left={'0'}
         z={100}
@@ -92,21 +93,31 @@ export const App = () => {
           bc={'surface.higher'}
           bd={'md'}
           p={'xs'}
-          r={'md'}
+          r={'lg'}
           gap={'xs'}
+          shadow={'sm'}
         >
-          <For each={['Box', 'Button', 'Checkbox', 'Popup', 'Select', 'Input', 'Tooltip']}>
+          <For each={['Box', 'Button', 'Checkbox', 'Popup', 'Select', 'Input', 'Item', 'Tooltip']}>
             {(item) => (
               <Box as={'li'} w={'100%'}>
-                <Button as={'a'} href={`#${item}`} variant={'ghost'} w={'100%'} align={'flex-start'}>
-                  {item}
-                </Button>
-              </Box>)}
+                <Item
+                  as={Button}
+                  variant={'ghost'}
+                  title={item}
+                  action={<Box as={ChevronRight} w={'1.6rem'} h={'1.6rem'} />}
+                  onClick={() => {
+                    const element = document.querySelector(`#${item}`);
+                    if (element) element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }}
+                />
+              </Box>
+            )}
           </For>
         </Box>
       </Box>
 
       <Box
+        pos={'relative'}
         w={'100%'}
         maxW={'120rem'}
         direction={'column'}
@@ -121,6 +132,7 @@ export const App = () => {
         <PopupPlayground />
         <SelectPlayground />
         <InputPlayground />
+        <ItemPlayground />
         <TooltipPlayground />
       </Box>
     </Box>
