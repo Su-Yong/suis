@@ -4,7 +4,7 @@ import { vars } from '@/theme/token';
 
 export const DefaultCheckBoxVars = {
   active: vars.color.primary.main,
-  transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+  transition: vars.motion.transition.normal,
 
   indicator: {
     size: '2.4rem',

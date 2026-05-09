@@ -11,10 +11,10 @@ When styling SUIS or building components with SUIS, choose exported theme values
 | Priority | Export | Meaning | Use When |
 | --- | --- | --- | --- |
 | 1 | `component` | Tokens directly tied to a specific SUIS component | Matching Button, Tooltip, Select, Input, Item, Popup, or CheckBox styling |
-| 2 | `vars` | Semantic tokens | Choosing colors, fonts, shadows, spacing, or line sizes for app-specific components and layouts |
+| 2 | `vars` | Semantic tokens | Choosing colors, fonts, shadows, spacing, line sizes, z-index, or motion for app-specific components and layouts |
 | 3 | `token` | Raw tokens available in SUIS | Handling exceptional details that cannot be expressed with `component` or `vars` |
 
-Prefer `component` for SUIS component overrides because those values are scoped to the component contract. Prefer `vars` for application surfaces because semantic names communicate intent. Use `token` only when a raw palette, size, or space value is required.
+Prefer `component` for SUIS component overrides because those values are scoped to the component contract. Prefer `vars` for application surfaces because semantic names communicate intent. Use `token` only when a raw palette, size, z-index, or motion value is required.
 
 ```tsx
 import { component, vars, token } from '@suis-ui/kit';

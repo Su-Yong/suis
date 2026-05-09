@@ -80,8 +80,8 @@ Export된 contract는 scope와 우선순위에 따라 사용하세요.
 | 우선순위 | Export | Scope |
 | --- | --- | --- |
 | 1 | `component` | Button, CheckBox, Popup, Select, Input, Item, Tooltip에 대한 컴포넌트별 값 |
-| 2 | `vars` | Semantic color, font, shadow, space, line size 같은 semantic alias |
-| 3 | `token` | Color palette, space, size 같은 raw design value |
+| 2 | `vars` | Color, font, shadow, space, line size, z-index, motion 같은 semantic alias |
+| 3 | `token` | Color palette, size, text size, z-index, motion 같은 raw design value |
 
 SUIS 컴포넌트의 모양을 바꿀 때는 `component`를 선호하세요. 애플리케이션 수준 커스터마이징에는 semantic `vars`를 선호하세요. 필요한 값을 `component`나 `vars`로 표현할 수 없을 때만 raw `token` 값을 사용하세요.
 

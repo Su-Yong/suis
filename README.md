@@ -91,8 +91,8 @@ export const Form = () => (
 | Priority | Export | Purpose |
 | --- | --- | --- |
 | 1 | `component` | Component-specific values for SUIS components. |
-| 2 | `vars` | Semantic tokens for app surfaces, colors, fonts, shadows, spacing, and line sizes. |
-| 3 | `token` | Raw design values for exceptional details. |
+| 2 | `vars` | Semantic tokens for app surfaces, colors, fonts, shadows, spacing, line sizes, z-index, and motion. |
+| 3 | `token` | Raw design values such as color palettes, size, text size, z-index, and motion. |
 
 ```tsx
 import { component, vars, token } from '@suis-ui/kit';

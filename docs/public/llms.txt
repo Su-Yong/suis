@@ -68,8 +68,8 @@ When styling SUIS or building with SUIS, choose theme values in this order:
 | Priority | Export | Use For |
 | --- | --- | --- |
 | 1 | `component` | Styling a specific SUIS component such as Button, Tooltip, Select, Input, Popup, or CheckBox. |
-| 2 | `vars` | Semantic app UI values such as color, font, shadow, spacing, and line size. |
-| 3 | `token` | Raw palette, size, or space values for exceptional details that `component` and `vars` cannot express. |
+| 2 | `vars` | Semantic app UI values such as color, font, shadow, spacing, line size, z-index, and motion. |
+| 3 | `token` | Raw palette, size, text size, z-index, or motion values for exceptional details that `component` and `vars` cannot express. |
 
 The public raw-token export is `token`, not `tokens`. Do not write code or docs that import a `tokens` variable from `@suis-ui/kit`.
 

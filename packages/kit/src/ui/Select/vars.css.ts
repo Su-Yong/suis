@@ -39,7 +39,7 @@ export const DefaultSelectVars = {
   },
   indicator: {
     size: vars.size.space.lg,
-    transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+    transition: vars.motion.transition.normal,
     transform: 'rotate(180deg)',
   },
   content: {
