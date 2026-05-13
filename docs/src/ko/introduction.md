@@ -45,7 +45,7 @@ export const App = () => (
 
 `@suis-ui/primitives`는 상태 연결, DOM 동작, 포커스 처리, portal, popup positioning, 조합 helper를 담당합니다.
 
-`@suis-ui/kit`은 시각적 스타일, vanilla-extract recipe, `component`, `vars`, `token`, color/space map, primitive를 감싼 스타일 wrapper를 담당합니다.
+`@suis-ui/kit`은 시각적 스타일, vanilla-extract recipe, `component`, `vars`, `token`, color/space/round map, primitive를 감싼 스타일 wrapper를 담당합니다.
 
 새 기능을 추가할 때는 이 역할을 분리해서 유지하세요. 동작 변경은 보통 primitives에 먼저 들어가고, 시각적 변경이나 토큰 변경은 kit에 들어갑니다.
 

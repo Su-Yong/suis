@@ -54,12 +54,15 @@ Primitive Select는 `Select.Trigger`, `Select.Value`, `Select.Content`, `Select.
 | `placeholder` | `string` | 선택된 값이 없을 때 표시되는 text입니다. |
 | `renderValue` | `(value: T) => JSX.Element` | Custom selected value renderer입니다. |
 | `renderIndicator` | `(props) => JSX.Element` | Custom trigger indicator입니다. |
+| `renderContent` | `(props) => JSX.Element` | Custom popup content wrapper입니다. |
 | `renderGroup` | `(props) => JSX.Element` | Custom group wrapper입니다. |
 | `renderItem` | `(props) => JSX.Element` | Custom item wrapper입니다. |
 | `renderCheckIndicator` | `(props) => JSX.Element` | Custom selected-item indicator입니다. |
 | `indicatorProps` | `SelectIndicatorProps` | Trigger indicator에 전달할 props입니다. |
+| `contentProps` | `SelectContentProps` | Popup content wrapper에 전달할 props입니다. |
 | `groupProps` | `SelectGroupProps` | Group wrapper에 전달할 props입니다. |
 | `itemProps` | `SelectItemProps` | Item에 전달할 props입니다. |
+| `checkIndicatorProps` | `SelectCheckIndicatorProps` | Selected-item indicator에 전달할 props입니다. |
 
 `Select`는 `placement`, `offset`, `shift`, `flip`, `autoUpdate`, `middleware` 같은 Popup positioning props도 받습니다.
 
@@ -78,7 +81,7 @@ import { Select, SelectItem } from '@suis-ui/kit';
 />;
 ```
 
-현재 Select API는 value, indicator, group, item, selected-item indicator 커스터마이징을 노출합니다. `contentProps`나 `renderContent`는 노출하지 않습니다.
+현재 Select API는 value, indicator, content, group, item, selected-item indicator 커스터마이징을 노출합니다.
 
 ## Defaults
 

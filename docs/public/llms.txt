@@ -67,7 +67,7 @@ When styling SUIS or building with SUIS, choose theme values in this order:
 
 | Priority | Export | Use For |
 | --- | --- | --- |
-| 1 | `component` | Styling a specific SUIS component such as Button, Tooltip, Select, Input, Popup, or CheckBox. |
+| 1 | `component` | Styling a specific SUIS component such as Button, Tooltip, Select, Input, Item, Popup, or CheckBox. |
 | 2 | `vars` | Semantic app UI values such as color, font, shadow, spacing, line size, z-index, and motion. |
 | 3 | `token` | Raw palette, size, text size, z-index, or motion values for exceptional details that `component` and `vars` cannot express. |
 
@@ -152,23 +152,26 @@ When kit manages internal structure, customize internal parts through documented
 For kit `Select`, the current documented customization props are:
 
 - `indicatorProps`
+- `contentProps`
 - `groupProps`
 - `itemProps`
+- `checkIndicatorProps`
 - `renderValue`
 - `renderIndicator`
+- `renderContent`
 - `renderGroup`
 - `renderItem`
 - `renderCheckIndicator`
 
-Do not use `contentProps` or `renderContent` unless a component explicitly documents those props. They describe the convention, not a guaranteed API.
+Use `contentProps` and `renderContent` for kit `Select` content customization. For other components, only use `*Props` and `render*` props that the component explicitly documents.
 
 ## Public API Map
 
 `@suis-ui/kit` exports:
 
-- UI components: `Box`, `Button`, `CheckBox`, `Input`, `Popup`, `Select`, `Tooltip`
+- UI components: `Box`, `Button`, `CheckBox`, `Input`, `Item`, `Popup`, `Select`, `Tooltip`
 - Theme APIs: `ThemeProvider`, `useTheme`, `createTheme`
-- Theme contracts and maps: `component`, `vars`, `token`, `colors`, `spaces`
+- Theme contracts and maps: `component`, `vars`, `token`, `colors`, `spaces`, `rounds`
 - CSS entrypoint: `@suis-ui/kit/style.css`
 
 `@suis-ui/primitives` exports:
@@ -192,6 +195,7 @@ Kit component docs:
 - `docs/ui/button.md`
 - `docs/ui/checkbox.md`
 - `docs/ui/input.md`
+- `docs/ui/item.md`
 - `docs/ui/popup.md`
 - `docs/ui/select.md`
 - `docs/ui/tooltip.md`

@@ -5,8 +5,12 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "sync-public-docs": "node scripts/sync-public-docs.mjs",
+    "predev": "pnpm sync-public-docs",
     "dev": "vitepress dev",
+    "prebuild": "pnpm sync-public-docs",
     "build": "vitepress build",
+    "prepreview": "pnpm sync-public-docs",
     "preview": "vitepress preview"
   },
   "keywords": [],

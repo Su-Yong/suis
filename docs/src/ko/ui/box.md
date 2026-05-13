@@ -67,6 +67,8 @@ Margin props: `m`, `mx`, `my`, `mt`, `mb`, `ml`, `mr`.
 | `maxW` | `string` |
 | `maxH` | `string` |
 | `flex` | `string | number | boolean` |
+| `top`, `right`, `bottom`, `left` | `string` |
+| `z` | `string | number` |
 
 `flex`가 `true`이면 `Box`는 `flex: 1`을 씁니다.
 
@@ -77,10 +79,14 @@ Margin props: `m`, `mx`, `my`, `mt`, `mb`, `ml`, `mr`.
 | `c` | SUIS color map의 text color |
 | `bg` | SUIS color map의 background color |
 | `bc` | SUIS color map의 border color |
-| `bw` | `vars.size.line`의 border width 또는 `bc`가 설정되었을 때 자동 활성화 |
+| `bd` | `vars.size.line`의 border width |
+| `bdl`, `bdr`, `bdt`, `bdb` | `vars.size.line`의 방향별 border width |
+| `blc`, `brc`, `btc`, `bbc` | SUIS color map의 방향별 border color |
 | `r` | 모든 corner의 border radius |
 | `tlr`, `trr`, `blr`, `brr` | Corner별 radius 값 |
 | `text` | `vars.font`의 semantic font style |
+| `shadow` | `vars.shadow`의 semantic shadow |
+| `overflow` | `auto`, `hidden`, `visible`, `scroll` 또는 `xAuto`, `yHidden` 같은 축별 값 |
 
 기본 text color는 `text.main`이고 기본 text style은 `body`입니다.
 
