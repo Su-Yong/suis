@@ -49,6 +49,12 @@ const baseInputStyle = style({
     '&::placeholder': {
       color: component.input.placeholder.color,
     },
+    '&:focus-visible': {
+      outlineStyle: 'solid',
+      outlineOffset: component.input.focus.offset,
+      outlineColor: component.input.focus.color,
+      outlineWidth: component.input.focus.width,
+    },
     '&::file-selector-button': {
       background: component.input.file.background,
       color: component.input.file.color,
@@ -65,12 +71,6 @@ const baseInputStyle = style({
 
       margin: `calc(-1 * ${component.input.file.paddingY}) calc(-1 * ${component.input.file.paddingX})`,
       marginRight: vars.size.space.xs,
-    },
-    '&[type="file"]:focus-visible': {
-      outlineStyle: 'solid',
-      outlineOffset: component.select.focus.offset,
-      outlineColor: component.select.focus.color,
-      outlineWidth: component.select.focus.width,
     },
   },
 });

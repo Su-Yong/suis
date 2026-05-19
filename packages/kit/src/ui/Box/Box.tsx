@@ -134,6 +134,7 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
       mt: boxStyleProps.mt,
       mb: boxStyleProps.mb,
       ml: boxStyleProps.ml,
+      mr: boxStyleProps.mr,
       r: boxStyleProps.r,
       tlr: boxStyleProps.tlr,
       trr: boxStyleProps.trr,
