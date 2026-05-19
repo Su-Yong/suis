@@ -2,57 +2,115 @@
 
 `Item` is a styled content row in `@suis-ui/kit`. It renders optional leading media, title, description, and trailing action content in a single row.
 
+## Usage
+
 ```tsx
 import { Button, Item } from '@suis-ui/kit';
-import { Star } from 'lucide-solid';
 
 <Item
-  media={<Star />}
+  media={<span aria-hidden="true">*</span>}
   title="Item title"
   description="Item description"
   action={<Button size="sm">Action</Button>}
 />;
 ```
 
-## Import
+The actual primitive structure can be read as a lightweight tree:
 
-```tsx
-import { Item } from '@suis-ui/kit';
+```text
+Item
+├── Media
+├── Content
+│   ├── Title
+│   └── Description
+└── Action
 ```
+
+`media` and `action` render only when provided. `title` and `description` render inside the central content area.
 
 ## Props
 
-| Prop | Type | Default | Description |
+### Slot Props
+
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `media` | `JSX.Element` | - | Leading content, usually an icon or small visual. |
-| `title` | `JSX.Element` | - | Main item title. |
-| `description` | `JSX.Element` | - | Secondary item description. |
-| `action` | `JSX.Element` | - | Trailing action content. |
-| `size` | `xs | sm | md | lg | xl` | `md` | Controls row padding and radius. |
-| `as` | polymorphic element | `div` | Rendered element. |
+| `media` | `JSX.Element` | - | Leading slot, usually an icon, avatar, or thumbnail. |
+| `title` | `JSX.Element` | - | Main text area. |
+| `description` | `JSX.Element` | - | Secondary text area. |
+| `action` | `JSX.Element` | - | Trailing slot, usually a button, switch, or indicator. |
+| `size` | one of: `xs`, `sm`, `md`, `lg`, `xl` | `md` | Selects row padding and radius. |
+| `as` | `ValidComponent` | `div` | Renders another element or component while keeping item styles. |
 
-`Item` is built on `Box`, so it also accepts Box style props and native props for the selected `as` element.
+### Box Mixin Props
 
-## Structure
+`Item` also accepts [Box](./box.md) props. Use props such as `bg`, `c`, `bd`, `bc`, `r`, `gap`, and `w` to adjust a single row.
 
-`Item` owns its internal row structure:
+## Styling
+
+Item styles read from the `component.item` theme contract.
+
+```ts
+component.item = {
+  background,
+  color,
+  borderWidth,
+  borderColor,
+  boxShadow,
+  gap,
+  focus: { offset, color, width },
+  size: {
+    xSmall: { x, y, radius },
+    small: { x, y, radius },
+    medium: { x, y, radius },
+    large: { x, y, radius },
+    xLarge: { x, y, radius },
+  },
+}
+```
+
+`background`, `color`, `borderWidth`, `borderColor`, `boxShadow`, and `gap` apply to the row. `size` controls padding and radius for each size. `focus` controls the `:focus-visible` outline when the rendered element can receive focus, such as `as="button"` or `as="a"`.
+
+### Row Surface
+
+`background`, `color`, `borderWidth`, `borderColor`, and `boxShadow` define the item row surface. `gap` controls spacing between media, content, and action slots.
+
+### Size
+
+`size` maps to the `xs`, `sm`, `md`, `lg`, and `xl` prop values. Each size token's `x` and `y` values become row padding, while `radius` becomes row border radius.
+
+### Focus
+
+`focus` controls the `:focus-visible` outline when the item renders as a focusable element. Button-like and link items use these tokens for keyboard focus feedback.
+
+## Composition
+
+`Item` currently does not expose `render*`, `*Props`, or exported part components. Customize the row by passing elements to `media`, `title`, `description`, and `action`, then use Box props on the outer row.
+
+For an interactive item, use `as="button"` or `as="a"` and pass the native props required by that element.
+
+## Examples
+
+### Basic Item
 
 ```tsx
 <Item
-  media={<Icon />}
-  title="Settings"
-  description="Manage preferences"
-  action={<Button size="sm">Open</Button>}
+  media={<span aria-hidden="true">*</span>}
+  title="Favorites"
+  description="Pinned items and shortcuts"
 />
 ```
 
-The `media` and `action` slots are rendered only when provided. `title` and `description` are rendered inside the center content area.
+### With Action
 
-`Item` does not currently expose `render*`, `*Props`, or exported part components. Use Box props on `Item` and pass styled elements into `media`, `title`, `description`, or `action` when you need customization.
+```tsx
+<Item
+  title="Notifications"
+  description="Email and push preferences"
+  action={<Button size="sm" variant="secondary">Edit</Button>}
+/>
+```
 
-## Element Type
-
-Use `as` to render another element while keeping Item styling:
+### Interactive Button Item
 
 ```tsx
 <Item
@@ -60,24 +118,28 @@ Use `as` to render another element while keeping Item styling:
   type="button"
   title="Open command"
   description="Runs the selected command"
+  action={<span aria-hidden="true">></span>}
 />
 ```
 
-For native interactive elements such as `button` or `a`, provide the appropriate native props and accessible labels when needed.
+### Link Item
 
-## Styling
+```tsx
+<Item
+  as="a"
+  href="/billing"
+  title="Billing"
+  description="Invoices and payment methods"
+/>
+```
 
-Component-specific styling comes from the `component.item` theme contract:
+### Custom Slot Content
 
-| Contract key | Description |
-| --- | --- |
-| `background` | Default row background. |
-| `color` | Default text color. |
-| `borderWidth` | Row border width. |
-| `borderColor` | Row border color. |
-| `boxShadow` | Row shadow. |
-| `gap` | Gap between media, content, and action. |
-| `focus` | Focus-visible outline values. |
-| `size` | Padding and radius values for `xs`, `sm`, `md`, `lg`, and `xl`. |
-
-Use Box props such as `bg`, `c`, `bd`, `bc`, `r`, `gap`, and `w` for one-off overrides.
+```tsx
+<Item
+  media={<Box w="32px" h="32px" r="xl" bg="primary.main" />}
+  title={<Box as="strong">Workspace</Box>}
+  description={<Box c="text.caption">12 members</Box>}
+  action={<Button type="icon" aria-label="Open workspace">></Button>}
+/>
+```

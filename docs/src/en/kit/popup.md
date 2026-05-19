@@ -1,6 +1,8 @@
 # Popup
 
-`Popup` is the styled popup component in `@suis-ui/kit`. It wraps the primitive Popup with animated presence and styled content placement.
+`Popup` is the styled popup component in `@suis-ui/kit`. It wraps the primitive Popup with animated presence and a content wrapper, while positioning is controlled by `@floating-ui/dom` props.
+
+## Usage
 
 ```tsx
 import { Popup, Button, Box } from '@suis-ui/kit';
@@ -13,48 +15,166 @@ import { Popup, Button, Box } from '@suis-ui/kit';
 </Popup>
 ```
 
-## Import
+The actual primitive structure can be read as a lightweight tree:
 
-```tsx
-import { Popup } from '@suis-ui/kit';
+```text
+Popup
+├── PopupTrigger | PopupAnchor
+└── PopupElement
+    └── PopupPresence
+        └── Element
 ```
+
+When `open` is provided as a `boolean`, the child is rendered as an anchor instead of a trigger. In that mode, click toggling is not wired automatically; update the state from the child element yourself.
 
 ## Props
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `children` | `JSX.Element` | Anchor or trigger element. |
-| `element` | `JSX.Element` | Popup content rendered in a portal. |
-| `open` | `boolean` | When provided, controls open state externally. |
-| `placement` | Floating UI `Placement` | Preferred placement. |
-| `strategy` | Floating UI `Strategy` | Positioning strategy. |
-| `offset` | Floating UI `OffsetOptions` | Offset middleware config. |
-| `shift` | `ShiftOptions | boolean` | Enables or configures shift middleware. |
-| `flip` | `FlipOptions | boolean` | Enables or configures flip middleware. |
-| `autoUpdate` | `AutoUpdateOptions | boolean` | Enables or configures automatic positioning updates. |
-| `middleware` | `Middleware[]` | Additional Floating UI middleware. |
-| `animation` | `PopupAnimation` | Custom enter and exit animation classes. |
+### Content And State Props
 
-`Popup` also accepts Box props for the popup content wrapper.
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `JSX.Element` | required | Anchor or trigger element. |
+| `element` | `JSX.Element` | required | Element rendered inside the popup content. |
+| `open` | `boolean` | - | Controls open state externally when provided. |
+| `animation` | enter/exit class map | default scale/fade animation | Custom enter/exit animation classes. |
 
-Popup keeps primitive `Popup.Anchor`, `Popup.Trigger`, and `Popup.Element` behind a single styled component. Pass Box props to customize the content wrapper, and use `element` for the rendered popup content.
+`children` is the positioning reference. `element` is the popup body. Without `open`, Popup uses an uncontrolled trigger. With `open`, Popup uses a controlled anchor.
+
+### Positioning Props
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `placement` | Floating UI `Placement` | - | Preferred placement. |
+| `strategy` | Floating UI `Strategy` | - | Positioning strategy. |
+| `offset` | Floating UI `OffsetOptions` | - | Offset middleware config. |
+| `shift` | `ShiftOptions` or `boolean` | - | Enables or configures shift middleware. |
+| `flip` | `FlipOptions` or `boolean` | - | Enables or configures flip middleware. |
+| `autoUpdate` | `AutoUpdateOptions` or `boolean` | `true` | Updates position on scroll, resize, and layout changes. |
+| `middleware` | `Middleware[]` | - | Additional Floating UI middleware. |
+
+Positioning props are passed through primitive [Popup](../primitives/popup.md) and Floating UI middleware. Combine `shift`, `flip`, and custom `middleware` for collision handling.
+
+### Box Mixin Props
+
+`Popup` accepts [Box](./box.md) props for the content wrapper. Visual surface styling such as `p`, `bg`, `r`, and `shadow` usually belongs on a `Box` inside `element`, or on Box props passed to `Popup`.
+
+## Styling
+
+Popup animation timing reads from the `component.popup` theme contract.
+
+```ts
+component.popup = {
+  enter: {
+    duration,
+    easing,
+  },
+  exit: {
+    duration,
+    easing,
+  },
+}
+```
+
+The default popup animation uses opacity and scale. Transform origin is based on CSS variables resolved from the actual placement, so placements such as `top`, `bottom-start`, and `right` animate from the matching side.
+
+Popup content background, padding, radius, and shadow are not separate Popup tokens. Set them through the provided `element` or Box props on the content wrapper.
+
+### Enter
+
+`enter.duration` and `enter.easing` control animation timing while the popup opens. The default animation uses opacity and scale, with transform origin calculated from placement.
+
+### Exit
+
+`exit.duration` and `exit.easing` control animation timing while the popup closes. During exit, pointer events are disabled to avoid interactions while the popup is leaving.
 
 ## Trigger Behavior
 
-If `open` is not provided, the child is used as a click trigger and toggles the popup.
-
-If `open` is provided, the child is used as an anchor only. Update the `open` value from your own state.
+In uncontrolled mode, `children` is wrapped with `PrimitivePopup.Trigger` and click toggles the popup.
 
 ```tsx
-<Popup
-  open={isOpen()}
-  placement="right"
-  element={<Box p="md">Controlled content</Box>}
->
-  <Button onClick={() => setIsOpen(!isOpen())}>Toggle</Button>
+<Popup element={<Box p="md">Menu</Box>}>
+  <Button>Open menu</Button>
 </Popup>
 ```
 
-## Positioning
+In controlled mode, `children` is wrapped with `PrimitivePopup.Anchor`. Only the `open` value is controlled, so write the trigger event yourself.
 
-Positioning is handled by `@floating-ui/dom`. The default `autoUpdate` behavior comes from the primitive Popup. Pass `offset`, `shift`, `flip`, and `middleware` when the popup needs collision handling or custom sizing.
+```tsx
+import { createSignal } from 'solid-js';
+import { Popup, Button, Box } from '@suis-ui/kit';
+
+const [open, setOpen] = createSignal(false);
+
+<Popup
+  open={open()}
+  placement="right"
+  element={<Box p="md">Controlled content</Box>}
+>
+  <Button onClick={() => setOpen(!open())}>Toggle</Button>
+</Popup>
+```
+
+## Examples
+
+### Basic Popup
+
+```tsx
+<Popup
+  element={
+    <Box p="md" bg="surface.main" r="md" shadow="md">
+      Popup content
+    </Box>
+  }
+>
+  <Button>Open</Button>
+</Popup>
+```
+
+### Placement And Offset
+
+```tsx
+<Popup
+  placement="bottom-start"
+  offset={8}
+  shift
+  flip
+  element={<Box p="md" bg="surface.main" r="md">Actions</Box>}
+>
+  <Button variant="secondary">More</Button>
+</Popup>
+```
+
+### Styled Wrapper
+
+```tsx
+<Popup
+  p="xs"
+  bg="surface.main"
+  r="lg"
+  shadow="xl"
+  element={
+    <Box gap="xs">
+      <Button variant="ghost">Rename</Button>
+      <Button variant="ghost">Archive</Button>
+    </Box>
+  }
+>
+  <Button>Open menu</Button>
+</Popup>
+```
+
+### Controlled Popup
+
+```tsx
+const [open, setOpen] = createSignal(false);
+
+<Popup
+  open={open()}
+  placement="top"
+  element={<Box p="md">Saved</Box>}
+>
+  <Button onClick={() => setOpen(!open())}>
+    Toggle feedback
+  </Button>
+</Popup>
+```
