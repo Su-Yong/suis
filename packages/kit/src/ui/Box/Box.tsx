@@ -116,7 +116,7 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
   const boxClass = () => cx(
     boxStyle({
       pos: boxStyleProps.pos,
-      direction: boxStyleProps.direction,
+      direction: boxStyleProps.direction === null ? undefined : (boxStyleProps.direction ?? 'column'),
       justify: boxStyleProps.justify,
       align: boxStyleProps.align,
       wrap: boxStyleProps.wrap,
@@ -139,7 +139,7 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
       trr: boxStyleProps.trr,
       blr: boxStyleProps.blr,
       brr: boxStyleProps.brr,
-      c: boxStyleProps.c ?? 'text.main',
+      c: boxStyleProps.c === null ? undefined : (boxStyleProps.c ?? 'inherit'),
       bg: boxStyleProps.bg,
       bc: boxStyleProps.bc,
       bd: boxStyleProps.bd,
@@ -151,7 +151,7 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
       brc: boxStyleProps.brc,
       btc: boxStyleProps.btc,
       bbc: boxStyleProps.bbc,
-      text: boxStyleProps.text,
+      text: (boxStyleProps.text === null ? undefined : boxStyleProps.text ?? 'body'),
       shadow: boxStyleProps.shadow,
       overflow: boxStyleProps.overflow,
     }),

@@ -1,4 +1,4 @@
-import { Show } from 'solid-js';
+import { Show, splitProps } from 'solid-js';
 import { Box, Button } from '@suis-ui/kit';
 import { Star } from 'lucide-solid';
 
@@ -52,15 +52,37 @@ export const ButtonPlayground = () => {
           description: 'Active state of the button',
           defaultValue: false,
         },
+
+        {
+          type: 'checkbox',
+          name: 'iconChild',
+          title: 'Use Icon Children',
+          description: '',
+          defaultValue: false,
+        },
+        {
+          type: 'checkbox',
+          name: 'textChild',
+          title: 'Use Text Children',
+          description: '',
+          defaultValue: true,
+        },
       ]}
     >
-      {(props) => (
-        <Button {...props}>
-          <Show when={props.type === 'icon'} fallback={'Button'}>
-            <Box as={Star} w={'1.6rem'} h={'1.6rem'} />
-          </Show>
-        </Button>
-      )}
+      {(props) => {
+        const [local, rest] = splitProps(props, ['iconChild', 'textChild']);
+
+        return (
+          <Button {...rest}>
+            <Show when={local.iconChild}>
+              <Box as={Star} w={'1.6rem'} h={'1.6rem'} />
+            </Show>
+            <Show when={local.textChild} fallback={''}>
+              Button
+            </Show>
+          </Button>
+        );
+      }}
     </Playground>
   );
 };
