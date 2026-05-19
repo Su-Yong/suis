@@ -10,8 +10,8 @@ hero:
       text: 시작하기
       link: ./introduction
     - theme: alt
-      text: 컴포넌트 보기
-      link: ./ui/button
+      text: llms.txt
+      link: ../llms.txt
 
 features:
   - title: 동작 Primitive
@@ -33,4 +33,4 @@ SUIS는 두 패키지로 나뉩니다.
 
 ## 패키지
 
-바로 사용할 수 있는 UI가 필요하면 [Kit 컴포넌트](./ui/box.md)를 사용하세요. 마크업과 스타일을 직접 소유하면서 SUIS 동작만 재사용하려면 [Primitives](./primitives/polymorphic.md)를 사용하세요.
+바로 사용할 수 있는 UI가 필요하면 [Kit 컴포넌트](./kit/box.md)를 사용하세요. 마크업과 스타일을 직접 소유하면서 SUIS 동작만 재사용하려면 [Primitives](./primitives/polymorphic.md)를 사용하세요.
