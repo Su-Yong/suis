@@ -1,5 +1,23 @@
 # @suis-ui/kit
 
+## 0.3.0
+
+### Minor Changes
+
+- 9087306: fix(kit): allow Box default styles to be skipped with null
+
+  - Move Box defaults into prop resolution so null can explicitly opt out
+  - Prevent Box direction/color defaults from overriding Button base styles
+  - Keep user-provided Box props taking precedence over Button defaults
+  - Update the button playground to cover icon/text child combinations
+
+- 71edd6f: fix(kit): wire component styling contracts
+
+  - apply Box mr style prop
+  - use component.button.font tokens by size
+  - use component.input.focus for all input focus states
+  - forward controlled open state through Select
+
 ## 0.2.0
 
 ### Minor Changes
