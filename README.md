@@ -113,28 +113,28 @@ export const panel = style({
 
 Kit components that manage internal primitive structure expose customization through documented `*Props` and `render*` props. For example, kit `Select` supports `itemProps`, `renderItem`, `renderValue`, and related props so you can customize internal parts without rebuilding the primitive composition.
 
-See [Customization](./docs/customization.md) and [Design Principles](./docs/design-principles.md) for the full model.
+See [Customization](./docs/src/en/customization.md) and [Design Principles](./docs/src/en/design-principles.md) for the full model.
 
 ### `@suis-ui/kit`
 
-- [Box](./docs/ui/box.md)
-- [Button](./docs/ui/button.md)
-- [CheckBox](./docs/ui/checkbox.md)
-- [Input](./docs/ui/input.md)
-- [Item](./docs/ui/item.md)
-- [Popup](./docs/ui/popup.md)
-- [Select](./docs/ui/select.md)
-- [Tooltip](./docs/ui/tooltip.md)
+- [Box](./docs/src/en/ui/box.md)
+- [Button](./docs/src/en/ui/button.md)
+- [CheckBox](./docs/src/en/ui/checkbox.md)
+- [Input](./docs/src/en/ui/input.md)
+- [Item](./docs/src/en/ui/item.md)
+- [Popup](./docs/src/en/ui/popup.md)
+- [Select](./docs/src/en/ui/select.md)
+- [Tooltip](./docs/src/en/ui/tooltip.md)
 
 ### `@suis-ui/primitives`
 
-- [Polymorphic](./docs/primitives/polymorphic.md)
-- [CheckBox](./docs/primitives/checkbox.md)
-- [FocusManager](./docs/primitives/focus-manager.md)
-- [Popup](./docs/primitives/popup.md)
-- [Select](./docs/primitives/select.md)
-- [Tooltip](./docs/primitives/tooltip.md)
-- [Helpers](./docs/primitives/helper.md)
+- [Polymorphic](./docs/src/en/primitives/polymorphic.md)
+- [CheckBox](./docs/src/en/primitives/checkbox.md)
+- [FocusManager](./docs/src/en/primitives/focus-manager.md)
+- [Popup](./docs/src/en/primitives/popup.md)
+- [Select](./docs/src/en/primitives/select.md)
+- [Tooltip](./docs/src/en/primitives/tooltip.md)
+- [Helpers](./docs/src/en/primitives/helper.md)
 
 ## Development
 

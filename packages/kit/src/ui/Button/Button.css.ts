@@ -8,6 +8,13 @@ import { component } from '../component.css';
 
 const paddingX = createVar();
 const paddingY = createVar();
+const buttonFontStyle = (font: typeof component.button.font.xSmall) => ({
+  fontSize: font.fontSize,
+  lineHeight: font.lineHeight,
+  fontWeight: font.fontWeight,
+  letterSpacing: font.letterSpacing,
+});
+
 export const baseButtonStyle = recipe({
   base: layered({
     width: 'fit-content',
@@ -50,6 +57,7 @@ export const baseButtonStyle = recipe({
 
     size: {
       xs: layered({
+        ...buttonFontStyle(component.button.font.xSmall),
         borderRadius: component.button.size.xSmall.radius,
 
         vars: {
@@ -58,6 +66,7 @@ export const baseButtonStyle = recipe({
         },
       }),
       sm: layered({
+        ...buttonFontStyle(component.button.font.small),
         borderRadius: component.button.size.small.radius,
 
         vars: {
@@ -66,6 +75,7 @@ export const baseButtonStyle = recipe({
         },
       }),
       md: layered({
+        ...buttonFontStyle(component.button.font.medium),
         borderRadius: component.button.size.medium.radius,
 
         vars: {
@@ -74,6 +84,7 @@ export const baseButtonStyle = recipe({
         },
       }),
       lg: layered({
+        ...buttonFontStyle(component.button.font.large),
         borderRadius: component.button.size.large.radius,
 
         vars: {
@@ -82,6 +93,7 @@ export const baseButtonStyle = recipe({
         },
       }),
       xl: layered({
+        ...buttonFontStyle(component.button.font.xLarge),
         borderRadius: component.button.size.xLarge.radius,
 
         vars: {

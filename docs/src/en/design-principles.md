@@ -37,7 +37,7 @@ Kit components that wrap multiple primitive subcomponents should expose sub-elem
 - `*Props` passes props to an internal sub-element.
 - `render*` replaces the rendered sub-element or part.
 
-For example, `Select` currently exposes `indicatorProps`, `groupProps`, `itemProps`, `renderValue`, `renderIndicator`, `renderGroup`, `renderItem`, and `renderCheckIndicator`.
+For example, `Select` currently exposes `indicatorProps`, `contentProps`, `groupProps`, `itemProps`, `checkIndicatorProps`, `renderValue`, `renderIndicator`, `renderContent`, `renderGroup`, `renderItem`, and `renderCheckIndicator`.
 
 When adding a new kit component, keep the public component simple first. Add `*Props` and `render*` only for sub-elements users need to customize without dropping down to primitives.
 

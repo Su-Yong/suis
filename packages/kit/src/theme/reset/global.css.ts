@@ -1,6 +1,7 @@
 import { globalStyle } from '@vanilla-extract/css';
 
 import { resetLayer } from '../layer.css';
+import { vars } from '../token';
 
 globalStyle('html, body, #root, #app', {
   '@layer': {
@@ -8,6 +9,7 @@ globalStyle('html, body, #root, #app', {
       width: '100vw',
       height: '100vh',
       overflow: 'hidden',
+      color: vars.color.text.main,
     },
   },
 });

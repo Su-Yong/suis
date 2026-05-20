@@ -94,4 +94,4 @@ When kit manages the internal structure, customize internal parts through `*Prop
 - `*Props` passes props to an internal part, such as `itemProps`.
 - `render*` replaces an internal part, such as `renderItem`.
 
-Only use props that are documented for the component. Pattern names such as `contentProps` or `renderContent` describe the convention, but they are not available unless that component explicitly documents them.
+Only use props that are documented for the component. Pattern names such as `contentProps` or `renderContent` describe the convention, but they are available only when that component explicitly documents them.

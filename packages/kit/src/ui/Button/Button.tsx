@@ -26,6 +26,9 @@ export const Button = <T extends ValidComponent = 'button'>(props: ButtonProps<T
     <Box
       {...rest as BoxProps<T>}
       as={rest.as ?? 'button'}
+      direction={rest.direction ?? null}
+      c={rest.c ?? null}
+      text={rest.text ?? null}
       classList={{
         [baseButtonStyle({
           size: local.size,

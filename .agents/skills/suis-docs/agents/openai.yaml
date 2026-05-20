@@ -1,0 +1,4 @@
+interface:
+  display_name: "SUIS Docs"
+  short_description: "Write SUIS kit and primitive docs"
+  default_prompt: "Use $suis-docs primitives or $suis-docs kit to document SUIS APIs."

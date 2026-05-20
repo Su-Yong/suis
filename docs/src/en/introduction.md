@@ -45,7 +45,7 @@ export const App = () => (
 
 `@suis-ui/primitives` owns state wiring, DOM behavior, focus handling, portals, popup positioning, and composition helpers.
 
-`@suis-ui/kit` owns visual styling, vanilla-extract recipes, `component`, `vars`, `token`, color and space maps, and styled wrappers around primitives.
+`@suis-ui/kit` owns visual styling, vanilla-extract recipes, `component`, `vars`, `token`, color, space, and round maps, and styled wrappers around primitives.
 
 Keep those roles separate when adding new features. A behavior change normally belongs in primitives first. A visual or token change belongs in kit.
 

@@ -14,6 +14,9 @@ import {
   clx,
   createPopupController,
   createClickAway,
+  PopupAnchor,
+  Polymorphic,
+  PolymorphicProps,
   sx,
 } from '@suis-ui/primitives';
 
@@ -47,6 +50,7 @@ const SelectOnlyProps = [
 const BaseSelectOnlyProps = [
   'value',
   'onChangeValue',
+  'open',
 
   'placement',
   'strategy',
@@ -109,6 +113,7 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
   const { state, runAnimation } = usePopupAnimation(animationElement);
 
   const { groupedList } = useSelectData(() => local.data);
+  const isOpenControlled = () => typeof baseProps.open === 'boolean';
   const middleware = createMemo(() => [
     size({
       apply: ({ availableHeight }) => {
@@ -129,6 +134,7 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
       return open;
     });
     createEffect(on(() => [context.element, context.open] as const, ([element, open]) => {
+      if (isOpenControlled()) return;
       if (!element) return;
       if (!open) return;
 
@@ -147,13 +153,8 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
       });
     }));
 
-    return (
-      <BaseSelectTrigger
-        {...rest}
-        data-has-value={!!context.value}
-        as={rest.as ?? 'button'}
-        class={clx(triggerStyle, rest.class, rest.classList)}
-      >
+    const children = (
+      <>
         <BaseSelectValue>
           {(value) => (
             <Show
@@ -168,6 +169,33 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
           component={local.renderIndicator}
           open={context.open}
         />
+      </>
+    );
+
+    if (isOpenControlled()) {
+      return (
+        <PopupAnchor>
+          <Polymorphic
+            {...rest as PolymorphicProps<T>}
+            data-has-value={!!context.value}
+            as={rest.as ?? 'button'}
+            role={'combobox'}
+            class={clx(triggerStyle, rest.class, rest.classList)}
+          >
+            {children}
+          </Polymorphic>
+        </PopupAnchor>
+      );
+    }
+
+    return (
+      <BaseSelectTrigger
+        {...rest}
+        data-has-value={!!context.value}
+        as={rest.as ?? 'button'}
+        class={clx(triggerStyle, rest.class, rest.classList)}
+      >
+        {children}
       </BaseSelectTrigger>
     );
   };
