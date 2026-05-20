@@ -10,14 +10,14 @@ This table of contents mirrors the main docs index.
 
 ## `@suis-ui/kit`
 
-- [Box](./ui/box.md)
-- [Button](./ui/button.md)
-- [CheckBox](./ui/checkbox.md)
-- [Input](./ui/input.md)
-- [Item](./ui/item.md)
-- [Popup](./ui/popup.md)
-- [Select](./ui/select.md)
-- [Tooltip](./ui/tooltip.md)
+- [Box](./kit/box.md)
+- [Button](./kit/button.md)
+- [CheckBox](./kit/checkbox.md)
+- [Input](./kit/input.md)
+- [Item](./kit/item.md)
+- [Popup](./kit/popup.md)
+- [Select](./kit/select.md)
+- [Tooltip](./kit/tooltip.md)
 
 ## `@suis-ui/primitives`
 

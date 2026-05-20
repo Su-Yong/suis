@@ -138,9 +138,4 @@ export const boxStyle = recipe({
       yScroll: layered({ overflowY: 'scroll' }, l2Layer),
     },
   },
-
-  defaultVariants: {
-    direction: 'column',
-    text: 'body',
-  },
 });

@@ -35,6 +35,10 @@ export const varsColors = Object.entries(vars.color)
   .reduce((acc, curr) => ({ ...acc, ...curr }), {}) as VarsColorMap;
 
 export const colors = {
+  inherit: 'inherit',
+  current: 'currentColor',
+  initial: 'initial',
+  transparent: 'transparent',
   ...tokenColors,
   ...varsColors,
 };

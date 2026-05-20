@@ -37,7 +37,7 @@ import { component, vars, token } from '@suis-ui/kit';
 - `*Props`는 내부 하위 요소에 props를 전달합니다.
 - `render*`는 렌더링되는 하위 요소나 part를 교체합니다.
 
-예를 들어 현재 `Select`는 `indicatorProps`, `groupProps`, `itemProps`, `renderValue`, `renderIndicator`, `renderGroup`, `renderItem`, `renderCheckIndicator`를 노출합니다.
+예를 들어 현재 `Select`는 `indicatorProps`, `contentProps`, `groupProps`, `itemProps`, `checkIndicatorProps`, `renderValue`, `renderIndicator`, `renderContent`, `renderGroup`, `renderItem`, `renderCheckIndicator`를 노출합니다.
 
 새 kit 컴포넌트를 추가할 때는 먼저 public component를 단순하게 유지하세요. 사용자가 primitives로 내려가지 않고 커스터마이징해야 하는 하위 요소에만 `*Props`와 `render*`를 추가하세요.
 
