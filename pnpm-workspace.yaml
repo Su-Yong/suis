@@ -3,5 +3,8 @@ packages:
   - examples/*
   - docs
 
+allowBuilds:
+  esbuild: true
+
 onlyBuiltDependencies:
   - esbuild

@@ -5,8 +5,8 @@ import { alpha } from '@/theme/util';
 
 export const DefaultButtonVars = {
   focus: {
-    offset: vars.size.space.xxs,
-    color: vars.color.text.main,
+    offset: vars.size.space.none,
+    color: vars.color.surface.higher,
     width: vars.size.line.thick,
   },
   disabled: {
