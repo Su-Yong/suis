@@ -34,7 +34,7 @@ export const DefaultInputVars = {
   },
   disabled: {
     background: vars.color.surface.higher,
-    color: vars.color.surface.contrast,
+    color: vars.color.text.disabled,
     borderWidth: vars.size.line.md,
     borderColor: vars.color.surface.higher,
     borderRadius: vars.size.round.md,
