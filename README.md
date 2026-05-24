@@ -1,12 +1,11 @@
 # SUIS
+
 > SUIS: Solid UI System
 
-SUIS split into two packages:
+SUIS is a SolidJS UI library split into two packages:
 
-- `@suis-ui/kit` provides styled components, theme APIs, and the SUIS CSS entrypoint.
-- `@suis-ui/primitives` provides behavior-focused primitives for custom component composition.
-
-Use the kit when you want ready-to-use UI components. Use primitives when you want to own the markup and styling while reusing SUIS behavior, focus handling, popup behavior, and accessibility wiring.
+- `@suis-ui/kit`: styled components, theme APIs, and the SUIS CSS entrypoint.
+- `@suis-ui/primitives`: behavior-focused primitives for custom component composition.
 
 ## Installation
 
@@ -24,16 +23,9 @@ pnpm add @suis-ui/primitives solid-js
 
 `solid-js` is a peer dependency of both packages.
 
-> SUIS is built with vanilla-extract. When you build application styles or custom components around SUIS, we recommend using vanilla-extract together so you can consume exported `component`, `vars`, and `token` values from `.css.ts` files.
-> 
-> ```bash
-> pnpm add @vanilla-extract/css
-> pnpm add -D @vanilla-extract/vite-plugin
-> ```
-
 ## Quick Start
 
-**Import the kit stylesheet** once in your application and wrap your app with `ThemeProvider`:
+Import the kit stylesheet once and wrap your app with `ThemeProvider`:
 
 ```tsx
 import '@suis-ui/kit/style.css';
@@ -49,115 +41,18 @@ export const App = () => (
 Then use kit components directly:
 
 ```tsx
-import { createSignal } from 'solid-js';
-import { Button, Select } from '@suis-ui/kit';
+import { Button } from '@suis-ui/kit';
 
-const [size, setSize] = createSignal<string | null>(null);
-
-export const Form = () => (
-  <>
-    <Select
-      data={['Small', 'Medium', 'Large']}
-      value={size()}
-      onChangeValue={setSize}
-      placeholder="Choose a size"
-    />
-
-    <Button variant="primary" size="md">
-      Save
-    </Button>
-  </>
+export const SaveButton = () => (
+  <Button variant="primary" size="md">
+    Save
+  </Button>
 );
 ```
 
-## Packages
+## Documentation
 
-| Package | Use it for |
-| --- | --- |
-| `@suis-ui/kit` | Styled components, theme APIs, vanilla-extract styles, semantic tokens, component tokens, and the CSS entrypoint. |
-| `@suis-ui/primitives` | Compound components, state wiring, DOM behavior, focus management, popup positioning, portals, and composition helpers. |
-
-## Docs
-
-- [Introduction](./docs/introduction.md)
-- [Design Principles](./docs/design-principles.md)
-- [Customization](./docs/customization.md)
-- [Full table of contents](./docs/table-of-contents.md)
-
-### Customization
-
-`@suis-ui/kit` exports theme values in three layers. Prefer the most specific layer that fits the job:
-
-| Priority | Export | Purpose |
-| --- | --- | --- |
-| 1 | `component` | Component-specific values for SUIS components. |
-| 2 | `vars` | Semantic tokens for app surfaces, colors, fonts, shadows, spacing, line sizes, z-index, and motion. |
-| 3 | `token` | Raw design values such as color palettes, size, text size, z-index, and motion. |
-
-```tsx
-import { component, vars, token } from '@suis-ui/kit';
-```
-
-Use those exports from vanilla-extract styles when building app-specific surfaces:
-
-```ts
-import { style } from '@vanilla-extract/css';
-import { vars } from '@suis-ui/kit';
-
-export const panel = style({
-  background: vars.color.surface.main,
-  color: vars.color.text.main,
-  padding: vars.space.md,
-});
-```
-
-Kit components that manage internal primitive structure expose customization through documented `*Props` and `render*` props. For example, kit `Select` supports `itemProps`, `renderItem`, `renderValue`, and related props so you can customize internal parts without rebuilding the primitive composition.
-
-See [Customization](./docs/src/en/customization.md) and [Design Principles](./docs/src/en/design-principles.md) for the full model.
-
-### `@suis-ui/kit`
-
-- [Box](./docs/src/en/ui/box.md)
-- [Button](./docs/src/en/ui/button.md)
-- [CheckBox](./docs/src/en/ui/checkbox.md)
-- [Input](./docs/src/en/ui/input.md)
-- [Item](./docs/src/en/ui/item.md)
-- [Popup](./docs/src/en/ui/popup.md)
-- [Select](./docs/src/en/ui/select.md)
-- [Tooltip](./docs/src/en/ui/tooltip.md)
-
-### `@suis-ui/primitives`
-
-- [Polymorphic](./docs/src/en/primitives/polymorphic.md)
-- [CheckBox](./docs/src/en/primitives/checkbox.md)
-- [FocusManager](./docs/src/en/primitives/focus-manager.md)
-- [Popup](./docs/src/en/primitives/popup.md)
-- [Select](./docs/src/en/primitives/select.md)
-- [Tooltip](./docs/src/en/primitives/tooltip.md)
-- [Helpers](./docs/src/en/primitives/helper.md)
-
-## Development
-
-This repository is a pnpm workspace.
-
-```bash
-pnpm install
-pnpm build
-```
-
-Run the example apps:
-
-```bash
-pnpm example:kit
-pnpm example:primitives
-```
-
-Build individual packages:
-
-```bash
-pnpm build:kit
-pnpm build:primitives
-```
+See the full documentation at [su-yong.github.io/suis](https://su-yong.github.io/suis/).
 
 ## License
 

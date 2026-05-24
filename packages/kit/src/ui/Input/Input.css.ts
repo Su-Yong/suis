@@ -35,7 +35,7 @@ const baseInputStyle = style({
       borderStyle: 'solid',
       borderWidth: component.input.hover.borderWidth,
       borderColor: component.input.hover.borderColor,
-      borderRadius: component.input.default.borderRadius,
+      borderRadius: component.input.hover.borderRadius,
     },
     '&:active': {
       background: component.input.active.background,
@@ -44,7 +44,16 @@ const baseInputStyle = style({
       borderStyle: 'solid',
       borderWidth: component.input.active.borderWidth,
       borderColor: component.input.active.borderColor,
-      borderRadius: component.input.default.borderRadius,
+      borderRadius: component.input.active.borderRadius,
+    },
+    '&:disabled': {
+      background: component.input.disabled.background,
+      color: component.input.disabled.color,
+
+      borderStyle: 'solid',
+      borderWidth: component.input.disabled.borderWidth,
+      borderColor: component.input.disabled.borderColor,
+      borderRadius: component.input.disabled.borderRadius,
     },
     '&::placeholder': {
       color: component.input.placeholder.color,
