@@ -4,8 +4,8 @@ import { vars } from '@/theme/token';
 
 export const DefaultSelectVars = {
   focus: {
-    offset: vars.size.space.xxs,
-    color: vars.color.text.main,
+    offset: vars.size.space.none,
+    color: vars.color.surface.higher,
     width: vars.size.line.thick,
   },
   trigger: {

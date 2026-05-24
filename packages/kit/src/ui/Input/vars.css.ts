@@ -4,8 +4,8 @@ import { vars } from '@/theme/token';
 
 export const DefaultInputVars = {
   focus: {
-    offset: vars.size.space.xxs,
-    color: vars.color.text.main,
+    offset: vars.size.space.none,
+    color: vars.color.surface.higher,
     width: vars.size.line.thick,
   },
   default: {
@@ -31,6 +31,14 @@ export const DefaultInputVars = {
     borderWidth: vars.size.line.md,
     borderColor: vars.color.surface.higher,
     borderRadius: vars.size.round.md,
+  },
+  disabled: {
+    background: vars.color.surface.higher,
+    color: vars.color.text.disabled,
+    borderWidth: vars.size.line.md,
+    borderColor: vars.color.surface.higher,
+    borderRadius: vars.size.round.md,
+    opacity: '0.5',
   },
 
   placeholder: {

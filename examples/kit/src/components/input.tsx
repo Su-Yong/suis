@@ -36,6 +36,12 @@ export const InputPlayground = () => {
           description: 'Placeholder text when the input is empty',
           defaultValue: 'Enter some text',
         },
+        {
+          type: 'checkbox',
+          name: 'disabled',
+          description: 'Whether the input is disabled',
+          defaultValue: false,
+        }
       ]}
     >
       {(props) => <Input {...props} />}

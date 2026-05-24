@@ -11,8 +11,8 @@ export const DefaultItemVars = {
   boxShadow: vars.shadow.none,
   gap: vars.size.space.sm,
   focus: {
-    offset: vars.size.space.xxs,
-    color: vars.color.text.main,
+    offset: vars.size.space.none,
+    color: vars.color.surface.higher,
     width: vars.size.line.thick,
   },
   size: {
