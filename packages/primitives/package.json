@@ -1,6 +1,6 @@
 {
   "name": "@suis-ui/primitives",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "SUIS, UI library for Solid",
   "exports": {
     ".": {

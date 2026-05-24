@@ -1,6 +1,6 @@
 {
   "name": "@suis-ui/kit",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "SUIS, UI library for Solid",
   "exports": {
     ".": {
