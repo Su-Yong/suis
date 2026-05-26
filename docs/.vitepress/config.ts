@@ -1,10 +1,15 @@
 import { defineConfig } from 'vitepress';
 import type { Plugin as VitePressPlugin } from 'vitepress';
+import { fileURLToPath } from 'node:url';
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
+import solid from 'vite-plugin-solid';
 import llmstxt from 'vitepress-plugin-llms';
 
 const repositoryUrl = 'https://github.com/Su-Yong/suis';
 
 const stripDefaultLocale = (id: string) => (id.startsWith('en/') ? id.slice(3) : id);
+
+const fromWorkspace = (path: string) => fileURLToPath(new URL(`../../${path}`, import.meta.url));
 
 const nav = (prefix: string, labels: { guides: string; kit: string; primitives: string }) => [
   { text: labels.guides, link: `${prefix}/introduction` },
@@ -72,7 +77,22 @@ export default defineConfig({
         workDir: '.',
         // fix: llms plugin is not compatible with vitepress 2.0.0-alpha
       }) as unknown as VitePressPlugin,
+      vanillaExtractPlugin({ unstable_mode: 'transform' }),
+      solid({
+        include: [
+          /\.solid\.[tj]sx$/,
+          /packages\/kit\/src\/.*\.tsx$/,
+          /packages\/primitives\/src\/.*\.tsx$/,
+        ],
+      }),
     ],
+    resolve: {
+      alias: [
+        { find: '@suis-ui/kit', replacement: fromWorkspace('packages/kit/src/ui/index.ts') },
+        { find: '@suis-ui/primitives', replacement: fromWorkspace('packages/primitives/src/index.ts') },
+        { find: '@', replacement: fromWorkspace('packages/kit/src') },
+      ],
+    },
   },
   locales: {
     root: {

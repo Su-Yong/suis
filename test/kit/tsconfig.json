@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["src", "vitest.config.ts"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["../../packages/kit/src/*"]
+    },
+    "types": ["vitest", "vitest/browser"]
+  }
+}

@@ -167,6 +167,7 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
         </BaseSelectValue>
         <Dynamic<(props: SelectIndicatorProps<'div'>) => JSX.Element>
           component={local.renderIndicator}
+          {...local.indicatorProps as SelectIndicatorProps<'div'>}
           open={context.open}
         />
       </>

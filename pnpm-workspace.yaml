@@ -1,6 +1,7 @@
 packages:
   - packages/*
   - examples/*
+  - test/*
   - docs
 
 allowBuilds:
@@ -8,3 +9,4 @@ allowBuilds:
 
 onlyBuiltDependencies:
   - esbuild
+  - playwright

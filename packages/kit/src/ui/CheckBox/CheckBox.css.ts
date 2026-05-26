@@ -4,9 +4,17 @@ import { vars } from '@/theme/token';
 
 import { component } from '../component.css';
 
-export const inputStyle = style({});
+export const inputStyle = style({
+  position: 'absolute',
+  width: component.checkbox.indicator.size,
+  height: component.checkbox.indicator.size,
+  margin: 0,
+  opacity: 0,
+});
 
 export const containerStyle = style({
+  position: 'relative',
+
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',

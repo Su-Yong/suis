@@ -8,6 +8,9 @@
     "build": "pnpm -r build",
     "build:primitives": "pnpm --filter primitives build",
     "build:kit": "pnpm --filter kit build",
+    "test": "pnpm --filter @suis-ui/test-primitives test && pnpm --filter @suis-ui/test-kit test",
+    "test:primitives": "pnpm --filter @suis-ui/test-primitives test",
+    "test:kit": "pnpm --filter @suis-ui/test-kit test",
 
     "example:primitives": "pnpm --filter primitives-example dev",
     "example:kit": "pnpm --filter kit-example dev",

@@ -1,7 +1,9 @@
 import { recipe, type RecipeVariants } from '@vanilla-extract/recipes';
 import { createVar } from '@vanilla-extract/css';
 
-import { colors, rounds, spaces } from '@/theme';
+import { colors } from '@/theme/color';
+import { rounds } from '@/theme/round';
+import { spaces } from '@/theme/space';
 import { vars } from '@/theme/token';
 import { layered, map } from '@/theme/util';
 import { l2Layer } from '@/theme/layer.css';
