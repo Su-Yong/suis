@@ -1,5 +1,24 @@
 # @suis-ui/kit
 
+## 0.3.1
+
+### Patch Changes
+
+- 14cb6f9: fix: remove semicolon in ThemeProvider
+- 7e9574c: docs: add README.md
+- b5bd519: feat(kit): update focus ring styles
+
+  - Adjust focus ring tokens across kit components to use no offset and the
+    higher surface color.
+
+- 029b04e: fix(input): apply state-specific styles
+
+  - Use hover, active, and disabled state tokens for Input styles
+
+- 2670120: feat(kit): change disabled styles
+- Updated dependencies [7e9574c]
+  - @suis-ui/primitives@0.1.2
+
 ## 0.3.0
 
 ### Minor Changes
