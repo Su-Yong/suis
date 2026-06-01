@@ -9,20 +9,26 @@ import { SelectContext, SelectContextType } from './SelectContext';
 
 import { Popup, PopupProps } from '../Popup';
 
-type SelectOnlyProps = {
-  value?: string | null;
-  onChangeValue?: (value: string | null) => void;
+type SelectValue<Required extends boolean> = Required extends true ? string : string | null;
+type SelectOnlyProps<Required extends boolean = false> = {
+  value?: SelectValue<Required>;
+  onChangeValue?: (value: SelectValue<Required>) => void;
+  required?: Required;
 };
-export type SelectProps =
-  Omit<PopupProps, keyof SelectOnlyProps>
-  & SelectOnlyProps;
-export const Select = (props: SelectProps) => {
-  const [local, rest] = splitProps(props, ['value', 'onChangeValue']);
+export type SelectProps<Required extends boolean = false> =
+  Omit<PopupProps, keyof SelectOnlyProps<Required>>
+  & SelectOnlyProps<Required>;
+export const Select = <Required extends boolean = false>(props: SelectProps<Required>) => {
+  const [local, rest] = splitProps(props, ['value', 'onChangeValue', 'required']);
 
-  const [context, setContext] = createStore<SelectContextType>({ value: null });
+  const [context, setContext] = createStore<SelectContextType>({ value: null, required: false });
 
   createEffect(on(() => local.value, (value) => setContext('value', value ?? null)));
-  createEffect(on(() => context.value, (value) => local.onChangeValue?.(value)));
+  createEffect(on(() => local.required, (required) => setContext('required', required ?? false)));
+  createEffect(on(() => context.value, (value) => {
+    if (local.required && value === null) return;
+    local.onChangeValue?.(value as SelectValue<Required>);
+  }));
 
   return (
     <SelectContext.Provider value={[context, setContext]}>

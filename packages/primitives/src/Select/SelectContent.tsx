@@ -36,6 +36,7 @@ export const SelectContent = <T extends ValidComponent>(props: SelectContentProp
           <Polymorphic
             {...props as PolymorphicProps<T>}
             role={'listbox'}
+            aria-required={context.required ? 'true' : undefined}
             as={props.as ?? 'ul'}
             style={sx(style(), props.style)}
           />
