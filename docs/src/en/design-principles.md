@@ -14,10 +14,10 @@ When styling SUIS or building components with SUIS, choose exported theme values
 | 2 | `vars` | Semantic tokens | Choosing colors, fonts, shadows, spacing, line sizes, z-index, or motion for app-specific components and layouts |
 | 3 | `token` | Raw tokens available in SUIS | Handling exceptional details that cannot be expressed with `component` or `vars` |
 
-Prefer `component` for SUIS component overrides because those values are scoped to the component contract. Prefer `vars` for application surfaces because semantic names communicate intent. Use `token` only when a raw palette, size, z-index, or motion value is required.
+Prefer `component` for SUIS component overrides because those values are scoped to the component contract. Prefer `vars` for application surfaces because semantic names communicate intent. Use `token` only when a raw palette, size, z-index, or motion value is required. In `.css.ts` files, import these contracts from the CSS subpath.
 
-```tsx
-import { component, vars, token } from '@suis-ui/kit';
+```ts
+import { component, vars, token } from '@suis-ui/kit/css';
 ```
 
 ## Component Layers

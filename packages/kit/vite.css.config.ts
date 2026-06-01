@@ -20,7 +20,13 @@ export default defineConfig({
     vanillaExtractPlugin(),
     dts({
       entryRoot: 'src',
-      include: ['src/css.ts', 'src/ui/Popup/animation.ts'],
+      include: [
+        'src/css.ts',
+        'src/theme/token/default/default.css.ts',
+        'src/theme/token/semantic/vars.css.ts',
+        'src/ui/component.css.ts',
+        'src/ui/Popup/animation.ts',
+      ],
     }),
     omitCssHelperStyles(),
   ],

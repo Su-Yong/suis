@@ -108,10 +108,10 @@ When styling SUIS or building with SUIS, choose theme values in this order:
 | 2 | `vars` | Semantic app UI values such as color, font, shadow, spacing, line size, z-index, and motion. |
 | 3 | `token` | Raw palette, size, text size, z-index, or motion values for exceptional details that `component` and `vars` cannot express. |
 
-The public raw-token export is `token`, not `tokens`. Do not write code or docs that import a `tokens` variable from `@suis-ui/kit`.
+The public raw-token export is `token`, not `tokens`. In `.css.ts` files, import theme contracts from `@suis-ui/kit/css` so vanilla-extract only evaluates CSS helpers.
 
-```tsx
-import { component, vars, token } from '@suis-ui/kit';
+```ts
+import { component, vars, token } from '@suis-ui/kit/css';
 ```
 
 Use `createTheme` for partial theme overrides:
