@@ -1,5 +1,34 @@
 # @suis-ui/kit
 
+## 0.4.0
+
+### Minor Changes
+
+- 1738074: feat(select): add required mode and resolved kit callbacks
+
+  - allow optional Select values to clear when the selected item is chosen again
+  - add required mode to primitives and kit Select to prevent clearing
+  - add aria-required to Select trigger and content when required
+  - narrow value and onChangeValue types when required is literal true
+  - keep dynamic boolean required values on the nullable fallback type
+  - expose ResolvedSelectData from kit Select data helpers
+  - make kit renderValue receive ResolvedSelectData
+  - keep kit onChangeValue emitting the raw string value
+  - add kit onChange for ResolvedSelectData callbacks
+  - guard required callbacks from receiving null at runtime
+
+- 4c689d5: feat(kit): expose popupAnimation via css subpath
+
+  - move popupAnimation into a plain TS helper
+  - add @suis-ui/kit/css package export and subpath build output
+  - keep component contract reusable while isolating default theme creation
+  - document the vanilla-extract helper export decision
+
+### Patch Changes
+
+- Updated dependencies [1738074]
+  - @suis-ui/primitives@0.2.0
+
 ## 0.3.1
 
 ### Patch Changes
