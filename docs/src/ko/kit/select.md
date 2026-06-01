@@ -41,12 +41,17 @@ Kit Select는 primitive part를 직접 노출하지 않고 `data`, `*Props`, `re
 | 이름 | 타입 | 기본값 | 간단한 설명 |
 | --- | --- | --- | --- |
 | `data` | `SelectData[]` | 필수 | 렌더링할 option data입니다. |
-| `value` | `string` 또는 `null` | `null` | 현재 선택된 option value입니다. |
-| `onChangeValue` | `(value: string 또는 null) => void` | - | 선택 값이 바뀔 때 호출됩니다. |
+| `value` | `string` 또는 `null` | `null` | 현재 선택된 option value입니다. `required`가 literal `true`이면 `null`을 허용하지 않습니다. |
+| `onChangeValue` | `(value: string 또는 null) => void` | - | 선택 값이 바뀔 때 raw value를 받습니다. `required`가 literal `true`이면 callback 타입에서 `null`이 제거됩니다. |
+| `onChange` | `(value: ResolvedSelectData 또는 null) => void` | - | 선택 값이 바뀔 때 resolved option을 받습니다. `required`가 literal `true`이면 callback 타입에서 `null`이 제거됩니다. |
+| `required` | `boolean` | `false` | 선택된 option을 다시 눌러 해제하지 못하게 하고 trigger/listbox를 required로 표시합니다. |
 | `placeholder` | `string` | - | 선택된 값이 없을 때 trigger에 표시됩니다. |
 | `open` | `boolean` | - | 제공되면 popup visibility를 외부에서 제어합니다. |
 
-`data`는 option list의 source입니다. `value`와 `onChangeValue`는 controlled select value 상태를 구성합니다. `open`을 boolean으로 넘기면 popup visibility가 외부 상태를 따릅니다. 이 모드에서는 trigger click이나 click-away가 open 값을 자동으로 바꾸지 않으므로 caller가 직접 상태를 갱신해야 합니다.
+`data`는 option list의 source입니다. `value`와 `onChangeValue`는 raw value 기준의 controlled 상태를 구성합니다. Resolved option object가 필요하면 `onChange`를 사용합니다. `ResolvedSelectData`는 `{ value: string; label: string; group?: string }`입니다. `required`를 literal `true`로 전달하면 `value`, `onChangeValue`, `onChange` 타입에서 `null`이 제거됩니다. `required={someBoolean}`처럼 동적 boolean을 전달하면 안전하게 nullable 타입을 유지합니다.
+
+`open`을 boolean으로 넘기면 popup visibility가 외부 상태를 따릅니다. 이 모드에서는 trigger click이나 click-away가 open 값을 자동으로 바꾸지 않으므로 caller가 직접 상태를 갱신해야 합니다.
+현재 선택된 option을 다시 선택하면 `required`가 true가 아닌 한 값이 해제됩니다. Option을 선택하면 popup은 닫힙니다.
 
 ### Positioning Props
 
@@ -130,7 +135,7 @@ component.select = {
 
 | 이름 | 기본값 | 설명 |
 | --- | --- | --- |
-| `renderValue` | `(value) => value` | 선택된 value를 trigger 안에서 렌더링합니다. |
+| `renderValue` | `(value) => value.label` | 선택된 resolved option을 trigger 안에서 렌더링합니다. |
 | `renderIndicator` | `SelectIndicator` | Trigger 오른쪽 indicator를 렌더링합니다. |
 | `renderContent` | `Box` | Popup content wrapper를 교체합니다. |
 | `renderGroup` | `SelectGroup` | Group wrapper를 교체합니다. |
@@ -144,7 +149,7 @@ component.select = {
 
 ### renderValue
 
-`renderValue`는 trigger 안의 selected value 표시를 교체합니다. `{ value, label }` data에서 label을 표시하려면 이 함수에서 value를 lookup하세요.
+`renderValue`는 trigger 안의 selected value 표시를 교체합니다. 이 함수는 `{ value, label, group? }` 형태의 resolved option을 받습니다.
 
 ### renderIndicator
 
@@ -215,7 +220,7 @@ const data = [
 
 단순 문자열은 같은 문자열을 value와 label로 사용합니다. `{ value, label }` 형태는 item label과 실제 선택 value를 분리합니다. Grouped data는 선택을 위해 flatten되고, 렌더링할 때 다시 group으로 구성됩니다.
 
-현재 trigger의 기본 표시값은 선택된 `value` 문자열입니다. `{ value, label }` data에서 label을 trigger에 보여주려면 `renderValue`에서 직접 lookup하세요.
+Trigger는 기본적으로 선택된 option의 label을 표시합니다. Custom formatting이 필요하면 `renderValue`에서 resolved option을 사용하세요. 현재 `value`가 `data`의 option으로 resolve되지 않으면 trigger는 `placeholder`를 표시합니다.
 
 ```tsx
 const data = [
@@ -228,10 +233,22 @@ const data = [
   value={value()}
   onChangeValue={setValue}
   renderValue={(selected) => (
-    data.find((item) => item.value === selected)?.label ?? selected
+    selected.label
   )}
 />;
 ```
+
+## Selection Behavior
+
+Built-in item을 선택하면 popup은 항상 닫힙니다. 선택 값 변경과 callback 값은 현재 value, 선택한 item, `required`에 따라 달라집니다.
+
+| 상황 | `onChangeValue` | `onChange` | 결과 |
+| --- | --- | --- | --- |
+| 다른 option 선택 | Raw `string` value | `ResolvedSelectData` | 선택한 option으로 갱신하고 popup을 닫습니다. |
+| 선택된 option 재선택, `required`가 false | `null` | `null` | 선택을 해제하고 popup을 닫습니다. |
+| 선택된 option 재선택, `required`가 true | 호출되지 않음 | 호출되지 않음 | 선택을 유지하고 popup만 닫습니다. |
+
+`onChange`는 trigger의 native change event가 아니라 kit Select가 제공하는 resolved option callback입니다.
 
 ## Examples
 
@@ -261,9 +278,12 @@ const sizes = [
   data={sizes}
   value={value()}
   onChangeValue={setValue}
+  onChange={(selected) => {
+    console.log(selected?.label);
+  }}
   placeholder="Choose a size"
   renderValue={(selected) => (
-    sizes.find((size) => size.value === selected)?.label ?? selected
+    selected.label
   )}
 />;
 ```
@@ -287,6 +307,37 @@ const sizes = [
       ],
     },
   ]}
+  value={value()}
+  onChangeValue={setValue}
+/>;
+```
+
+### Raw And Resolved Callbacks
+
+```tsx
+<Select
+  data={[
+    { value: 'sm', label: 'Small' },
+    { value: 'md', label: 'Medium' },
+  ]}
+  value={value()}
+  onChangeValue={(value) => {
+    setValue(value);
+  }}
+  onChange={(selected) => {
+    console.log(selected?.value, selected?.label, selected?.group);
+  }}
+/>;
+```
+
+### Required Select
+
+```tsx
+const [value, setValue] = createSignal('Medium');
+
+<Select
+  required
+  data={['Small', 'Medium', 'Large']}
   value={value()}
   onChangeValue={setValue}
 />;
