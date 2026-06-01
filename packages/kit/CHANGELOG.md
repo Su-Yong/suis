@@ -1,5 +1,15 @@
 # @suis-ui/kit
 
+## 0.5.0
+
+### Minor Changes
+
+- d60bc35: fix(kit): expose theme contracts from css subpath
+
+  - export component, vars, and token from @suis-ui/kit/css
+  - derive css dts include targets from the css entry re-exports
+  - document the VE-safe import path for .css.ts files
+
 ## 0.4.0
 
 ### Minor Changes
