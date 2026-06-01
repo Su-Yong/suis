@@ -1,6 +1,6 @@
 # Customization
 
-`@suis-ui/kit` uses vanilla-extract theme contracts. The public theme APIs are exported from `@suis-ui/kit`.
+`@suis-ui/kit` uses vanilla-extract theme contracts. Runtime theme APIs are exported from `@suis-ui/kit`. In `.css.ts` files, import `component`, `vars`, and `token` from `@suis-ui/kit/css`.
 
 ## ThemeProvider
 
