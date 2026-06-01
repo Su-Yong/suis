@@ -24,6 +24,7 @@ export const ItemPlayground = () => {
           title: 'Button Mode (not a real prop)',
           description: 'Whether to render the item as a button',
           defaultValue: 'div',
+          required: true,
           items: ['div', 'button'],
         },
 
@@ -32,6 +33,7 @@ export const ItemPlayground = () => {
           name: 'size',
           description: 'Size of the item',
           defaultValue: 'md',
+          required: true,
           items: ['xs', 'sm', 'md', 'lg', 'xl'],
         },
 
@@ -39,8 +41,8 @@ export const ItemPlayground = () => {
           type: 'select',
           name: 'media',
           description: 'Media of the item',
-          defaultValue: 'none',
-          items: ['none', 'icon'],
+          placeholder: 'No media',
+          items: ['icon'],
           mapper: (value) => {
             if (value === 'icon') return <Box as={Star} w={'1.6rem'} />;
 
@@ -63,8 +65,8 @@ export const ItemPlayground = () => {
           type: 'select',
           name: 'action',
           description: 'Action of the item',
-          defaultValue: 'none',
-          items: ['none', 'button', 'icon'],
+          placeholder: 'No action',
+          items: ['button', 'icon'],
           mapper: (value) => {
             if (value === 'button') return <Button>Action</Button>;
             if (value === 'icon') return <Box as={ChevronRight} w={'1.6rem'} />;

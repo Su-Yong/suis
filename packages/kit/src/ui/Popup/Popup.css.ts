@@ -1,7 +1,7 @@
 import { createVar, fallbackVar, style, styleVariants } from '@vanilla-extract/css';
 
 import { placementX, placementY } from './placement.css';
-import { popupAnimation } from './animation.css';
+import { popupAnimation } from './animation';
 
 export const popupXAlignStyle = styleVariants({
   0: {

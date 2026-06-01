@@ -5,6 +5,7 @@ import { usePopup } from '../Popup';
 
 export type SelectContextType = {
   value: string | null;
+  required: boolean;
 };
 export const SelectContext = createContext<[SelectContextType, SetStoreFunction<SelectContextType>]>();
 

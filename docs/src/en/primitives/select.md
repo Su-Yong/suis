@@ -50,9 +50,12 @@ const [value, setValue] = createSignal<string | null>(null);
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | <code>string &#124; null</code> | `null` | Current selected value. |
-| `onChangeValue` | <code>(value: string &#124; null) =&gt; void</code> | `-` | Called when the context value changes. |
+| `value` | <code>string &#124; null</code> | `null` | Current selected value. If `required` is the literal `true`, `null` is not allowed. |
+| `onChangeValue` | <code>(value: string &#124; null) =&gt; void</code> | `-` | Called when the context value changes. If `required` is the literal `true`, `null` is removed from the callback type. |
+| `required` | <code>boolean</code> | `false` | Prevents clearing the selected item by selecting it again and marks the trigger/listbox as required. |
 | `children` | <code>JSX.Element</code> | Required | Select composition. |
+
+Passing `required` as the literal `true` removes `null` from the root `value` and `onChangeValue` types. Passing a dynamic boolean such as `required={someBoolean}` keeps the safer nullable type. `Select.Value` and the `useSelect` context value remain `string | null` because they can represent the uncontrolled initial state.
 
 ### Popup State And Positioning
 
@@ -73,7 +76,7 @@ const [value, setValue] = createSignal<string | null>(null);
 
 ### `Select.Trigger`
 
-Renders a polymorphic trigger with default `button` and sets `role="combobox"`. It uses Popup trigger behavior.
+Renders a polymorphic trigger with default `button` and sets `role="combobox"`. It uses Popup trigger behavior and sets `aria-required="true"` when the root `Select` is required.
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -97,7 +100,7 @@ Receives the current value through a render function.
 
 ### `Select.Content`
 
-Renders the listbox in a popup portal. The default element is `ul`, it sets `role="listbox"`, and it installs focus behavior while the popup is open.
+Renders the listbox in a popup portal. The default element is `ul`, it sets `role="listbox"`, and it installs focus behavior while the popup is open. It sets `aria-required="true"` when the root `Select` is required.
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -111,12 +114,13 @@ Renders an option with default `li`.
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | <code>string</code> | Required | Value written to Select context when clicked. |
+| `value` | <code>string</code> | Required | Value written to Select context when clicked. Selecting the current value again clears it unless `required` is true. |
 | `as` | <code>T</code> | `li` | Element or component rendered as the item. |
 | `children` | <code>JSX.Element</code> | `-` | Item label or custom content. |
 | Selected element props | <code>Omit&lt;ComponentProps&lt;T&gt;, 'value' &#124; 'children'&gt;</code> | `-` | Props forwarded to the item element. |
 
 Each item receives `role="option"`, `data-value`, `aria-selected`, and `tabindex={-1}`.
+Built-in items close the popup after click.
 
 ## Hooks
 
@@ -134,6 +138,7 @@ const [context, actions] = useSelect();
 const [context, actions]: readonly [
   {
     value: string | null;
+    required: boolean;
     anchor: Element | null;
     element: HTMLElement | null;
     position: ComputePositionReturn | null;
@@ -156,6 +161,7 @@ Calling it outside a Select provider fails because there is no context to read.
 | Name | Type | Description |
 | --- | --- | --- |
 | `context.value` | <code>string &#124; null</code> | Current selected value. It updates when the `value` prop changes or when `setValue` is called. |
+| `context.required` | <code>boolean</code> | Whether selected items must stay selected when clicked again. |
 | `context.anchor` | <code>Element &#124; null</code> | Popup anchor registered by the Select trigger. |
 | `context.element` | <code>HTMLElement &#124; null</code> | Listbox element rendered by `Select.Content` in the portal. |
 | `context.position` | <code>ComputePositionReturn &#124; null</code> | Popup position computed by Floating UI. |
@@ -173,7 +179,7 @@ Custom Select code should use only the value and popup state fields listed above
 
 #### Behavior
 
-`setValue` only updates the value; it does not close the popup automatically. If selection should also close the content, call `requestOpen(false)` after `setValue(value)`.
+`setValue` only updates the value; it does not close the popup automatically. If selection should also close the content, call `requestOpen(false)` after `setValue(value)`. This action is a low-level setter and does not enforce `required` by itself. If a custom item supports clearing, check `context.required` and apply the same policy as built-in `Select.Item`.
 
 When root `Select` receives a `value` prop, an effect syncs context value from that prop. When context value changes, `onChangeValue` is called, so controlled usage must update the external signal as well.
 
@@ -198,6 +204,18 @@ const CustomItem = (props: { value: string; children: JSX.Element }) => {
   );
 };
 ```
+
+## Selection Behavior
+
+Built-in `Select.Item` always closes the popup after click. The value change depends on the current value and `required`.
+
+| Case | Result |
+| --- | --- |
+| Clicking a different item | Updates to that item value and closes the popup. |
+| Clicking the selected item when `required` is false | Changes the value to `null` and closes the popup. |
+| Clicking the selected item when `required` is true | Keeps the value and only closes the popup. |
+
+When the root `Select` is required, `onChangeValue` does not receive `null` even if the context value is changed to `null`.
 
 ## Examples
 
@@ -226,6 +244,27 @@ import { createSignal } from 'solid-js';
 const [value, setValue] = createSignal<string | null>('medium');
 
 <Select value={value()} onChangeValue={setValue}>
+  <Select.Trigger>
+    <Select.Value>
+      {(value) => value ?? 'Choose size'}
+    </Select.Value>
+  </Select.Trigger>
+  <Select.Content>
+    <Select.Item value="small">Small</Select.Item>
+    <Select.Item value="medium">Medium</Select.Item>
+    <Select.Item value="large">Large</Select.Item>
+  </Select.Content>
+</Select>
+```
+
+### Required Select
+
+```tsx
+import { createSignal } from 'solid-js';
+
+const [value, setValue] = createSignal('medium');
+
+<Select required value={value()} onChangeValue={setValue}>
   <Select.Trigger>
     <Select.Value>
       {(value) => value ?? 'Choose size'}

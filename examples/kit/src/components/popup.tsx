@@ -1,6 +1,7 @@
 import { Popup, Button, Box } from '@suis-ui/kit';
 
 import { Playground, PlaygroundData } from '../playground';
+import { fadeAnimation, rotateAnimation, scaleAnimation, slideAnimation, slideDownAnimation, slideLeftAnimation, slideRightAnimation, slideUpAnimation } from './popup.css';
 
 export const PopupPlaygroundData: PlaygroundData[] = [
   {
@@ -46,6 +47,25 @@ export const PopupPlaygroundData: PlaygroundData[] = [
     description: 'Whether to automatically update the position of the popup when the reference element or the popup itself changes size or position',
     defaultValue: true,
   },
+  {
+    type: 'select',
+    name: 'animation',
+    description: 'Animation of the popup',
+    placeholder: 'Default animation',
+    items: ['fade', 'scale', 'slide', 'slide-up', 'slide-down', 'slide-left', 'slide-right', 'rotate'],
+    mapper: (value) => {
+      if (value === 'fade') return fadeAnimation;
+      if (value === 'scale') return scaleAnimation;
+      if (value === 'slide') return slideAnimation;
+      if (value === 'slide-up') return slideUpAnimation;
+      if (value === 'slide-down') return slideDownAnimation;
+      if (value === 'slide-left') return slideLeftAnimation;
+      if (value === 'slide-right') return slideRightAnimation;
+      if (value === 'rotate') return rotateAnimation;
+
+      return value;
+    }
+  }
 ];
 
 export const PopupPlayground = () => {

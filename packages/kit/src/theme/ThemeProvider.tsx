@@ -3,7 +3,8 @@ import { JSX } from 'solid-js/jsx-runtime';
 
 import { DefaultLightThemeClass, DefaultTokenClass, vars, token } from '@/theme/token';
 
-import { DefaultComponentClass, component } from '@/ui/component.css';
+import { component } from '@/ui/component.css';
+import { DefaultComponentClass } from '@/ui/component-theme.css';
 
 type ThemeType<T extends Record<string, unknown>> = {
   [Key in keyof T]?: T[Key] extends Record<string, unknown> ? ThemeType<T[Key]> : string;

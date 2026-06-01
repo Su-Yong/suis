@@ -20,10 +20,10 @@ import {
   sx,
 } from '@suis-ui/primitives';
 
-import { SelectData, useSelectData } from './useSelectData';
+import { ResolvedSelectData, SelectData, useSelectData, useSelectValue } from './useSelectData';
 
 import { Button } from '../Button';
-import { Box, BoxProps } from '../Box';
+import { Box, BoxOnlyProps, BoxProps } from '../Box';
 import { Item, ItemProps } from '../Item';
 import { PopupPresence } from '../Popup/PopupPresence';
 import { usePopupAnimation } from '../Popup/usePopupAnimation';
@@ -32,6 +32,7 @@ import { selectAnimation, triggerStyle, indicatorStyle, maxHeight, contentStyle,
 
 const SelectOnlyProps = [
   'data',
+  'onChange',
   'placeholder',
 
   'renderValue',
@@ -50,6 +51,7 @@ const SelectOnlyProps = [
 const BaseSelectOnlyProps = [
   'value',
   'onChangeValue',
+  'required',
   'open',
 
   'placement',
@@ -63,13 +65,28 @@ const BaseSelectOnlyProps = [
 
 export type SelectContentProps<T extends ValidComponent = ValidComponent> = BoxProps<T> & {};
 
-type SelectOnlyProps<T extends SelectData> = {
-  data: T[];
-  placeholder?: string;
+type SelectPrimitiveValue<Required extends boolean> = Required extends true ? string : string | null;
+type SelectResolvedValue<Required extends boolean> = Required extends true ? ResolvedSelectData : ResolvedSelectData | null;
+type SelectPolymorphicProps<T extends ValidComponent> =
+  T extends keyof JSX.IntrinsicElements
+    ? JSX.IntrinsicElements[T]
+    : T extends (props: infer P) => unknown
+      ? P
+      : Record<string, unknown>;
+type SelectBoxProps<T extends ValidComponent> = BoxOnlyProps & SelectPolymorphicProps<T> & {
+  as?: T;
+};
+type SelectOnlyProps<D extends SelectData, Required extends boolean = false> = {
+  data: D[];
+  value?: SelectPrimitiveValue<Required>;
+  onChangeValue?: (value: SelectPrimitiveValue<Required>) => void;
+  onChange?: (value: SelectResolvedValue<Required>) => void;
 
+  placeholder?: string;
+  required?: Required;
   children?: never;
 
-  renderValue?: (value: T) => JSX.Element;
+  renderValue?: (value: ResolvedSelectData) => JSX.Element;
   renderIndicator?: <T extends ValidComponent>(props: SelectIndicatorProps<T>) => JSX.Element;
   renderContent?: <T extends ValidComponent>(props: SelectContentProps<T>) => JSX.Element;
   renderGroup?: <T extends ValidComponent>(props: SelectGroupProps<T>) => JSX.Element;
@@ -82,12 +99,22 @@ type SelectOnlyProps<T extends SelectData> = {
   itemProps?: SelectItemProps<ValidComponent>;
   checkIndicatorProps?: SelectCheckIndicatorProps<ValidComponent>;
 };
-export type SelectProps<T extends ValidComponent, U extends SelectData> =
-  Omit<BoxProps<T>, keyof SelectOnlyProps<U> | keyof BaseSelectProps>
-  & Omit<BaseSelectProps, keyof SelectOnlyProps<U>>
-  & SelectOnlyProps<U>;
-export const Select = <T extends ValidComponent, U extends SelectData>(
-  props: SelectProps<T, U>
+export type SelectProps<
+  T extends ValidComponent = 'button',
+  U extends SelectData = SelectData,
+  Required extends boolean = false
+> =
+  Omit<SelectBoxProps<T>, keyof SelectOnlyProps<U, Required> | keyof BaseSelectProps<Required> | 'onChange' | 'value'>
+  & Omit<BaseSelectProps<Required>, keyof SelectOnlyProps<U, Required>>
+  & SelectOnlyProps<U, Required>;
+
+type SelectComponent = {
+  <U extends SelectData = SelectData, Required extends boolean = false>(props: SelectProps<'button', U, Required>): JSX.Element;
+  <T extends ValidComponent, U extends SelectData = SelectData, Required extends boolean = false>(props: SelectProps<T, U, Required>): JSX.Element;
+};
+
+const SelectRoot = <T extends ValidComponent = 'button', U extends SelectData = SelectData, Required extends boolean = false>(
+  props: SelectProps<T, U, Required>
 ) => {
   const [local, baseProps, rest] = splitProps(
     mergeProps(
@@ -95,7 +122,7 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
         flip: true,
         offset: 4,
 
-        renderValue: (value: U) => value,
+        renderValue: (value: ResolvedSelectData) => value.label,
         renderIndicator: SelectIndicator,
         renderContent: Box,
         renderGroup: SelectGroup,
@@ -112,7 +139,8 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
   const [availableHeight, setAvailableHeight] = createSignal<number | null>(null);
   const { state, runAnimation } = usePopupAnimation(animationElement);
 
-  const { groupedList } = useSelectData(() => local.data);
+  const { list, groupedList } = useSelectData(() => local.data);
+  const { fromValue } = useSelectValue(list);
   const isOpenControlled = () => typeof baseProps.open === 'boolean';
   const middleware = createMemo(() => [
     size({
@@ -158,10 +186,10 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
         <BaseSelectValue>
           {(value) => (
             <Show
-              when={value !== null}
+              when={fromValue(value)}
               fallback={local.placeholder}
             >
-              {local.renderValue(value)}
+              {(selected) => local.renderValue(selected())}
             </Show>
           )}
         </BaseSelectValue>
@@ -180,6 +208,7 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
             data-has-value={!!context.value}
             as={rest.as ?? 'button'}
             role={'combobox'}
+            aria-required={baseProps.required ? 'true' : undefined}
             class={clx(triggerStyle, rest.class, rest.classList)}
           >
             {children}
@@ -269,6 +298,17 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
     <BaseSelect
       {...baseProps}
       middleware={middleware()}
+      onChangeValue={(value) => {
+        if (local.onChange) {
+          const selected = fromValue(value);
+
+          if (!(baseProps.required && selected === null)) local.onChange?.(selected as SelectResolvedValue<Required>);
+        }
+
+        if (baseProps.required && value === null) return;
+
+        return baseProps.onChangeValue?.(value as SelectPrimitiveValue<Required>);
+      }}
     >
       <SelectTrigger />
       <BaseSelectContent
@@ -283,6 +323,8 @@ export const Select = <T extends ValidComponent, U extends SelectData>(
     </BaseSelect>
   );
 };
+
+export const Select = SelectRoot as SelectComponent;
 
 export type SelectIndicatorProps<T extends ValidComponent> = BoxProps<T> & {
   open: boolean;

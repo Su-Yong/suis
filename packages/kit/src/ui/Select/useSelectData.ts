@@ -11,7 +11,7 @@ type GroupedSelectData = {
 };
 export type SelectData = SimpleSelectData | SingleSelectData | GroupedSelectData;
 
-type InnerSelectData = {
+export type ResolvedSelectData = {
   value: string;
   label: string;
   group?: string;
@@ -19,7 +19,7 @@ type InnerSelectData = {
 export const useSelectData = <T extends SelectData>(data: Accessor<T[]>) => {
   const list = createMemo(() => {
     const raw = data();
-    const result: InnerSelectData[] = [];
+    const result: ResolvedSelectData[] = [];
 
     raw.forEach((item) => {
       if (isSimpleSelectData(item)) {
@@ -55,7 +55,7 @@ export const useSelectData = <T extends SelectData>(data: Accessor<T[]>) => {
   });
 
   const groupedList = createMemo(() => {
-    const map = new Map<string, InnerSelectData[]>();
+    const map = new Map<string, ResolvedSelectData[]>();
 
     list().forEach((item) => {
       const group = item.group ?? '';
@@ -73,6 +73,24 @@ export const useSelectData = <T extends SelectData>(data: Accessor<T[]>) => {
   return {
     list,
     groupedList,
+  };
+};
+
+export const useSelectValue = (list: Accessor<ResolvedSelectData[]>) => {
+  const map = createMemo(() => {
+    const result = new Map<string, ResolvedSelectData>();
+
+    list().forEach((item) => {
+      result.set(item.value, item);
+    });
+
+    return result;
+  });
+
+  const fromValue = (value: string | null) => value ? map().get(value) ?? null : null;
+
+  return {
+    fromValue,
   };
 };
 
