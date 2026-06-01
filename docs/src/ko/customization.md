@@ -1,6 +1,6 @@
 # 커스터마이징
 
-`@suis-ui/kit`은 vanilla-extract theme contract를 사용합니다. Public theme API는 `@suis-ui/kit`에서 export됩니다.
+`@suis-ui/kit`은 vanilla-extract theme contract를 사용합니다. Runtime theme API는 `@suis-ui/kit`에서 export됩니다. `.css.ts` 파일에서는 `component`, `vars`, `token`을 `@suis-ui/kit/css`에서 import하세요.
 
 ## ThemeProvider
 

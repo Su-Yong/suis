@@ -14,10 +14,10 @@ SUIS를 스타일링하거나 SUIS로 컴포넌트를 만들 때는 export된 �
 | 2 | `vars` | Semantic token | 앱 전용 컴포넌트와 레이아웃의 색상, 폰트, 그림자, 간격, 선 크기, z-index, motion을 선택할 때 |
 | 3 | `token` | SUIS에서 사용할 수 있는 raw token | `component`나 `vars`로 표현할 수 없는 예외적인 세부 값을 다룰 때 |
 
-SUIS 컴포넌트 override에는 `component`를 선호하세요. 이 값들은 컴포넌트 contract에 scope가 한정되어 있습니다. 애플리케이션 surface에는 의도를 전달하는 semantic name을 가진 `vars`를 선호하세요. Raw palette, size, z-index, motion 값이 꼭 필요할 때만 `token`을 사용하세요.
+SUIS 컴포넌트 override에는 `component`를 선호하세요. 이 값들은 컴포넌트 contract에 scope가 한정되어 있습니다. 애플리케이션 surface에는 의도를 전달하는 semantic name을 가진 `vars`를 선호하세요. Raw palette, size, z-index, motion 값이 꼭 필요할 때만 `token`을 사용하세요. `.css.ts` 파일에서는 이 contract들을 CSS subpath에서 가져오세요.
 
-```tsx
-import { component, vars, token } from '@suis-ui/kit';
+```ts
+import { component, vars, token } from '@suis-ui/kit/css';
 ```
 
 ## 컴포넌트 Layer
