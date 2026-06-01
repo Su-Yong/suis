@@ -2,7 +2,7 @@ import { createVar, style } from '@vanilla-extract/css';
 
 import { vars } from '@/theme/token';
 
-import { popupAnimation } from '../Popup/animation.css';
+import { popupAnimation } from '../Popup/animation';
 import { component } from '../component.css';
 
 export const selectAnimation = popupAnimation({

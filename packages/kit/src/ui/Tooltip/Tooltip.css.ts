@@ -1,6 +1,6 @@
 import { createVar, style } from '@vanilla-extract/css';
 
-import { popupAnimation } from '../Popup/animation.css';
+import { popupAnimation } from '../Popup/animation';
 import { component } from '../component.css';
 
 export const tooltipAnimation = popupAnimation((x, y) => ({

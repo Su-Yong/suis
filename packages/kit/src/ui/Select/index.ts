@@ -1,2 +1,2 @@
 export * from './Select';
-export type { SelectData } from './useSelectData';
+export type { ResolvedSelectData, SelectData } from './useSelectData';

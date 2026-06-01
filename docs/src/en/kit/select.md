@@ -41,12 +41,17 @@ Kit Select does not expose the primitive parts directly. Customize them with `da
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `data` | `SelectData[]` | required | Option data to render. |
-| `value` | `string` or `null` | `null` | Currently selected option value. |
-| `onChangeValue` | `(value: string or null) => void` | - | Called when the selected value changes. |
+| `value` | `string` or `null` | `null` | Currently selected option value. If `required` is the literal `true`, `null` is not allowed. |
+| `onChangeValue` | `(value: string or null) => void` | - | Called with the raw selected value when the selected value changes. If `required` is the literal `true`, `null` is removed from the callback type. |
+| `onChange` | `(value: ResolvedSelectData or null) => void` | - | Called with the resolved selected option when the selected value changes. If `required` is the literal `true`, `null` is removed from the callback type. |
+| `required` | `boolean` | `false` | Prevents clearing the selected option by selecting it again and marks the trigger/listbox as required. |
 | `placeholder` | `string` | - | Text shown in the trigger when no value is selected. |
 | `open` | `boolean` | - | Externally controls popup visibility when provided. |
 
-`data` is the source for the option list. `value` and `onChangeValue` make up the controlled select value state. When `open` is a boolean, popup visibility follows that external state. In this mode, trigger clicks and click-away do not update `open` automatically, so the caller must update the state directly.
+`data` is the source for the option list. `value` and `onChangeValue` make up the controlled raw value state. Use `onChange` when you need the resolved option object. `ResolvedSelectData` is `{ value: string; label: string; group?: string }`. Passing `required` as the literal `true` removes `null` from the `value`, `onChangeValue`, and `onChange` types. Passing a dynamic boolean such as `required={someBoolean}` keeps the safer nullable type.
+
+When `open` is a boolean, popup visibility follows that external state. In this mode, trigger clicks and click-away do not update `open` automatically, so the caller must update the state directly.
+Selecting the current option again clears the value unless `required` is true. Selecting an option closes the popup.
 
 ### Positioning Props
 
@@ -130,7 +135,7 @@ component.select = {
 
 | Name | Default | Description |
 | --- | --- | --- |
-| `renderValue` | `(value) => value` | Renders the selected value inside the trigger. |
+| `renderValue` | `(value) => value.label` | Renders the resolved selected option inside the trigger. |
 | `renderIndicator` | `SelectIndicator` | Renders the trigger indicator. |
 | `renderContent` | `Box` | Replaces the popup content wrapper. |
 | `renderGroup` | `SelectGroup` | Replaces a group wrapper. |
@@ -144,7 +149,7 @@ component.select = {
 
 ### renderValue
 
-`renderValue` replaces the selected value display inside the trigger. Use it to look up labels when your data uses `{ value, label }`.
+`renderValue` replaces the selected value display inside the trigger. It receives the resolved option object: `{ value, label, group? }`.
 
 ### renderIndicator
 
@@ -215,7 +220,7 @@ const data = [
 
 A string uses the same value for both value and label. `{ value, label }` separates the rendered item label from the selected value. Grouped data is flattened for selection, then grouped again for rendering.
 
-The trigger currently displays the selected `value` string by default. If you use `{ value, label }` data and want to display the label in the trigger, look it up in `renderValue`.
+The trigger displays the selected option label by default. `renderValue` receives the resolved option object when you need custom formatting. If the current `value` does not resolve to an option in `data`, the trigger shows `placeholder`.
 
 ```tsx
 const data = [
@@ -228,10 +233,22 @@ const data = [
   value={value()}
   onChangeValue={setValue}
   renderValue={(selected) => (
-    data.find((item) => item.value === selected)?.label ?? selected
+    selected.label
   )}
 />;
 ```
+
+## Selection Behavior
+
+Selecting a built-in item always closes the popup. Value changes and callback values depend on the current value, selected item, and `required`.
+
+| Case | `onChangeValue` | `onChange` | Result |
+| --- | --- | --- | --- |
+| Selecting a different option | Raw `string` value | `ResolvedSelectData` | Updates to the selected option and closes the popup. |
+| Selecting the current option when `required` is false | `null` | `null` | Clears the selection and closes the popup. |
+| Selecting the current option when `required` is true | Not called | Not called | Keeps the selection and only closes the popup. |
+
+`onChange` is the resolved option callback provided by kit Select, not the trigger's native change event.
 
 ## Examples
 
@@ -261,9 +278,12 @@ const sizes = [
   data={sizes}
   value={value()}
   onChangeValue={setValue}
+  onChange={(selected) => {
+    console.log(selected?.label);
+  }}
   placeholder="Choose a size"
   renderValue={(selected) => (
-    sizes.find((size) => size.value === selected)?.label ?? selected
+    selected.label
   )}
 />;
 ```
@@ -287,6 +307,37 @@ const sizes = [
       ],
     },
   ]}
+  value={value()}
+  onChangeValue={setValue}
+/>;
+```
+
+### Raw And Resolved Callbacks
+
+```tsx
+<Select
+  data={[
+    { value: 'sm', label: 'Small' },
+    { value: 'md', label: 'Medium' },
+  ]}
+  value={value()}
+  onChangeValue={(value) => {
+    setValue(value);
+  }}
+  onChange={(selected) => {
+    console.log(selected?.value, selected?.label, selected?.group);
+  }}
+/>;
+```
+
+### Required Select
+
+```tsx
+const [value, setValue] = createSignal('Medium');
+
+<Select
+  required
+  data={['Small', 'Medium', 'Large']}
   value={value()}
   onChangeValue={setValue}
 />;

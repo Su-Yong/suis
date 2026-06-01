@@ -24,6 +24,7 @@ export const ButtonPlayground = () => {
           name: 'variant',
           description: 'Variant of the button',
           defaultValue: 'default',
+          required: true,
           items: ['default', 'primary', 'secondary', 'ghost'],
         },
         {
@@ -31,6 +32,7 @@ export const ButtonPlayground = () => {
           name: 'size',
           description: 'Size of the button',
           defaultValue: 'md',
+          required: true,
           items: ['xs', 'sm', 'md', 'lg', 'xl'],
         },
         {
@@ -38,6 +40,7 @@ export const ButtonPlayground = () => {
           name: 'type',
           description: 'Type of the button',
           defaultValue: 'button',
+          required: true,
           items: ['button', 'icon'],
         },
         {

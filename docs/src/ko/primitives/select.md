@@ -50,9 +50,12 @@ const [value, setValue] = createSignal<string | null>(null);
 
 | 이름 | 타입 | 기본값 | 간단한 설명 |
 | --- | --- | --- | --- |
-| `value` | <code>string &#124; null</code> | `null` | 현재 선택된 값입니다. |
-| `onChangeValue` | <code>(value: string &#124; null) =&gt; void</code> | `-` | Context value가 바뀔 때 호출됩니다. |
+| `value` | <code>string &#124; null</code> | `null` | 현재 선택된 값입니다. `required`가 literal `true`이면 `null`을 허용하지 않습니다. |
+| `onChangeValue` | <code>(value: string &#124; null) =&gt; void</code> | `-` | Context value가 바뀔 때 호출됩니다. `required`가 literal `true`이면 callback 타입에서 `null`이 제거됩니다. |
+| `required` | <code>boolean</code> | `false` | 선택된 item을 다시 눌러 해제하지 못하게 하고 trigger/listbox를 required로 표시합니다. |
 | `children` | <code>JSX.Element</code> | 필수 | Select composition입니다. |
+
+`required`를 literal `true`로 전달하면 root `value`와 `onChangeValue` 타입에서 `null`이 제거됩니다. `required={someBoolean}`처럼 동적 boolean을 전달하면 안전하게 nullable 타입을 유지합니다. `Select.Value`와 `useSelect` context의 value는 uncontrolled 초기 상태를 표현할 수 있어 계속 `string | null`입니다.
 
 ### Popup State And Positioning
 
@@ -73,7 +76,7 @@ const [value, setValue] = createSignal<string | null>(null);
 
 ### `Select.Trigger`
 
-기본값이 `button`인 polymorphic trigger를 렌더링하고 `role="combobox"`를 설정합니다. Popup trigger 동작을 사용합니다.
+기본값이 `button`인 polymorphic trigger를 렌더링하고 `role="combobox"`를 설정합니다. Popup trigger 동작을 사용하며, root `Select`가 `required`이면 `aria-required="true"`를 설정합니다.
 
 | 이름 | 타입 | 기본값 | 간단한 설명 |
 | --- | --- | --- | --- |
@@ -97,7 +100,7 @@ Render function을 통해 현재 value를 받습니다.
 
 ### `Select.Content`
 
-Listbox를 popup portal에 렌더링합니다. 기본값은 `ul`이고, `role="listbox"`를 설정하며 popup이 열려 있는 동안 focus 동작을 설치합니다.
+Listbox를 popup portal에 렌더링합니다. 기본값은 `ul`이고, `role="listbox"`를 설정하며 popup이 열려 있는 동안 focus 동작을 설치합니다. Root `Select`가 `required`이면 `aria-required="true"`를 설정합니다.
 
 | 이름 | 타입 | 기본값 | 간단한 설명 |
 | --- | --- | --- | --- |
@@ -111,12 +114,13 @@ Listbox를 popup portal에 렌더링합니다. 기본값은 `ul`이고, `role="l
 
 | 이름 | 타입 | 기본값 | 간단한 설명 |
 | --- | --- | --- | --- |
-| `value` | <code>string</code> | 필수 | Click 시 Select context에 쓰이는 값입니다. |
+| `value` | <code>string</code> | 필수 | Click 시 Select context에 쓰이는 값입니다. 현재 값을 다시 선택하면 `required`가 true가 아닌 한 해제됩니다. |
 | `as` | <code>T</code> | `li` | Item으로 렌더링할 element 또는 component입니다. |
 | `children` | <code>JSX.Element</code> | `-` | Item label이나 custom content입니다. |
 | 선택한 element props | <code>Omit&lt;ComponentProps&lt;T&gt;, 'value' &#124; 'children'&gt;</code> | `-` | Item element로 전달되는 props입니다. |
 
 각 item은 `role="option"`, `data-value`, `aria-selected`, `tabindex={-1}`를 받습니다.
+기본 item은 click 후 popup을 닫습니다.
 
 ## Hooks
 
@@ -134,6 +138,7 @@ const [context, actions] = useSelect();
 const [context, actions]: readonly [
   {
     value: string | null;
+    required: boolean;
     anchor: Element | null;
     element: HTMLElement | null;
     position: ComputePositionReturn | null;
@@ -156,6 +161,7 @@ Select provider 밖에서 호출하면 context를 찾을 수 없어 error가 발
 | 이름 | 타입 | 설명 |
 | --- | --- | --- |
 | `context.value` | <code>string &#124; null</code> | 현재 선택된 value입니다. `value` prop이 바뀌거나 `setValue`가 호출되면 갱신됩니다. |
+| `context.required` | <code>boolean</code> | 선택된 item을 다시 클릭했을 때 선택을 유지해야 하는지 나타냅니다. |
 | `context.anchor` | <code>Element &#124; null</code> | Select trigger가 등록한 popup anchor입니다. |
 | `context.element` | <code>HTMLElement &#124; null</code> | `Select.Content`가 portal에 렌더링한 listbox element입니다. |
 | `context.position` | <code>ComputePositionReturn &#124; null</code> | Floating UI가 계산한 popup position입니다. |
@@ -173,7 +179,7 @@ Custom Select 구현에서는 위 표의 value와 popup 상태만 사용하세�
 
 #### Behavior
 
-`setValue`는 value만 바꾸며 popup을 자동으로 닫지 않습니다. 선택과 동시에 content를 닫아야 하면 `setValue(value)` 다음에 `requestOpen(false)`를 함께 호출하세요.
+`setValue`는 value만 바꾸며 popup을 자동으로 닫지 않습니다. 선택과 동시에 content를 닫아야 하면 `setValue(value)` 다음에 `requestOpen(false)`를 함께 호출하세요. 이 action은 low-level setter라서 `required`를 직접 강제하지 않습니다. Custom item에서 선택 해제를 제공한다면 `context.required`를 확인해 built-in `Select.Item`과 같은 정책을 적용하세요.
 
 Root `Select`에 `value` prop을 전달하면 effect가 context value를 prop 값으로 동기화합니다. Context value가 바뀌면 `onChangeValue`가 호출되므로 controlled usage에서는 외부 signal을 함께 갱신해야 합니다.
 
@@ -198,6 +204,18 @@ const CustomItem = (props: { value: string; children: JSX.Element }) => {
   );
 };
 ```
+
+## Selection Behavior
+
+Built-in `Select.Item`은 click 후 항상 popup을 닫습니다. 선택 값 변경은 현재 값과 `required`에 따라 달라집니다.
+
+| 상황 | 결과 |
+| --- | --- |
+| 다른 item을 클릭 | 해당 item value로 갱신하고 popup을 닫습니다. |
+| 선택된 item을 다시 클릭, `required`가 false | value를 `null`로 바꾸고 popup을 닫습니다. |
+| 선택된 item을 다시 클릭, `required`가 true | value를 유지하고 popup만 닫습니다. |
+
+Root `Select`가 `required`일 때 context value가 `null`로 바뀌더라도 `onChangeValue`에는 `null`을 전달하지 않습니다.
 
 ## Examples
 
@@ -226,6 +244,27 @@ import { createSignal } from 'solid-js';
 const [value, setValue] = createSignal<string | null>('medium');
 
 <Select value={value()} onChangeValue={setValue}>
+  <Select.Trigger>
+    <Select.Value>
+      {(value) => value ?? 'Choose size'}
+    </Select.Value>
+  </Select.Trigger>
+  <Select.Content>
+    <Select.Item value="small">Small</Select.Item>
+    <Select.Item value="medium">Medium</Select.Item>
+    <Select.Item value="large">Large</Select.Item>
+  </Select.Content>
+</Select>
+```
+
+### Required Select
+
+```tsx
+import { createSignal } from 'solid-js';
+
+const [value, setValue] = createSignal('medium');
+
+<Select required value={value()} onChangeValue={setValue}>
   <Select.Trigger>
     <Select.Value>
       {(value) => value ?? 'Choose size'}
