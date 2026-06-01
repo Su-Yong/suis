@@ -7,7 +7,7 @@ import { usePlacement } from './usePlacement';
 
 import { Box, BoxProps } from '../Box';
 
-import { PopupAnimation } from './animation.css';
+import type { PopupAnimation } from './animation';
 import { placementX, placementY } from './placement.css';
 import { animationStyle, popupXAlignStyle, popupYAlignStyle } from './Popup.css';
 

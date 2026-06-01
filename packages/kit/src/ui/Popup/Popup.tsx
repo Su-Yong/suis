@@ -21,7 +21,7 @@ import { PopupPresence, PopupPresenceProps } from './PopupPresence';
 import { BoxProps } from '../Box';
 
 import { defaultAnimation } from './Popup.css';
-import { PopupAnimation } from './animation.css';
+import type { PopupAnimation } from './animation';
 
 const BasePopupOnlyProps = [
   'open',

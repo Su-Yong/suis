@@ -1,10 +1,11 @@
-import { keyframes, StyleRule, styleVariants } from '@vanilla-extract/css';
+import { keyframes, type StyleRule, styleVariants } from '@vanilla-extract/css';
 
 import { component } from '../component.css';
 import { placementX, placementY } from './placement.css';
 
 type PopupAnimationKey = 'enter' | 'exit';
 export type PopupAnimation = Record<PopupAnimationKey, string>;
+
 export const popupAnimation = <T extends Record<PopupAnimationKey, StyleRule>>(
   animation: T | ((x: string, y: string) => T),
 ): PopupAnimation => {

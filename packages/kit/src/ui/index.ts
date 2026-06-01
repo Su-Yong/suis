@@ -1,4 +1,5 @@
 export * from './component.css';
+export * from './component-theme.css';
 
 export * from './Box';
 export * from './Button';
