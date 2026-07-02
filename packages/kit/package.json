@@ -2,22 +2,21 @@
   "name": "@suis-ui/kit",
   "version": "0.4.0",
   "description": "SUIS, UI library for Solid",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js"
+      "import": "./dist/index.js"
     },
     "./css": {
       "types": "./dist/css.d.ts",
-      "import": "./dist/css.es.js",
-      "require": "./dist/css.cjs.js"
+      "import": "./dist/css.js"
     },
     "./style.css": "./dist/kit.css",
     "./dist/*": "./dist/*"
   },
   "scripts": {
-    "build": "vite build && vite build --config vite.css.config.ts"
+    "build": "tsdown"
   },
   "files": [
     "dist",
@@ -38,6 +37,6 @@
     "solid-js": "^1.6.0"
   },
   "devDependencies": {
-    "@vanilla-extract/vite-plugin": "5.1.4"
+    "@vanilla-extract/vite-plugin": "5.2.3"
   }
 }

@@ -2,16 +2,16 @@
   "name": "@suis-ui/primitives",
   "version": "0.2.0",
   "description": "SUIS, UI library for Solid",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js"
+      "import": "./dist/index.js"
     },
     "./dist/*": "./dist/*"
   },
   "scripts": {
-    "build": "vite build"
+    "build": "tsdown"
   },
   "files": [
     "dist",
