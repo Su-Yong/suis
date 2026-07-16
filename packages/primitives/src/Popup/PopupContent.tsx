@@ -3,10 +3,10 @@ import { Portal } from 'solid-js/web';
 
 import { usePopupContext } from './PopupContext';
 
-type PopupElementProps = {
+type PopupContentProps = {
   children: (style: Accessor<JSX.CSSProperties>) => JSX.Element;
 };
-export const PopupElement = (props: PopupElementProps) => {
+export const PopupContent = (props: PopupContentProps) => {
   const [context, setContext] = usePopupContext();
 
   const style = () => ({
@@ -21,7 +21,7 @@ export const PopupElement = (props: PopupElementProps) => {
     const el = parent.firstElementChild;
     if (!el) return;
 
-    setContext('element', el);
+    setContext('content', el);
   };
 
   return (

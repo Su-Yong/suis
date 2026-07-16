@@ -9,7 +9,7 @@ import {
   PopupAnchor as BasePopupAnchor,
   PopupTrigger as BasePopupTrigger,
   PopupProps as BasePopupProps,
-  PopupElement,
+  PopupContent as BasePopupContent,
   createPopupController,
   sx,
 } from '@suis-ui/primitives';
@@ -60,7 +60,7 @@ export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
     });
 
     return (
-      <PopupElement>
+      <BasePopupContent>
         {(style) => (
           <PopupPresence
             {...rest as unknown as PopupPresenceProps<T, T>}
@@ -73,7 +73,7 @@ export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
             {local.element}
           </PopupPresence>
         )}
-      </PopupElement>
+      </BasePopupContent>
     );
   };
 

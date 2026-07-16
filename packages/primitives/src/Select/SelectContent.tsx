@@ -3,7 +3,7 @@ import { ValidComponent } from 'solid-js';
 import { useSelect } from './SelectContext';
 
 import { FocusManager} from '../FocusManager';
-import { PopupElement } from '../Popup';
+import { PopupContent } from '../Popup';
 import { Polymorphic, PolymorphicProps } from '../Polymorphic';
 import { sx } from '../helper';
 import { EnterableFloatingFocusMapper, FloatingFocusMapper, VerticalFloatingFocusMapper } from '../FocusManager/useFloatingFocus';
@@ -15,7 +15,7 @@ export type SelectContentProps<T extends ValidComponent> =
 export const SelectContent = <T extends ValidComponent>(props: SelectContentProps<T>) => {
   const [context, { requestOpen }] = useSelect();
 
-  const floatingList = () => Array.from(context.element?.querySelectorAll<HTMLElement>('[role="option"]') ?? []);
+  const floatingList = () => Array.from(context.content?.querySelectorAll<HTMLElement>('[role="option"]') ?? []);
   const floatingMapper = (): FloatingFocusMapper => (move, enter, escape) => ({
     ...VerticalFloatingFocusMapper(move, enter, escape),
     ...EnterableFloatingFocusMapper(move, enter, escape),
@@ -26,7 +26,7 @@ export const SelectContent = <T extends ValidComponent>(props: SelectContentProp
   })
 
   return (
-    <PopupElement>
+    <PopupContent>
       {(style) => (
         <FocusManager
           enable={context.open}
@@ -42,6 +42,6 @@ export const SelectContent = <T extends ValidComponent>(props: SelectContentProp
           />
         </FocusManager>
       )}
-    </PopupElement>
+    </PopupContent>
   );
 };

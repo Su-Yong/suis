@@ -1,7 +1,7 @@
 import { ValidComponent } from 'solid-js';
 import { sx } from '../helper';
 import { Polymorphic, PolymorphicProps } from '../Polymorphic';
-import { PopupElement } from '../Popup';
+import { PopupContent } from '../Popup';
 import { useTooltip } from './TooltipContext';
 
 type TooltipContentOnlyProps = {};
@@ -12,7 +12,7 @@ export const TooltipContent = <T extends ValidComponent>(props: TooltipContentPr
   const [context] = useTooltip();
 
   return (
-    <PopupElement>
+    <PopupContent>
       {(style) => (
         <Polymorphic
           {...props as PolymorphicProps<T>}
@@ -23,6 +23,6 @@ export const TooltipContent = <T extends ValidComponent>(props: TooltipContentPr
           {props.children}
         </Polymorphic>
       )}
-    </PopupElement>
+    </PopupContent>
   );
 };

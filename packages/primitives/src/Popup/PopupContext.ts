@@ -5,7 +5,7 @@ import { ComputePositionReturn } from '@floating-ui/dom';
 export type PopupController = (open: boolean) => Promise<boolean>;
 export type PopupContextType = {
   anchor: Element | null;
-  element: HTMLElement | null;
+  content: HTMLElement | null;
   position: ComputePositionReturn | null;
   open: boolean;
   mount: boolean;
