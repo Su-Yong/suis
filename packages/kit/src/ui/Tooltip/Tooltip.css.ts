@@ -1,5 +1,7 @@
 import { createVar, style } from '@vanilla-extract/css';
 
+import { layered } from '@/theme/util';
+
 import { popupAnimation } from '../Popup/animation';
 import { component } from '../component.css';
 
@@ -14,7 +16,7 @@ export const tooltipAnimation = popupAnimation((x, y) => ({
   },
 }));
 
-export const contentStyle = style({
+export const contentStyle = style(layered({
   position: 'relative',
 
   background: component.tooltip.content.background,
@@ -31,11 +33,11 @@ export const contentStyle = style({
   fontWeight: component.tooltip.content.font.fontWeight,
   lineHeight: component.tooltip.content.font.lineHeight,
   letterSpacing: component.tooltip.content.font.letterSpacing,
-});
+}));
 
 export const arrowX = createVar();
 export const arrowY = createVar();
-export const arrowStyle = style({
+export const arrowStyle = style(layered({
   position: 'absolute',
   left: arrowX,
   top: arrowY,
@@ -45,6 +47,6 @@ export const arrowStyle = style({
   width: component.tooltip.arrow.size,
   height: component.tooltip.arrow.size,
   transform: 'rotate(45deg)',
-});
+}));
 
 export const arrowStaticOffset = `calc(${component.tooltip.arrow.size} / -2)`;

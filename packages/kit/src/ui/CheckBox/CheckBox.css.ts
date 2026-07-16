@@ -1,12 +1,13 @@
 import { style } from '@vanilla-extract/css';
 
 import { vars } from '@/theme/token';
+import { layered } from '@/theme/util';
 
 import { component } from '../component.css';
 
-export const inputStyle = style({});
+export const inputStyle = style(layered({}));
 
-export const containerStyle = style({
+export const containerStyle = style(layered({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
@@ -14,9 +15,9 @@ export const containerStyle = style({
 
   cursor: 'pointer',
   userSelect: 'none',
-});
+}));
 
-export const indicatorStyle = style({
+export const indicatorStyle = style(layered({
   position: 'relative',
 
   width: component.checkbox.indicator.size,
@@ -60,9 +61,9 @@ export const indicatorStyle = style({
       background: component.checkbox.indicator.active,
     },
   }
-});
+}));
 
-export const checkStyle = style({
+export const checkStyle = style(layered({
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -100,4 +101,4 @@ export const checkStyle = style({
       strokeDashoffset: '-23',
     },
   },
-});
+}));
