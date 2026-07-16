@@ -35,7 +35,7 @@ const BasePopupOnlyProps = [
 ] as const;
 
 type PopupOnlyProps = {
-  element: JSX.Element;
+  content: JSX.Element;
   children: JSX.Element;
 
   animation?: PopupAnimation;
@@ -45,7 +45,7 @@ export type PopupProps<T extends ValidComponent> =
   & Omit<BasePopupProps, keyof PopupOnlyProps>
   & PopupOnlyProps;
 export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
-  const [local, baseProps, rest] = splitProps(props, ['children', 'element', 'animation'], BasePopupOnlyProps);
+  const [local, baseProps, rest] = splitProps(props, ['children', 'content', 'animation'], BasePopupOnlyProps);
 
   const [animationElement, setAnimationElement] = createSignal<HTMLElement | null>(null);
   const animation = () => (local.animation ?? defaultAnimation);
@@ -70,7 +70,7 @@ export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
             animation={animation()}
             animationWrapperProps={{ ref: setAnimationElement }}
           >
-            {local.element}
+            {local.content}
           </PopupPresence>
         )}
       </BasePopupContent>
