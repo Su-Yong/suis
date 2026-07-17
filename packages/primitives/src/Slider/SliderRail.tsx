@@ -1,4 +1,4 @@
-import { Accessor, For, JSX, onCleanup, splitProps, ValidComponent } from 'solid-js';
+import { Accessor, Index, JSX, onCleanup, splitProps, ValidComponent } from 'solid-js';
 
 import { forwardRef, Polymorphic, PolymorphicProps } from '../Polymorphic';
 import { useSliderParts } from './useSlider';
@@ -9,7 +9,7 @@ export type SliderDomain = {
   max: number;
 };
 
-export type SlideRailRange = {
+export type SliderRailRange = {
   start: number;
   end: number;
   startPercent: number;
@@ -18,18 +18,18 @@ export type SlideRailRange = {
   sizePercent: number;
 };
 
-type SlideRailOnlyProps = {
+type SliderRailOnlyProps = {
   getRanges: (
     values: number[],
     domain: SliderDomain,
   ) => SliderRange[];
-  children?: (range: SlideRailRange) => JSX.Element;
+  children?: (range: Accessor<SliderRailRange>) => JSX.Element;
   onPointerDown?: JSX.EventHandlerUnion<HTMLElement, PointerEvent>;
 };
 
-export type SlideRailProps<T extends ValidComponent> =
-  Omit<PolymorphicProps<T>, keyof SlideRailOnlyProps>
-  & SlideRailOnlyProps;
+export type SliderRailProps<T extends ValidComponent> =
+  Omit<PolymorphicProps<T>, keyof SliderRailOnlyProps>
+  & SliderRailOnlyProps;
 
 const callHandler = <E extends Event>(
   handler: JSX.EventHandlerUnion<HTMLElement, E> | undefined,
@@ -41,11 +41,11 @@ const callHandler = <E extends Event>(
   else handler[0](handler[1], solidEvent);
 };
 
-export const SlideRail = <T extends ValidComponent = 'div'>(props: SlideRailProps<T>) => {
+export const SliderRail = <T extends ValidComponent = 'div'>(props: SliderRailProps<T>) => {
   const [local, rest] = splitProps(props, ['children', 'getRanges', 'onPointerDown']);
   const [state, actions] = useSliderParts();
 
-  const ranges: Accessor<SlideRailRange[]> = () =>
+  const ranges: Accessor<SliderRailRange[]> = () =>
     actions.normalizeRanges(local.getRanges(state.values, {
       min: state.min,
       max: state.max,
@@ -93,7 +93,7 @@ export const SlideRail = <T extends ValidComponent = 'div'>(props: SlideRailProp
       data-to={state.to}
       ref={forwardRef(onSetup, rest.ref)}
     >
-      <For each={ranges()}>{range => local.children?.(range)}</For>
+      <Index each={ranges()}>{(range) => local.children?.(range)}</Index>
     </Polymorphic>
   );
 };

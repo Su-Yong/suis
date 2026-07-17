@@ -5,7 +5,7 @@ import {
   Polymorphic,
   Popup,
   Select,
-  SlideRail,
+  SliderRail,
   SlideThumb,
   Slider,
   SliderLabel,
@@ -125,7 +125,7 @@ export const App = () => {
             </div>
           )}
         </SliderLabel>
-        <SlideRail
+        <SliderRail
           getRanges={(values, domain) => [[domain.min, values[0]]]}
           style={{
             width: '100%',
@@ -138,14 +138,14 @@ export const App = () => {
               style={{
                 position: 'absolute',
                 top: '0',
-                left: `${range.startPercent}%`,
-                width: `${range.sizePercent}%`,
+                left: `${range().startPercent}%`,
+                width: `${range().sizePercent}%`,
                 height: '100%',
                 background: 'green',
               }}
             />
           )}
-        </SlideRail>
+        </SliderRail>
       </Slider>
     </div>
   );
