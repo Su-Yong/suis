@@ -7,6 +7,7 @@ import { ButtonPlayground } from './components/button';
 import { CheckboxPlayground } from './components/checkbox';
 import { PopupPlayground } from './components/popup';
 import { SelectPlayground } from './components/select';
+import { SliderPlayground } from './components/slider';
 import { InputPlayground } from './components/input';
 import { ItemPlayground } from './components/item';
 import { TooltipPlayground } from './components/tooltip';
@@ -97,7 +98,7 @@ export const App = () => {
           gap={'xs'}
           shadow={'sm'}
         >
-          <For each={['Box', 'Button', 'Checkbox', 'Popup', 'Select', 'Input', 'Item', 'Tooltip']}>
+          <For each={['Box', 'Button', 'Checkbox', 'Popup', 'Select', 'Slider', 'Input', 'Item', 'Tooltip']}>
             {(item) => (
               <Box as={'li'} w={'100%'}>
                 <Item
@@ -131,6 +132,7 @@ export const App = () => {
         <CheckboxPlayground />
         <PopupPlayground />
         <SelectPlayground />
+        <SliderPlayground />
         <InputPlayground />
         <ItemPlayground />
         <TooltipPlayground />
