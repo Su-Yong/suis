@@ -1,9 +1,23 @@
 import { createSignal } from 'solid-js';
 
-import { Polymorphic, CheckBox, Popup, Select, sx, Tooltip, TooltipContent, TooltipTrigger } from '@suis-ui/primitives';
+import {
+  CheckBox,
+  Polymorphic,
+  Popup,
+  Select,
+  SlideRail,
+  SlideThumb,
+  Slider,
+  SliderLabel,
+  sx,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@suis-ui/primitives';
 
 export const App = () => {
   const [open, setOpen] = createSignal(false);
+  const [values, setValues] = createSignal([10]);
 
   return (
     <div>
@@ -23,7 +37,7 @@ export const App = () => {
         <Popup.Trigger>
           <button>popup</button>
         </Popup.Trigger>
-        <Popup.Element>
+        <Popup.Content>
           {(style) => (
             <div style={sx(style(), { background: 'red' })}>
               <div>Item 1</div>
@@ -31,14 +45,14 @@ export const App = () => {
               <div>Item 3</div>
             </div>
           )}
-        </Popup.Element>
+        </Popup.Content>
       </Popup>
 
       <Popup offset={8} open={open()}>
         <Popup.Anchor>
           <button onClick={() => setOpen(!open())}>controlled popup</button>
         </Popup.Anchor>
-        <Popup.Element>
+        <Popup.Content>
           {(style) => (
             <div style={sx(style(), { background: 'red' })}>
               <div>Controlled Item 1</div>
@@ -46,7 +60,7 @@ export const App = () => {
               <div>Controlled Item 3</div>
             </div>
           )}
-        </Popup.Element>
+        </Popup.Content>
       </Popup>
 
       <Select>
@@ -70,6 +84,69 @@ export const App = () => {
           This is a tooltip content.
         </TooltipContent>
       </Tooltip>
+
+      <Slider
+        aria-label="Volume"
+        values={values()}
+        onChangeValues={setValues}
+        style={{
+          position: 'relative',
+          width: '240px',
+          height: '20px',
+        }}
+        renderValue={(value) => (
+          <SlideThumb
+            aria-label="Volume"
+            style={{
+              position: 'absolute',
+              top: '0',
+              left: `calc(${value()}% - 12px)`,
+              background: 'blue',
+              height: '100%',
+              'aspect-ratio': '1 / 1',
+            }}
+          />
+        )}
+      >
+        <SliderLabel step={20}>
+          {({ value, index, percent }) => (
+            <div
+              data-index={index}
+              style={{ position: 'absolute', left: `${percent}%`, top: '24px' }}
+            >
+              {value}
+            </div>
+          )}
+        </SliderLabel>
+        <SliderLabel labelAt={[0, 25, 75, 100]}>
+          {({ value, percent }) => (
+            <div style={{ position: 'absolute', left: `${percent}%`, top: '44px' }}>
+              {value}
+            </div>
+          )}
+        </SliderLabel>
+        <SlideRail
+          getRanges={(values, domain) => [[domain.min, values[0]]]}
+          style={{
+            width: '100%',
+            height: '100%',
+            background: 'gray',
+          }}
+        >
+          {(range) => (
+            <div
+              style={{
+                position: 'absolute',
+                top: '0',
+                left: `${range.startPercent}%`,
+                width: `${range.sizePercent}%`,
+                height: '100%',
+                background: 'green',
+              }}
+            />
+          )}
+        </SlideRail>
+      </Slider>
     </div>
   );
 };

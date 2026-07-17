@@ -4,4 +4,5 @@ export * from './Popup';
 export * from './Select';
 export * from './FocusManager';
 export * from './Tooltip';
+export * from './Slider';
 export * from './helper';

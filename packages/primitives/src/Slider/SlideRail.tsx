@@ -1,0 +1,99 @@
+import { Accessor, For, JSX, onCleanup, splitProps, ValidComponent } from 'solid-js';
+
+import { forwardRef, Polymorphic, PolymorphicProps } from '../Polymorphic';
+import { useSliderParts } from './useSlider';
+import type { SliderRange } from './useSlider';
+
+export type SliderDomain = {
+  min: number;
+  max: number;
+};
+
+export type SlideRailRange = {
+  start: number;
+  end: number;
+  startPercent: number;
+  endPercent: number;
+  offsetPercent: number;
+  sizePercent: number;
+};
+
+type SlideRailOnlyProps = {
+  getRanges: (
+    values: number[],
+    domain: SliderDomain,
+  ) => SliderRange[];
+  children?: (range: SlideRailRange) => JSX.Element;
+  onPointerDown?: JSX.EventHandlerUnion<HTMLElement, PointerEvent>;
+};
+
+export type SlideRailProps<T extends ValidComponent> =
+  Omit<PolymorphicProps<T>, keyof SlideRailOnlyProps>
+  & SlideRailOnlyProps;
+
+const callHandler = <E extends Event>(
+  handler: JSX.EventHandlerUnion<HTMLElement, E> | undefined,
+  event: E,
+) => {
+  if (!handler) return;
+  const solidEvent = event as E & { currentTarget: HTMLElement; target: Element };
+  if (typeof handler === 'function') handler(solidEvent);
+  else handler[0](handler[1], solidEvent);
+};
+
+export const SlideRail = <T extends ValidComponent = 'div'>(props: SlideRailProps<T>) => {
+  const [local, rest] = splitProps(props, ['children', 'getRanges', 'onPointerDown']);
+  const [state, actions] = useSliderParts();
+
+  const ranges: Accessor<SlideRailRange[]> = () =>
+    actions.normalizeRanges(local.getRanges(state.values, {
+      min: state.min,
+      max: state.max,
+    })).map(([start, end]) => {
+      const startPercent = actions.valueToPercent(start);
+      const endPercent = actions.valueToPercent(end);
+      return {
+        start,
+        end,
+        startPercent,
+        endPercent,
+        offsetPercent: Math.min(startPercent, endPercent),
+        sizePercent: Math.abs(endPercent - startPercent),
+      };
+    });
+
+  const onSetup = (element: HTMLElement) => {
+    const unregister = actions.registerRail(element);
+    const handlePointerDown = (event: PointerEvent) => {
+      callHandler(local.onPointerDown, event);
+      if (event.defaultPrevented || !event.isPrimary || event.button !== 0) return;
+
+      const target = event.target;
+      const thumb = target instanceof Element ? target.closest('[data-slider-thumb]') : null;
+      if (thumb && element.contains(thumb)) return;
+
+      const value = actions.pointerToValue(event.clientX, event.clientY);
+      if (value === null) return;
+      const index = actions.requestNearestValue(value);
+      if (index >= 0) actions.focusThumb(index);
+    };
+
+    element.addEventListener('pointerdown', handlePointerDown);
+    onCleanup(() => {
+      element.removeEventListener('pointerdown', handlePointerDown);
+      unregister();
+    });
+  };
+
+  return (
+    <Polymorphic
+      {...rest as PolymorphicProps<T>}
+      as={rest.as ?? 'div'}
+      data-orientation={state.orientation}
+      data-to={state.to}
+      ref={forwardRef(onSetup, rest.ref)}
+    >
+      <For each={ranges()}>{range => local.children?.(range)}</For>
+    </Polymorphic>
+  );
+};
