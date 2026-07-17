@@ -4,7 +4,7 @@ import { forwardRef, Polymorphic, PolymorphicProps } from '../Polymorphic';
 import { useSliderParts } from './useSlider';
 import { sx } from '../helper';
 
-type SlideThumbOnlyProps<T extends ValidComponent> = {
+type SliderThumbOnlyProps<T extends ValidComponent> = {
   disabled?: boolean;
   onKeyDown?: JSX.EventHandlerUnion<T, KeyboardEvent>;
   onPointerCancel?: JSX.EventHandlerUnion<T, PointerEvent>;
@@ -14,9 +14,9 @@ type SlideThumbOnlyProps<T extends ValidComponent> = {
   style?: string | JSX.CSSProperties;
 };
 
-export type SlideThumbProps<T extends ValidComponent> =
-  Omit<PolymorphicProps<T>, keyof SlideThumbOnlyProps<T>>
-  & SlideThumbOnlyProps<T>;
+export type SliderThumbProps<T extends ValidComponent> =
+  Omit<PolymorphicProps<T>, keyof SliderThumbOnlyProps<T>>
+  & SliderThumbOnlyProps<T>;
 
 const callHandler = <E extends Event>(
   handler: JSX.EventHandlerUnion<HTMLElement, E> | undefined,
@@ -28,7 +28,7 @@ const callHandler = <E extends Event>(
   else handler[0](handler[1], solidEvent);
 };
 
-export const SlideThumb = <T extends ValidComponent = 'div'>(props: SlideThumbProps<T>) => {
+export const SliderThumb = <T extends ValidComponent = 'div'>(props: SliderThumbProps<T>) => {
   const [local, rest] = splitProps(props, [
     'disabled',
     'onKeyDown',

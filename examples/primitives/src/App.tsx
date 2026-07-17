@@ -6,7 +6,7 @@ import {
   Popup,
   Select,
   SliderRail,
-  SlideThumb,
+  SliderThumb,
   Slider,
   SliderLabel,
   sx,
@@ -95,7 +95,7 @@ export const App = () => {
           height: '20px',
         }}
         renderValue={(value) => (
-          <SlideThumb
+          <SliderThumb
             aria-label="Volume"
             style={{
               position: 'absolute',
