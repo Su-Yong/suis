@@ -110,6 +110,9 @@ export const activeRailStyle = styleVariants({
         left: 0,
         height: rangeSize,
       },
+      [`[data-range-bar][data-orientation="vertical"] &`]: {
+        top: rangeOffset,
+      },
     },
   })],
   filled: [baseActiveRailStyle, layered({
@@ -158,6 +161,14 @@ export const activeRailStyle = styleVariants({
       },
       [`[data-orientation="vertical"][data-to="top"][data-is-max] &`]: {
         top: rangeOffset,
+      },
+      [`[data-range-bar][data-orientation="horizontal"] &`]: {
+        left: `max(0px, calc(${rangeOffset} - ${component.slider.variants.filled.activeRail.size} / 2))`,
+        width: `calc(min(100%, calc(${rangeOffset} + ${rangeSize} + ${component.slider.variants.filled.activeRail.size} / 2)) - max(0px, calc(${rangeOffset} - ${component.slider.variants.filled.activeRail.size} / 2)))`,
+      },
+      [`[data-range-bar][data-orientation="vertical"] &`]: {
+        top: `max(0px, calc(${rangeOffset} - ${component.slider.variants.filled.activeRail.size} / 2))`,
+        height: `calc(min(100%, calc(${rangeOffset} + ${rangeSize} + ${component.slider.variants.filled.activeRail.size} / 2)) - max(0px, calc(${rangeOffset} - ${component.slider.variants.filled.activeRail.size} / 2)))`,
       },
     },
   })],
@@ -247,28 +258,28 @@ export const thumbStyle = styleVariants({
         left: `calc(${component.slider.variants.filled.thumb.size} / 2)`,
         transform: 'translate(-50%, -50%)',
       },
-      [`[data-is-min] &[data-orientation="horizontal"][data-to="right"]`]: {
+      '&[data-is-min][data-orientation="horizontal"][data-to="right"]': {
         transform: `translate(calc((${component.slider.variants.filled.rail.size} - ${component.slider.variants.filled.thumb.size}) / 2), -50%)`,
       },
-      [`[data-is-max] &[data-orientation="horizontal"][data-to="left"]`]: {
+      '&[data-is-max][data-orientation="horizontal"][data-to="left"]': {
         transform: `translate(calc((${component.slider.variants.filled.rail.size} - ${component.slider.variants.filled.thumb.size}) / 2), -50%)`,
       },
-      [`[data-is-max] &[data-orientation="horizontal"][data-to="right"]`]: {
+      '&[data-is-max][data-orientation="horizontal"][data-to="right"]': {
         transform: `translate(calc(-100% - (${component.slider.variants.filled.rail.size} - ${component.slider.variants.filled.thumb.size}) / 2), -50%)`,
       },
-      [`[data-is-min] &[data-orientation="horizontal"][data-to="left"]`]: {
+      '&[data-is-min][data-orientation="horizontal"][data-to="left"]': {
         transform: `translate(calc(-100% - (${component.slider.variants.filled.rail.size} - ${component.slider.variants.filled.thumb.size}) / 2), -50%)`,
       },
-      [`[data-is-min] &[data-orientation="vertical"][data-to="bottom"]`]: {
+      '&[data-is-min][data-orientation="vertical"][data-to="bottom"]': {
         transform: `translate(-50%, calc((${component.slider.variants.filled.rail.size} - ${component.slider.variants.filled.thumb.size}) / 2))`,
       },
-      [`[data-is-max] &[data-orientation="vertical"][data-to="top"]`]: {
+      '&[data-is-max][data-orientation="vertical"][data-to="top"]': {
         transform: `translate(-50%, calc((${component.slider.variants.filled.rail.size} - ${component.slider.variants.filled.thumb.size}) / 2))`,
       },
-      [`[data-is-max] &[data-orientation="vertical"][data-to="bottom"]`]: {
+      '&[data-is-max][data-orientation="vertical"][data-to="bottom"]': {
         transform: `translate(-50%, calc(-100% - (${component.slider.variants.filled.rail.size} - ${component.slider.variants.filled.thumb.size}) / 2))`,
       },
-      [`[data-is-min] &[data-orientation="vertical"][data-to="top"]`]: {
+      '&[data-is-min][data-orientation="vertical"][data-to="top"]': {
         transform: `translate(-50%, calc(-100% - (${component.slider.variants.filled.rail.size} - ${component.slider.variants.filled.thumb.size}) / 2))`,
       },
       '&:hover': {
