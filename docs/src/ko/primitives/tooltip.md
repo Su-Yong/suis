@@ -64,7 +64,7 @@ Tooltip
 
 ### `Tooltip.Trigger`
 
-DOM child를 popup anchor로 등록하고, pointer enter 시 `openDelay` 이후 열며 hover away 시 `closeDelay` 이후 닫습니다.
+DOM child를 popup anchor로 등록하고, pointer enter 시 `openDelay` 이후 열며 hover away 시 `closeDelay` 이후 닫습니다. `openDelay`가 끝나기 전에 pointer가 떠나면 대기 중인 open request를 취소합니다.
 
 Trigger가 anchor를 등록하면 anchor는 tooltip content id를 가리키는 `aria-describedby`를 받습니다.
 
@@ -101,7 +101,7 @@ const [context, actions]: readonly [
     openDelay?: number;
     closeDelay?: number;
     anchor: Element | null;
-    element: HTMLElement | null;
+    content: HTMLElement | null;
     position: ComputePositionReturn | null;
     open: boolean;
     mount: boolean;
@@ -124,7 +124,7 @@ Tooltip provider 밖에서 호출하면 context를 찾을 수 없어 error가 �
 | `context.openDelay` | <code>number</code> | Pointer enter 이후 열리기 전 delay입니다. |
 | `context.closeDelay` | <code>number</code> | Pointer leave 이후 닫히기 전 delay입니다. |
 | `context.anchor` | <code>Element &#124; null</code> | `Tooltip.Trigger`가 등록한 popup anchor입니다. |
-| `context.element` | <code>HTMLElement &#124; null</code> | `Tooltip.Content`가 portal에 렌더링한 tooltip element입니다. |
+| `context.content` | <code>HTMLElement &#124; null</code> | `Tooltip.Content`가 portal에 렌더링한 tooltip element입니다. |
 | `context.position` | <code>ComputePositionReturn &#124; null</code> | Floating UI가 계산한 tooltip position입니다. |
 | `context.open` | <code>boolean</code> | 가장 최근에 요청된 tooltip open state입니다. |
 | `context.mount` | <code>boolean</code> | Tooltip content가 실제로 portal에 렌더링되는지 나타냅니다. |
@@ -141,7 +141,7 @@ Tooltip을 확장할 때는 위 표의 id, delay, popup 상태만 사용하세�
 
 기본 `Tooltip.Trigger`가 pointer enter와 hover away 동작을 이미 처리합니다. `useTooltip`은 그 동작을 재사용하면서 custom trigger나 content에서 상태를 읽거나 open state를 직접 제어해야 할 때 사용하세요.
 
-`openDelay`와 `closeDelay`는 기본 `Tooltip.Trigger`의 pointer 동작에서 사용됩니다. 직접 `requestOpen(true)` 또는 `requestOpen(false)`를 호출하면 delay 없이 즉시 open request를 보냅니다.
+`openDelay`와 `closeDelay`는 기본 `Tooltip.Trigger`의 pointer 동작에서 사용됩니다. Pointer가 `openDelay`가 끝나기 전에 trigger를 떠나거나 trigger가 cleanup되면 대기 중인 open timer를 취소합니다. 직접 `requestOpen(true)` 또는 `requestOpen(false)`를 호출하면 delay 없이 즉시 open request를 보냅니다.
 
 `id`는 `Tooltip.Content`에 적용되고 trigger의 `aria-describedby`에 연결됩니다. Custom content를 만들 때도 같은 id를 유지해야 screen reader 연결이 유지됩니다.
 

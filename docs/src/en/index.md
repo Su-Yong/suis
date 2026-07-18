@@ -104,7 +104,7 @@ When styling SUIS or building with SUIS, choose theme values in this order:
 
 | Priority | Export | Use For |
 | --- | --- | --- |
-| 1 | `component` | Styling a specific SUIS component such as Button, Tooltip, Select, Input, Item, Popup, or CheckBox. |
+| 1 | `component` | Styling a specific SUIS component such as Button, Tooltip, Select, Slider, Input, Item, Popup, or CheckBox. |
 | 2 | `vars` | Semantic app UI values such as color, font, shadow, spacing, line size, z-index, and motion. |
 | 3 | `token` | Raw palette, size, text size, z-index, or motion values for exceptional details that `component` and `vars` cannot express. |
 
@@ -206,14 +206,14 @@ Use `contentProps` and `renderContent` for kit `Select` content customization. F
 
 `@suis-ui/kit` exports:
 
-- UI components: `Box`, `Button`, `CheckBox`, `Input`, `Item`, `Popup`, `Select`, `Tooltip`
+- UI components: `Box`, `Button`, `CheckBox`, `Input`, `Item`, `Popup`, `RangeBar`, `Select`, `Slider`, `Tooltip`
 - Theme APIs: `ThemeProvider`, `useTheme`, `createTheme`
 - Theme contracts and maps: `component`, `vars`, `token`, `colors`, `spaces`, `rounds`
 - CSS entrypoint: `@suis-ui/kit/style.css`
 
 `@suis-ui/primitives` exports:
 
-- Primitives: `Polymorphic`, `CheckBox`, `Popup`, `Select`, `FocusManager`, `Tooltip`
+- Primitives: `Polymorphic`, `CheckBox`, `Popup`, `Select`, `Slider`, `FocusManager`, `Tooltip`
 - Helpers: `cx`, `cl`, `clx`, `sx`, `forwardRef`
 
 ## Documentation Map
@@ -234,7 +234,9 @@ Kit component docs:
 - `docs/kit/input.md`
 - `docs/kit/item.md`
 - `docs/kit/popup.md`
+- `docs/kit/range-bar.md`
 - `docs/kit/select.md`
+- `docs/kit/slider.md`
 - `docs/kit/tooltip.md`
 
 Primitive docs:

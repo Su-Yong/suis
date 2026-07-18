@@ -142,6 +142,7 @@ component.select = {
 | `renderItem` | `SelectItem` | Replaces each option item. |
 | `renderCheckIndicator` | `SelectCheckIndicator` | Replaces the selected-item check indicator. |
 | `indicatorProps` | - | Present in the API, but not forwarded to the default indicator in the current implementation. Use `renderIndicator` to customize the indicator. |
+| `popupProps` | - | Props passed to the `PopupPresence` wrapper. |
 | `contentProps` | - | Props passed to the popup content wrapper. |
 | `groupProps` | - | Props passed to group wrappers. |
 | `itemProps` | - | Props passed to each item. |
@@ -174,6 +175,10 @@ component.select = {
 ### indicatorProps
 
 `indicatorProps` exists in the API, but it is not forwarded to the default indicator in the current implementation. If you need to pass props to the indicator, render the desired element through `renderIndicator`.
+
+### popupProps
+
+`popupProps` is passed to the animated `PopupPresence` wrapper. Use it to adjust the animation wrapper.
 
 ### contentProps
 
