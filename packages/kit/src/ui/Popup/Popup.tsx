@@ -15,6 +15,8 @@ import {
 } from '@suis-ui/primitives';
 import { Dynamic } from 'solid-js/web';
 
+import { vars } from '@/theme/token';
+
 import { usePopupAnimation } from './usePopupAnimation';
 import { PopupPresence, PopupPresenceProps } from './PopupPresence';
 
@@ -64,6 +66,7 @@ export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
         {(style) => (
           <PopupPresence
             {...rest as unknown as PopupPresenceProps<T, T>}
+            z={rest.z ?? vars.zIndex.popover}
             style={sx(style(), rest.style)}
             enter={state.enter}
             exit={state.exit}

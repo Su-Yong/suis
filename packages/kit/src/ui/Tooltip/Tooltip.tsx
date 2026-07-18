@@ -13,6 +13,8 @@ import {
   useTooltip as useBaseTooltip,
 } from '@suis-ui/primitives';
 
+import { vars } from '@/theme/token';
+
 import { Box, BoxProps } from '../Box';
 import { PopupPresence } from '../Popup/PopupPresence';
 import { usePopupAnimation } from '../Popup/usePopupAnimation';
@@ -133,6 +135,7 @@ export const Tooltip = <T extends ValidComponent>(props: TooltipProps<T>) => {
       </BaseTooltipTrigger>
       <BaseTooltipContent
         as={PopupPresence}
+        z={rest.z ?? vars.zIndex.tooltip}
         enter={state.enter}
         exit={state.exit}
         animation={tooltipAnimation}

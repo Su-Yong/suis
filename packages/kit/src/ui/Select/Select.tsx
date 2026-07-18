@@ -20,6 +20,8 @@ import {
   sx,
 } from '@suis-ui/primitives';
 
+import { vars } from '@/theme/token';
+
 import { ResolvedSelectData, SelectData, useSelectData, useSelectValue } from './useSelectData';
 
 import { Button } from '../Button';
@@ -316,6 +318,7 @@ const SelectRoot = <T extends ValidComponent = 'button', U extends SelectData = 
       <BaseSelectContent
         {...local.popupProps}
         as={PopupPresence}
+        z={local.popupProps?.z ?? vars.zIndex.dropdown}
         enter={state.enter}
         exit={state.exit}
         animation={selectAnimation}
