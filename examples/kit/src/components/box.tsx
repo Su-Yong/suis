@@ -48,6 +48,51 @@ const LayoutData: PlaygroundData[] = [
   },
 ];
 
+const SizeData: PlaygroundData[] = [
+  {
+    type: 'input',
+    name: 'w',
+    description: 'Width of the box',
+    placeholder: 'CSS length',
+  },
+  {
+    type: 'input',
+    name: 'h',
+    description: 'Height of the box',
+    placeholder: 'CSS length',
+  },
+  {
+    type: 'input',
+    name: 'minW',
+    description: 'Minimum width of the box',
+    placeholder: 'CSS length',
+  },
+  {
+    type: 'input',
+    name: 'minH',
+    description: 'Minimum height of the box',
+    placeholder: 'CSS length',
+  },
+  {
+    type: 'input',
+    name: 'maxW',
+    description: 'Maximum width of the box',
+    placeholder: 'CSS length',
+  },
+  {
+    type: 'input',
+    name: 'maxH',
+    description: 'Maximum height of the box',
+    placeholder: 'CSS length',
+  },
+  {
+    type: 'input',
+    name: 'flex',
+    description: 'Flex property of the box',
+    placeholder: 'flex value',
+  },
+];
+
 const PaddingData: PlaygroundData[] = [
   {
     type: 'select',
@@ -352,6 +397,13 @@ export const BoxPlaygroundData: PlaygroundData[] = [
     name: 'Position',
     description: 'Position offset properties',
     items: PositionData,
+  },
+  // size,
+  {
+    type: 'group',
+    name: 'Size',
+    description: 'Size related properties',
+    items: SizeData,
   },
   // padding
   {

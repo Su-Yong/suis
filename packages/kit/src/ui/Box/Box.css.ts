@@ -4,7 +4,7 @@ import { createVar } from '@vanilla-extract/css';
 import { colors, rounds, spaces } from '@/theme';
 import { vars } from '@/theme/token';
 import { layered, map } from '@/theme/util';
-import { l2Layer } from '@/theme/layer.css';
+import { l0Layer, l2Layer } from '@/theme/layer.css';
 
 export const width = createVar();
 export const height = createVar();
@@ -18,6 +18,20 @@ export const right = createVar();
 export const bottom = createVar();
 export const left = createVar();
 export const zIndex = createVar();
+export const boxDefaultStyle = recipe({
+  base: layered({ display: 'flex' }, l0Layer),
+  variants: {
+    direction: {
+      true: layered({ flexDirection: 'column' }, l0Layer),
+    },
+    color: {
+      true: layered({ color: 'inherit' }, l0Layer),
+    },
+    text: {
+      true: layered(vars.font.body, l0Layer),
+    },
+  },
+});
 export const boxSizeStyle = recipe({
   variants: {
     width: { true: layered({ width } , l2Layer)},
@@ -37,10 +51,6 @@ export const boxSizeStyle = recipe({
 
 export type BoxStyleType = RecipeVariants<typeof boxStyle>;
 export const boxStyle = recipe({
-  base: {
-    display: 'flex',
-  },
-
   variants: {
     // layout
     pos: {
@@ -119,7 +129,7 @@ export const boxStyle = recipe({
     bbc: map(colors, (borderColor) => layered({ borderBottomColor: borderColor }, l2Layer)),
 
     // others
-    text: vars.font,
+    text: map(vars.font, (text) => layered(text, l2Layer)),
     shadow: map(vars.shadow, (boxShadow) => layered({ boxShadow }, l2Layer)),
     overflow: {
       auto: layered({ overflow: 'auto' }, l2Layer),

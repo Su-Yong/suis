@@ -140,7 +140,7 @@ const [context, actions]: readonly [
     value: string | null;
     required: boolean;
     anchor: Element | null;
-    element: HTMLElement | null;
+    content: HTMLElement | null;
     position: ComputePositionReturn | null;
     open: boolean;
     mount: boolean;
@@ -163,7 +163,7 @@ Calling it outside a Select provider fails because there is no context to read.
 | `context.value` | <code>string &#124; null</code> | Current selected value. It updates when the `value` prop changes or when `setValue` is called. |
 | `context.required` | <code>boolean</code> | Whether selected items must stay selected when clicked again. |
 | `context.anchor` | <code>Element &#124; null</code> | Popup anchor registered by the Select trigger. |
-| `context.element` | <code>HTMLElement &#124; null</code> | Listbox element rendered by `Select.Content` in the portal. |
+| `context.content` | <code>HTMLElement &#124; null</code> | Listbox element rendered by `Select.Content` in the portal. |
 | `context.position` | <code>ComputePositionReturn &#124; null</code> | Popup position computed by Floating UI. |
 | `context.open` | <code>boolean</code> | Most recently requested popup open state. |
 | `context.mount` | <code>boolean</code> | Whether content is actually rendered in the portal. |

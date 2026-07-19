@@ -20,12 +20,14 @@ import {
   sx,
 } from '@suis-ui/primitives';
 
+import { vars } from '@/theme/token';
+
 import { ResolvedSelectData, SelectData, useSelectData, useSelectValue } from './useSelectData';
 
 import { Button } from '../Button';
 import { Box, BoxOnlyProps, BoxProps } from '../Box';
 import { Item, ItemProps } from '../Item';
-import { PopupPresence } from '../Popup/PopupPresence';
+import { PopupPresence, PopupPresenceProps } from '../Popup/PopupPresence';
 import { usePopupAnimation } from '../Popup/usePopupAnimation';
 
 import { selectAnimation, triggerStyle, indicatorStyle, maxHeight, contentStyle, groupStyle, groupTitleStyle, checkStyle } from './Select.css';
@@ -43,6 +45,7 @@ const SelectOnlyProps = [
   'renderCheckIndicator',
 
   'indicatorProps',
+  'popupProps',
   'contentProps',
   'groupProps',
   'itemProps',
@@ -94,6 +97,7 @@ type SelectOnlyProps<D extends SelectData, Required extends boolean = false> = {
   renderCheckIndicator?: <T extends ValidComponent>(props: SelectCheckIndicatorProps<T>) => JSX.Element;
 
   indicatorProps?: SelectIndicatorProps<ValidComponent>;
+  popupProps?: PopupPresenceProps<ValidComponent>;
   contentProps?: SelectContentProps<ValidComponent>;
   groupProps?: SelectGroupProps<ValidComponent>;
   itemProps?: SelectItemProps<ValidComponent>;
@@ -161,9 +165,9 @@ const SelectRoot = <T extends ValidComponent = 'button', U extends SelectData = 
 
       return open;
     });
-    createEffect(on(() => [context.element, context.open] as const, ([element, open]) => {
+    createEffect(on(() => [context.content, context.open] as const, ([content, open]) => {
       if (isOpenControlled()) return;
-      if (!element) return;
+      if (!content) return;
       if (!open) return;
 
       const owner = getOwner();
@@ -176,7 +180,7 @@ const SelectRoot = <T extends ValidComponent = 'button', U extends SelectData = 
               requestOpen(false);
               cleanUp();
             }
-          })(() => context.element));
+          })(() => context.content));
         });
       });
     }));
@@ -312,7 +316,9 @@ const SelectRoot = <T extends ValidComponent = 'button', U extends SelectData = 
     >
       <SelectTrigger />
       <BaseSelectContent
+        {...local.popupProps}
         as={PopupPresence}
+        z={local.popupProps?.z ?? vars.zIndex.dropdown}
         enter={state.enter}
         exit={state.exit}
         animation={selectAnimation}

@@ -23,7 +23,7 @@ Tooltip
         └── Content
 ```
 
-The primitive tooltip behavior opens on hover/focus. While open, the trigger receives `aria-describedby`.
+The primitive tooltip behavior opens on pointer enter. While open, the trigger receives `aria-describedby`.
 
 ## Props
 
@@ -34,8 +34,8 @@ The primitive tooltip behavior opens on hover/focus. While open, the trigger rec
 | `children` | `JSX.Element` | required | Tooltip trigger element. |
 | `content` | `JSX.Element` | required | Tooltip content. |
 | `withArrow` | `boolean` or `number` | - | Renders an arrow. A number is passed as Floating UI arrow padding. |
-| `openDelay` | `number` | `0` | Delay before opening after pointer/focus enter. |
-| `closeDelay` | `number` | `0` | Delay before closing after pointer/focus leave. |
+| `openDelay` | `number` | `0` | Delay before opening after pointer enter. Leaving before it ends cancels opening. |
+| `closeDelay` | `number` | `0` | Delay before closing after pointer leave. |
 
 `children` is the tooltip trigger, and `content` is the floating content. Delay props are passed to primitive Tooltip trigger behavior.
 

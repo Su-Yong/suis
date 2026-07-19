@@ -64,7 +64,7 @@ Tooltip
 
 ### `Tooltip.Trigger`
 
-Registers a DOM child as the popup anchor, opens after `openDelay` on pointer enter, and closes after `closeDelay` on hover away.
+Registers a DOM child as the popup anchor, opens after `openDelay` on pointer enter, and closes after `closeDelay` on hover away. Leaving before `openDelay` ends cancels the pending open request.
 
 When the trigger registers an anchor, the anchor receives `aria-describedby` pointing to the tooltip content id.
 
@@ -101,7 +101,7 @@ const [context, actions]: readonly [
     openDelay?: number;
     closeDelay?: number;
     anchor: Element | null;
-    element: HTMLElement | null;
+    content: HTMLElement | null;
     position: ComputePositionReturn | null;
     open: boolean;
     mount: boolean;
@@ -124,7 +124,7 @@ Calling it outside a Tooltip provider fails because there is no context to read.
 | `context.openDelay` | <code>number</code> | Delay before opening after pointer enter. |
 | `context.closeDelay` | <code>number</code> | Delay before closing after pointer leave. |
 | `context.anchor` | <code>Element &#124; null</code> | Popup anchor registered by `Tooltip.Trigger`. |
-| `context.element` | <code>HTMLElement &#124; null</code> | Tooltip element rendered by `Tooltip.Content` in the portal. |
+| `context.content` | <code>HTMLElement &#124; null</code> | Tooltip element rendered by `Tooltip.Content` in the portal. |
 | `context.position` | <code>ComputePositionReturn &#124; null</code> | Tooltip position computed by Floating UI. |
 | `context.open` | <code>boolean</code> | Most recently requested tooltip open state. |
 | `context.mount` | <code>boolean</code> | Whether tooltip content is actually rendered in the portal. |
@@ -141,7 +141,7 @@ Tooltip extensions should use only the id, delay, and popup state fields listed 
 
 The default `Tooltip.Trigger` already handles pointer enter and hover-away behavior. Use `useTooltip` when a custom trigger or content component needs to read state or directly request open state while staying inside the same tooltip context.
 
-`openDelay` and `closeDelay` are used by the default `Tooltip.Trigger` pointer behavior. Calling `requestOpen(true)` or `requestOpen(false)` directly sends an open request immediately, without applying those delays.
+`openDelay` and `closeDelay` are used by the default `Tooltip.Trigger` pointer behavior. Leaving the trigger before `openDelay` ends, or cleaning up the trigger, cancels the pending open timer. Calling `requestOpen(true)` or `requestOpen(false)` directly sends an open request immediately, without applying those delays.
 
 `id` is applied to `Tooltip.Content` and connected from the trigger through `aria-describedby`. Custom content should keep that id to preserve the screen reader relationship.
 

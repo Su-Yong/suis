@@ -9,7 +9,7 @@ import {
   Popup,
   PopupAnchor,
   PopupTrigger,
-  PopupElement,
+  PopupContent,
   usePopup,
   createPopupController,
   createClickAway,
@@ -17,13 +17,13 @@ import {
 } from '@suis-ui/primitives';
 ```
 
-The recommended primitive structure combines an anchor or trigger with a popup element rendered in a portal.
+The recommended primitive structure combines an anchor or trigger with popup content rendered in a portal.
 
 ```text
 Popup
 ├── PopupAnchor | PopupTrigger
 │   └── HTMLElement child
-└── PopupElement
+└── PopupContent
     └── Portal
         └── popup content
 ```
@@ -33,13 +33,13 @@ Popup
   <Popup.Trigger>
     <button type="button">Open</button>
   </Popup.Trigger>
-  <Popup.Element>
+  <Popup.Content>
     {(style) => (
       <div style={style()}>
         Popup content
       </div>
     )}
-  </Popup.Element>
+  </Popup.Content>
 </Popup>
 ```
 
@@ -74,7 +74,7 @@ Registers a DOM child as the positioning anchor. Use it for controlled popups or
 | --- | --- | --- | --- |
 | `children` | <code>JSX.Element</code> | Required | Single DOM element registered as the anchor. |
 
-If the child is not a DOM `Element`, it logs a warning.
+If the child does not resolve to exactly one DOM `Element`, the anchor is reset to `null` and a warning is logged. Fragments and nested components are supported, but they must resolve to one final DOM child.
 
 ### `Popup.Trigger`
 
@@ -84,18 +84,18 @@ Wraps `Popup.Anchor` and toggles the popup when the anchor is clicked.
 | --- | --- | --- | --- |
 | `children` | <code>JSX.Element</code> | `-` | DOM element registered as the trigger anchor. |
 
-### `Popup.Element`
+### `Popup.Content`
 
 Renders mounted popup content in a portal. The child is a render function that receives the computed style accessor.
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children` | <code>(style: Accessor&lt;JSX.CSSProperties&gt;) =&gt; JSX.Element</code> | Required | Function that renders popup content. The first returned DOM element is registered as the popup element. |
+| `children` | <code>(style: Accessor&lt;JSX.CSSProperties&gt;) =&gt; JSX.Element</code> | Required | Function that renders popup content. The first returned DOM element is registered as popup content. |
 
 ```tsx
-<Popup.Element>
+<Popup.Content>
   {(style) => <div style={style()}>Content</div>}
-</Popup.Element>
+</Popup.Content>
 ```
 
 ## Hooks
@@ -114,7 +114,7 @@ const [context, actions] = usePopup();
 const [context, actions]: readonly [
   {
     anchor: Element | null;
-    element: HTMLElement | null;
+    content: HTMLElement | null;
     position: ComputePositionReturn | null;
     open: boolean;
     mount: boolean;
@@ -132,10 +132,10 @@ Calling it outside a Popup provider fails because there is no context to read.
 | Name | Type | Description |
 | --- | --- | --- |
 | `context.anchor` | <code>Element &#124; null</code> | Positioning reference element registered by `Popup.Anchor` or `Popup.Trigger`. |
-| `context.element` | <code>HTMLElement &#124; null</code> | First DOM element rendered inside `Popup.Element`. |
+| `context.content` | <code>HTMLElement &#124; null</code> | First DOM element rendered inside `Popup.Content`. |
 | `context.position` | <code>ComputePositionReturn &#124; null</code> | Floating UI result with `x`, `y`, `placement`, `strategy`, and middleware data. It is `null` before position is computed. |
 | `context.open` | <code>boolean</code> | Most recently requested open state. It updates immediately when `requestOpen` is called. |
-| `context.mount` | <code>boolean</code> | Mount state that controls whether `Popup.Element` renders portal content. If a controller is registered, this updates from the controller result. |
+| `context.mount` | <code>boolean</code> | Mount state that controls whether `Popup.Content` renders portal content. If a controller is registered, this updates from the controller result. |
 
 Public customization code should depend only on the state fields listed above.
 
@@ -149,7 +149,7 @@ Public customization code should depend only on the state fields listed above.
 
 `open` is the intended state, while `mount` is the actual rendering state. A controller can delay `mount` updates when a close request should keep the DOM mounted briefly for animation.
 
-`position` is computed after `mount` is true and both anchor and popup element are registered. Custom content that reads position should handle `null`.
+`position` is computed after `mount` is true and both anchor and popup content are registered. Custom content that reads position should handle `null`.
 
 `requestOpen(false)` requests closing, but it does not install document click-away or hover-away listeners by itself. Wire outside click, hover away, or custom dismissal behavior by calling `requestOpen(false)` from `createClickAway`, `createHoverAway`, or your own event handler.
 
@@ -187,7 +187,7 @@ createPopupController(controller: (open: boolean) => Promise<boolean>): void;
 
 Call it under a Popup provider. Without a controller, `mount` follows the requested `open` value.
 
-The controller receives the requested open state. Resolving `true` mounts `Popup.Element`; resolving `false` unmounts it.
+The controller receives the requested open state. Resolving `true` mounts `Popup.Content`; resolving `false` unmounts it.
 
 If multiple open requests happen quickly, only the latest request is applied. Older Promises that resolve later cannot overwrite the latest `mount` state.
 
@@ -247,9 +247,9 @@ const ClickAwayCloser = () => {
   });
 
   createEffect(() => {
-    if (!context.element) return;
+    if (!context.content) return;
 
-    const cleanUp = register(() => context.element);
+    const cleanUp = register(() => context.content);
     onCleanup(cleanUp);
   });
 
@@ -319,13 +319,13 @@ const HoverAwayCloser = () => {
   <Popup.Trigger>
     <button type="button">Open</button>
   </Popup.Trigger>
-  <Popup.Element>
+  <Popup.Content>
     {(style) => (
       <div style={style()}>
         Popup content
       </div>
     )}
-  </Popup.Element>
+  </Popup.Content>
 </Popup>
 ```
 
@@ -346,9 +346,9 @@ const ManualTrigger = () => {
 
 <Popup placement="right" shift>
   <ManualTrigger />
-  <Popup.Element>
+  <Popup.Content>
     {(style) => <div style={style()}>Manual popup</div>}
-  </Popup.Element>
+  </Popup.Content>
 </Popup>
 ```
 
@@ -365,8 +365,8 @@ const ManualTrigger = () => {
   <Popup.Trigger>
     <button type="button">Open</button>
   </Popup.Trigger>
-  <Popup.Element>
+  <Popup.Content>
     {(style) => <div style={style()}>Positioned popup</div>}
-  </Popup.Element>
+  </Popup.Content>
 </Popup>
 ```

@@ -142,6 +142,7 @@ component.select = {
 | `renderItem` | `SelectItem` | 각 option item을 교체합니다. |
 | `renderCheckIndicator` | `SelectCheckIndicator` | 선택된 item의 check indicator를 교체합니다. |
 | `indicatorProps` | - | API에는 있지만 현재 기본 indicator에는 forward되지 않습니다. indicator 변경은 `renderIndicator`를 사용하세요. |
+| `popupProps` | - | `PopupPresence` wrapper에 전달할 props입니다. |
 | `contentProps` | - | Popup content wrapper에 전달할 props입니다. |
 | `groupProps` | - | Group wrapper에 전달할 props입니다. |
 | `itemProps` | - | 각 item에 전달할 props입니다. |
@@ -174,6 +175,10 @@ component.select = {
 ### indicatorProps
 
 `indicatorProps`는 API에 포함되어 있지만 현재 기본 indicator에는 전달되지 않습니다. Indicator에 props를 전달해야 하는 경우에는 `renderIndicator`에서 직접 원하는 element를 렌더링하세요.
+
+### popupProps
+
+`popupProps`는 animated `PopupPresence` wrapper에 전달됩니다. Animation wrapper를 조정할 때 사용합니다.
 
 ### contentProps
 

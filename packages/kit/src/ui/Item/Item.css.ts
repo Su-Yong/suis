@@ -1,38 +1,35 @@
 import { recipe } from '@vanilla-extract/recipes';
 
+import { layered } from '@/theme/util';
+
 import { component } from '../component.css';
-import { layered, layerWith } from '@/theme/util';
-import { l0Layer, l2Layer } from '@/theme/layer.css';
 
 export const itemStyle = recipe({
-  base: layerWith(
-    layered({
-      width: '100%',
-      minWidth: 0,
+  base: layered({
+    width: '100%',
+    minWidth: 0,
 
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-    }, l2Layer),
-    layered({
-      background: component.item.background,
-      color: component.item.color,
-      borderWidth: component.item.borderWidth,
-      borderColor: component.item.borderColor,
-      boxShadow: component.item.boxShadow,
-      gap: component.item.gap,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
 
-      selectors: {
-        '&:focus-visible': {
-          outlineStyle: 'solid',
-          outlineOffset: component.item.focus.offset,
-          outlineColor: component.item.focus.color,
-          outlineWidth: component.item.focus.width,
-        },
+    background: component.item.background,
+    color: component.item.color,
+    borderWidth: component.item.borderWidth,
+    borderColor: component.item.borderColor,
+    boxShadow: component.item.boxShadow,
+    gap: component.item.gap,
+
+    selectors: {
+      '&:focus-visible': {
+        outlineStyle: 'solid',
+        outlineOffset: component.item.focus.offset,
+        outlineColor: component.item.focus.color,
+        outlineWidth: component.item.focus.width,
       },
-    }, l0Layer),
-  ),
+    },
+  }),
 
   variants: {
     size: {

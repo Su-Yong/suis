@@ -16,7 +16,9 @@
 - [Input](./kit/input.md)
 - [Item](./kit/item.md)
 - [Popup](./kit/popup.md)
+- [RangeBar](./kit/range-bar.md)
 - [Select](./kit/select.md)
+- [Slider](./kit/slider.md)
 - [Tooltip](./kit/tooltip.md)
 
 ## `@suis-ui/primitives`
@@ -26,5 +28,6 @@
 - [FocusManager](./primitives/focus-manager.md)
 - [Popup](./primitives/popup.md)
 - [Select](./primitives/select.md)
+- [Slider](./primitives/slider.md)
 - [Tooltip](./primitives/tooltip.md)
 - [Helpers](./primitives/helper.md)

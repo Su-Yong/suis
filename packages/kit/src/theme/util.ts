@@ -26,16 +26,20 @@ export const alpha = (color: string, alpha: number): string => {
   return `oklch(from ${color} l c h / ${alpha})`;
 };
 
-export const layered = (rules: ComplexStyleRule, layer = l1Layer): ComplexStyleRule => {
+type LayeredStyleRule<T> = T extends StyleRule ? StyleRule : ComplexStyleRule;
+export const layered = <T extends ComplexStyleRule | StyleRule>(
+  rules: T,
+  layer = l1Layer,
+): LayeredStyleRule<T> => {
   if (Array.isArray(rules)) {
-    return rules.map((rule) => (typeof rule === 'string' ? rule : layered(rule, layer))) as ComplexStyleRule;
+    return rules.map((rule) => (typeof rule === 'string' ? rule : layered(rule, layer))) as LayeredStyleRule<T>;
   };
 
   return {
     '@layer': {
       [layer]: rules,
     },
-  } satisfies ComplexStyleRule;
+  } as LayeredStyleRule<T>;
 };
 
 export const layerWith = (...rules: ComplexStyleRule[]): ComplexStyleRule => {

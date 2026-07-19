@@ -9,12 +9,12 @@ import {
   shift, ShiftOptions,
   autoUpdate, AutoUpdateOptions,
 } from '@floating-ui/dom';
+import { createStore } from 'solid-js/store';
 
 import { PopupAnchor } from './PopupAnchor';
 import { PopupTrigger } from './PopupTrigger';
-import { PopupElement } from './PopupElement';
+import { PopupContent } from './PopupContent';
 import { PopupContext, PopupContextType, usePopup } from './PopupContext';
-import { createStore } from 'solid-js/store';
 
 export type PopupProps = {
   open?: boolean;
@@ -40,7 +40,7 @@ export const Popup = (props: PopupProps) => {
 
   const [context, setContext] = createStore<PopupContextType>({
     anchor: null,
-    element: null,
+    content: null,
     position: null,
     open: local.open ?? false,
     mount: local.open ?? false,
@@ -66,13 +66,13 @@ export const Popup = (props: PopupProps) => {
     if (!context.mount) return null;
 
     const anchorElement = context.anchor;
-    const popupElement = context.element;
+    const content = context.content;
 
-    if (!anchorElement || !popupElement) return null;
+    if (!anchorElement || !content) return null;
 
     return {
       anchor: anchorElement,
-      popup: popupElement,
+      popup: content,
       options: {
         placement: local.placement,
         strategy: local.strategy,
@@ -135,4 +135,4 @@ export const Popup = (props: PopupProps) => {
 
 Popup.Anchor = PopupAnchor;
 Popup.Trigger = PopupTrigger;
-Popup.Element = PopupElement;
+Popup.Content = PopupContent;
