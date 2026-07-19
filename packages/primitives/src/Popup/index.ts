@@ -1,5 +1,5 @@
 export * from './Popup';
-export * from './PopupElement';
+export * from './PopupContent';
 export * from './PopupAnchor';
 export * from './PopupTrigger';
 export * from './createClickAway';

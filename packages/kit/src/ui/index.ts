@@ -6,6 +6,7 @@ export * from './Button';
 export * from './CheckBox';
 export * from './Popup';
 export * from './Select';
+export * from './Slider';
 export * from './Input';
 export * from './Item';
 export * from './Tooltip';

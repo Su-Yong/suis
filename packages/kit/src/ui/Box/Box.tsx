@@ -3,6 +3,7 @@ import { assignInlineVars } from '@vanilla-extract/dynamic';
 import { Polymorphic, PolymorphicProps, cx, sx } from '@suis-ui/primitives';
 
 import {
+  boxDefaultStyle,
   boxSizeStyle,
   boxStyle,
   type BoxStyleType,
@@ -114,9 +115,14 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
   const [boxStyleProps, boxSizeProps, passed, rest] = splitProps(props, BoxStylePropList, BoxSizePropList, ['props']);
 
   const boxClass = () => cx(
+    boxDefaultStyle({
+      direction: boxStyleProps.direction === undefined,
+      color: boxStyleProps.c === undefined,
+      text: boxStyleProps.text === undefined,
+    }),
     boxStyle({
       pos: boxStyleProps.pos,
-      direction: boxStyleProps.direction === null ? undefined : (boxStyleProps.direction ?? 'column'),
+      direction: boxStyleProps.direction,
       justify: boxStyleProps.justify,
       align: boxStyleProps.align,
       wrap: boxStyleProps.wrap,
@@ -140,7 +146,7 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
       trr: boxStyleProps.trr,
       blr: boxStyleProps.blr,
       brr: boxStyleProps.brr,
-      c: boxStyleProps.c === null ? undefined : (boxStyleProps.c ?? 'inherit'),
+      c: boxStyleProps.c,
       bg: boxStyleProps.bg,
       bc: boxStyleProps.bc,
       bd: boxStyleProps.bd,
@@ -152,7 +158,7 @@ export const Box = <T extends ValidComponent = 'div'>(props: BoxProps<T>) => {
       brc: boxStyleProps.brc,
       btc: boxStyleProps.btc,
       bbc: boxStyleProps.bbc,
-      text: (boxStyleProps.text === null ? undefined : boxStyleProps.text ?? 'body'),
+      text: boxStyleProps.text,
       shadow: boxStyleProps.shadow,
       overflow: boxStyleProps.overflow,
     }),

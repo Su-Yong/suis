@@ -10,13 +10,15 @@ export const PopupAnchor = (props: PopupAnchorProps) => {
   const [, setContext] = usePopupContext();
 
   createEffect(() => {
-    const target = child();
-    if (!target) return;
-    if (!(target instanceof Element)) {
+    const targets = child.toArray().filter((target): target is Element => target instanceof Element);
+
+    if (targets.length !== 1) {
+      setContext('anchor', null);
       console.warn('PopupAnchor must be used with a valid DOM element as a child.');
+      return;
     }
 
-    setContext('anchor', target as Element);
+    setContext('anchor', targets[0]);
   });
 
   return child();

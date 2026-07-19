@@ -17,8 +17,14 @@ export const TooltipTrigger = (props: TooltipTriggerProps) => {
     if (!anchor) return;
 
     let timeoutId: number | null = null;
+    const cancelPendingOpen = () => {
+      if (typeof timeoutId !== 'number') return;
+
+      clearTimeout(timeoutId);
+      timeoutId = null;
+    };
     const handleOpen = () => {
-      if (typeof timeoutId === 'number') clearTimeout(timeoutId);
+      cancelPendingOpen();
 
       const owner = getOwner();
       timeoutId = window.setTimeout(() => runWithOwner(owner, () => requestOpen(true)), context.openDelay);
@@ -26,11 +32,14 @@ export const TooltipTrigger = (props: TooltipTriggerProps) => {
 
     anchor.setAttribute('aria-describedby', context.id);
     anchor.addEventListener('pointerenter', handleOpen);
+    anchor.addEventListener('pointerleave', cancelPendingOpen);
     const cleanUp = register(anchor, { delay: context.closeDelay });
 
     onCleanup(() => {
       anchor.removeAttribute('aria-describedby');
       anchor.removeEventListener('pointerenter', handleOpen);
+      anchor.removeEventListener('pointerleave', cancelPendingOpen);
+      cancelPendingOpen();
       cleanUp();
     });
   });

@@ -23,7 +23,7 @@ Tooltip
         └── Content
 ```
 
-Tooltip trigger는 primitive 동작에 따라 hover/focus에서 열리고, 열려 있는 동안 접근성 연결을 위해 `aria-describedby`를 받습니다.
+Tooltip trigger는 primitive 동작에 따라 pointer enter에서 열리고, 열려 있는 동안 접근성 연결을 위해 `aria-describedby`를 받습니다.
 
 ## Props
 
@@ -34,8 +34,8 @@ Tooltip trigger는 primitive 동작에 따라 hover/focus에서 열리고, 열�
 | `children` | `JSX.Element` | 필수 | Tooltip trigger element입니다. |
 | `content` | `JSX.Element` | 필수 | Tooltip content입니다. |
 | `withArrow` | `boolean` 또는 `number` | - | Arrow를 렌더링합니다. 숫자를 넘기면 Floating UI arrow padding으로 사용됩니다. |
-| `openDelay` | `number` | `0` | Pointer/focus 진입 후 열리기 전 delay입니다. |
-| `closeDelay` | `number` | `0` | Pointer/focus 이탈 후 닫히기 전 delay입니다. |
+| `openDelay` | `number` | `0` | Pointer enter 후 열리기 전 delay입니다. Delay가 끝나기 전에 pointer가 떠나면 open을 취소합니다. |
+| `closeDelay` | `number` | `0` | Pointer leave 후 닫히기 전 delay입니다. |
 
 `children`은 tooltip trigger이고, `content`는 floating content입니다. Delay props는 primitive Tooltip trigger 동작에 전달됩니다.
 

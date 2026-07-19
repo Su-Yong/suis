@@ -2,16 +2,16 @@
   "name": "@suis-ui/primitives",
   "version": "0.2.0",
   "description": "SUIS, UI library for Solid",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js"
+      "import": "./dist/index.js"
     },
     "./dist/*": "./dist/*"
   },
   "scripts": {
-    "build": "vite build"
+    "build": "tsdown"
   },
   "files": [
     "dist",
@@ -21,8 +21,8 @@
   "author": "Su-Yong",
   "license": "MIT",
   "dependencies": {
-    "@floating-ui/dom": "1.7.5",
-    "tabbable": "6.4.0"
+    "@floating-ui/dom": "1.8.0",
+    "tabbable": "6.5.0"
   },
   "peerDependencies": {
     "solid-js": "^1.6.0"

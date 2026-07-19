@@ -20,7 +20,7 @@ The actual primitive structure can be read as a lightweight tree:
 ```text
 Popup
 ├── PopupTrigger | PopupAnchor
-└── PopupElement
+└── PopupContent
     └── PopupPresence
         └── Element
 ```
@@ -86,6 +86,28 @@ Popup content background, padding, radius, and shadow are not separate Popup tok
 ### Exit
 
 `exit.duration` and `exit.easing` control animation timing while the popup closes. During exit, pointer events are disabled to avoid interactions while the popup is leaving.
+
+### Custom Animation
+
+`popupAnimation` converts vanilla-extract style rules into the enter/exit class map accepted by the `animation` prop. Import it from the `@suis-ui/kit/css` subpath in a `.css.ts` file.
+
+```ts
+// popup.css.ts
+import { popupAnimation } from '@suis-ui/kit/css';
+
+export const fadeAnimation = popupAnimation({
+  enter: { opacity: 0 },
+  exit: { opacity: 0 },
+});
+```
+
+```tsx
+<Popup animation={fadeAnimation} element={<Box>Content</Box>}>
+  <Button>Open</Button>
+</Popup>
+```
+
+The callback form, `popupAnimation((x, y) => ...)`, receives placement-based CSS variables for directional transforms.
 
 ## Trigger Behavior
 

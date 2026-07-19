@@ -2,6 +2,7 @@ import { createEffect, createUniqueId, splitProps } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
 import { TooltipContext } from './TooltipContext';
+import type { TooltipContextType } from './TooltipContext';
 import { TooltipTrigger } from './TooltipTrigger';
 import { TooltipContent } from './TooltipContent';
 import { Popup, PopupProps } from '../Popup';
@@ -14,7 +15,7 @@ export type TooltipProps = Omit<PopupProps, keyof TooltipOnlyProps> & TooltipOnl
 export const Tooltip = (props: TooltipProps) => {
   const [local, rest] = splitProps(props, ['openDelay', 'closeDelay']);
 
-  const [context, setContext] = createStore({
+  const [context, setContext] = createStore<TooltipContextType>({
     id: createUniqueId(),
     openDelay: 0,
     closeDelay: 0,

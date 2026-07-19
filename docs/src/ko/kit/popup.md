@@ -20,7 +20,7 @@ import { Popup, Button, Box } from '@suis-ui/kit';
 ```text
 Popup
 ├── PopupTrigger | PopupAnchor
-└── PopupElement
+└── PopupContent
     └── PopupPresence
         └── Element
 ```
@@ -86,6 +86,28 @@ Popup content의 background, padding, radius, shadow는 Popup 자체 토큰이 �
 ### Exit
 
 `exit.duration`과 `exit.easing`은 popup이 닫힐 때 적용되는 animation timing입니다. Exit 상태에서는 pointer events가 비활성화되어 닫히는 중의 상호작용을 막습니다.
+
+### Custom Animation
+
+`popupAnimation`은 vanilla-extract style rule을 `animation` prop이 받는 enter/exit class map으로 변환합니다. `.css.ts` 파일에서 `@suis-ui/kit/css` subpath로 import하세요.
+
+```ts
+// popup.css.ts
+import { popupAnimation } from '@suis-ui/kit/css';
+
+export const fadeAnimation = popupAnimation({
+  enter: { opacity: 0 },
+  exit: { opacity: 0 },
+});
+```
+
+```tsx
+<Popup animation={fadeAnimation} element={<Box>Content</Box>}>
+  <Button>Open</Button>
+</Popup>
+```
+
+Callback 형태를 사용하면 `popupAnimation((x, y) => ...)`에서 placement 기반 CSS variable을 받아 방향성 있는 transform을 만들 수 있습니다.
 
 ## Trigger Behavior
 

@@ -9,7 +9,7 @@ import {
   Popup,
   PopupAnchor,
   PopupTrigger,
-  PopupElement,
+  PopupContent,
   usePopup,
   createPopupController,
   createClickAway,
@@ -17,13 +17,13 @@ import {
 } from '@suis-ui/primitives';
 ```
 
-권장 primitive 구조는 anchor 또는 trigger와 portal에 렌더링되는 popup element를 조합하는 형태입니다.
+권장 primitive 구조는 anchor 또는 trigger와 portal에 렌더링되는 popup content를 조합하는 형태입니다.
 
 ```text
 Popup
 ├── PopupAnchor | PopupTrigger
 │   └── HTMLElement child
-└── PopupElement
+└── PopupContent
     └── Portal
         └── popup content
 ```
@@ -33,13 +33,13 @@ Popup
   <Popup.Trigger>
     <button type="button">Open</button>
   </Popup.Trigger>
-  <Popup.Element>
+  <Popup.Content>
     {(style) => (
       <div style={style()}>
         Popup content
       </div>
     )}
-  </Popup.Element>
+  </Popup.Content>
 </Popup>
 ```
 
@@ -74,7 +74,7 @@ DOM child를 positioning anchor로 등록합니다. Controlled popup이나 custo
 | --- | --- | --- | --- |
 | `children` | <code>JSX.Element</code> | 필수 | Anchor로 등록할 단일 DOM element입니다. |
 
-Child가 DOM `Element`가 아니면 warning을 기록합니다.
+Child가 정확히 하나의 DOM `Element`가 아니면 anchor를 `null`로 초기화하고 warning을 기록합니다. Fragment나 nested component를 사용할 수 있지만 최종 DOM child는 하나여야 합니다.
 
 ### `Popup.Trigger`
 
@@ -84,18 +84,18 @@ Child가 DOM `Element`가 아니면 warning을 기록합니다.
 | --- | --- | --- | --- |
 | `children` | <code>JSX.Element</code> | `-` | Trigger anchor로 등록할 DOM element입니다. |
 
-### `Popup.Element`
+### `Popup.Content`
 
 마운트된 popup content를 portal에 렌더링합니다. Child는 계산된 style accessor를 받는 render function입니다.
 
 | 이름 | 타입 | 기본값 | 간단한 설명 |
 | --- | --- | --- | --- |
-| `children` | <code>(style: Accessor&lt;JSX.CSSProperties&gt;) =&gt; JSX.Element</code> | 필수 | Popup content를 렌더링하는 함수입니다. 반환한 첫 DOM element가 popup element로 등록됩니다. |
+| `children` | <code>(style: Accessor&lt;JSX.CSSProperties&gt;) =&gt; JSX.Element</code> | 필수 | Popup content를 렌더링하는 함수입니다. 반환한 첫 DOM element가 popup content로 등록됩니다. |
 
 ```tsx
-<Popup.Element>
+<Popup.Content>
   {(style) => <div style={style()}>Content</div>}
-</Popup.Element>
+</Popup.Content>
 ```
 
 ## Hooks
@@ -114,7 +114,7 @@ const [context, actions] = usePopup();
 const [context, actions]: readonly [
   {
     anchor: Element | null;
-    element: HTMLElement | null;
+    content: HTMLElement | null;
     position: ComputePositionReturn | null;
     open: boolean;
     mount: boolean;
@@ -132,10 +132,10 @@ Popup provider 밖에서 호출하면 context를 찾을 수 없어 error가 발�
 | 이름 | 타입 | 설명 |
 | --- | --- | --- |
 | `context.anchor` | <code>Element &#124; null</code> | `Popup.Anchor` 또는 `Popup.Trigger`가 등록한 positioning 기준 element입니다. |
-| `context.element` | <code>HTMLElement &#124; null</code> | `Popup.Element` 안에서 렌더링된 popup content의 첫 DOM element입니다. |
+| `context.content` | <code>HTMLElement &#124; null</code> | `Popup.Content` 안에서 렌더링된 popup content의 첫 DOM element입니다. |
 | `context.position` | <code>ComputePositionReturn &#124; null</code> | Floating UI가 계산한 `x`, `y`, `placement`, `strategy`, middleware data입니다. Position 계산 전에는 `null`입니다. |
 | `context.open` | <code>boolean</code> | 가장 최근에 요청된 open state입니다. `requestOpen`이 호출되면 즉시 갱신됩니다. |
-| `context.mount` | <code>boolean</code> | `Popup.Element`가 portal content를 실제로 렌더링할지 결정하는 mount state입니다. Controller가 있으면 controller 결과에 따라 갱신됩니다. |
+| `context.mount` | <code>boolean</code> | `Popup.Content`가 portal content를 실제로 렌더링할지 결정하는 mount state입니다. Controller가 있으면 controller 결과에 따라 갱신됩니다. |
 
 Public customization에서 의존할 필드는 위 표의 상태 필드입니다.
 
@@ -149,7 +149,7 @@ Public customization에서 의존할 필드는 위 표의 상태 필드입니다
 
 `open`은 의도한 상태이고, `mount`는 실제 렌더링 여부입니다. Animation처럼 닫힘 요청 뒤에도 잠시 DOM을 유지해야 할 때는 controller로 `mount` 갱신을 지연시킬 수 있습니다.
 
-`position`은 `mount`가 true이고 anchor와 popup element가 모두 등록된 뒤 계산됩니다. 따라서 custom content에서 position을 읽을 때는 `null`일 수 있음을 고려하세요.
+`position`은 `mount`가 true이고 anchor와 popup content가 모두 등록된 뒤 계산됩니다. 따라서 custom content에서 position을 읽을 때는 `null`일 수 있음을 고려하세요.
 
 `requestOpen(false)`는 popup을 닫도록 요청하지만 document click-away나 hover-away listener를 자동으로 설치하지 않습니다. 바깥 click, hover away 같은 닫힘 조건은 `createClickAway`, `createHoverAway`, 또는 직접 작성한 event handler에서 `requestOpen(false)`를 호출해 연결합니다.
 
@@ -187,7 +187,7 @@ createPopupController(controller: (open: boolean) => Promise<boolean>): void;
 
 Popup provider 아래에서 호출해야 합니다. Controller가 없으면 `mount`는 요청된 `open` 값과 동일하게 갱신됩니다.
 
-`controller`는 요청된 open state를 인자로 받습니다. `true`를 resolve하면 `Popup.Element`가 mount되고, `false`를 resolve하면 unmount됩니다.
+`controller`는 요청된 open state를 인자로 받습니다. `true`를 resolve하면 `Popup.Content`가 mount되고, `false`를 resolve하면 unmount됩니다.
 
 여러 open request가 빠르게 이어지면 가장 최신 request만 반영됩니다. 이전 request의 Promise가 늦게 resolve되어도 최신 request의 `mount` state를 덮어쓰지 않습니다.
 
@@ -247,9 +247,9 @@ const ClickAwayCloser = () => {
   });
 
   createEffect(() => {
-    if (!context.element) return;
+    if (!context.content) return;
 
-    const cleanUp = register(() => context.element);
+    const cleanUp = register(() => context.content);
     onCleanup(cleanUp);
   });
 
@@ -319,13 +319,13 @@ const HoverAwayCloser = () => {
   <Popup.Trigger>
     <button type="button">Open</button>
   </Popup.Trigger>
-  <Popup.Element>
+  <Popup.Content>
     {(style) => (
       <div style={style()}>
         Popup content
       </div>
     )}
-  </Popup.Element>
+  </Popup.Content>
 </Popup>
 ```
 
@@ -346,9 +346,9 @@ const ManualTrigger = () => {
 
 <Popup placement="right" shift>
   <ManualTrigger />
-  <Popup.Element>
+  <Popup.Content>
     {(style) => <div style={style()}>Manual popup</div>}
-  </Popup.Element>
+  </Popup.Content>
 </Popup>
 ```
 
@@ -365,8 +365,8 @@ const ManualTrigger = () => {
   <Popup.Trigger>
     <button type="button">Open</button>
   </Popup.Trigger>
-  <Popup.Element>
+  <Popup.Content>
     {(style) => <div style={style()}>Positioned popup</div>}
-  </Popup.Element>
+  </Popup.Content>
 </Popup>
 ```

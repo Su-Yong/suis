@@ -140,7 +140,7 @@ const [context, actions]: readonly [
     value: string | null;
     required: boolean;
     anchor: Element | null;
-    element: HTMLElement | null;
+    content: HTMLElement | null;
     position: ComputePositionReturn | null;
     open: boolean;
     mount: boolean;
@@ -163,7 +163,7 @@ Select provider 밖에서 호출하면 context를 찾을 수 없어 error가 발
 | `context.value` | <code>string &#124; null</code> | 현재 선택된 value입니다. `value` prop이 바뀌거나 `setValue`가 호출되면 갱신됩니다. |
 | `context.required` | <code>boolean</code> | 선택된 item을 다시 클릭했을 때 선택을 유지해야 하는지 나타냅니다. |
 | `context.anchor` | <code>Element &#124; null</code> | Select trigger가 등록한 popup anchor입니다. |
-| `context.element` | <code>HTMLElement &#124; null</code> | `Select.Content`가 portal에 렌더링한 listbox element입니다. |
+| `context.content` | <code>HTMLElement &#124; null</code> | `Select.Content`가 portal에 렌더링한 listbox element입니다. |
 | `context.position` | <code>ComputePositionReturn &#124; null</code> | Floating UI가 계산한 popup position입니다. |
 | `context.open` | <code>boolean</code> | 가장 최근에 요청된 popup open state입니다. |
 | `context.mount` | <code>boolean</code> | Content가 실제로 portal에 렌더링되는지 나타냅니다. |

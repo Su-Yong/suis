@@ -9,11 +9,13 @@ import {
   PopupAnchor as BasePopupAnchor,
   PopupTrigger as BasePopupTrigger,
   PopupProps as BasePopupProps,
-  PopupElement,
+  PopupContent as BasePopupContent,
   createPopupController,
   sx,
 } from '@suis-ui/primitives';
 import { Dynamic } from 'solid-js/web';
+
+import { vars } from '@/theme/token';
 
 import { usePopupAnimation } from './usePopupAnimation';
 import { PopupPresence, PopupPresenceProps } from './PopupPresence';
@@ -35,7 +37,7 @@ const BasePopupOnlyProps = [
 ] as const;
 
 type PopupOnlyProps = {
-  element: JSX.Element;
+  content: JSX.Element;
   children: JSX.Element;
 
   animation?: PopupAnimation;
@@ -45,7 +47,7 @@ export type PopupProps<T extends ValidComponent> =
   & Omit<BasePopupProps, keyof PopupOnlyProps>
   & PopupOnlyProps;
 export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
-  const [local, baseProps, rest] = splitProps(props, ['children', 'element', 'animation'], BasePopupOnlyProps);
+  const [local, baseProps, rest] = splitProps(props, ['children', 'content', 'animation'], BasePopupOnlyProps);
 
   const [animationElement, setAnimationElement] = createSignal<HTMLElement | null>(null);
   const animation = () => (local.animation ?? defaultAnimation);
@@ -60,20 +62,21 @@ export const Popup = <T extends ValidComponent>(props: PopupProps<T>) => {
     });
 
     return (
-      <PopupElement>
+      <BasePopupContent>
         {(style) => (
           <PopupPresence
             {...rest as unknown as PopupPresenceProps<T, T>}
+            z={rest.z ?? vars.zIndex.popover}
             style={sx(style(), rest.style)}
             enter={state.enter}
             exit={state.exit}
             animation={animation()}
             animationWrapperProps={{ ref: setAnimationElement }}
           >
-            {local.element}
+            {local.content}
           </PopupPresence>
         )}
-      </PopupElement>
+      </BasePopupContent>
     );
   };
 

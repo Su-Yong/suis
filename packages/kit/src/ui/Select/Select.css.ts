@@ -1,6 +1,7 @@
 import { createVar, style } from '@vanilla-extract/css';
 
 import { vars } from '@/theme/token';
+import { layered } from '@/theme/util';
 
 import { popupAnimation } from '../Popup/animation';
 import { component } from '../component.css';
@@ -16,7 +17,7 @@ export const selectAnimation = popupAnimation({
   },
 });
 
-export const triggerStyle = style({
+export const triggerStyle = style(layered({
   width: 'fit-content',
   minWidth: '20ch',
 
@@ -77,9 +78,9 @@ export const triggerStyle = style({
       color: component.select.placeholder.color,
     },
   },
-});
+}));
 
-export const indicatorStyle = style({
+export const indicatorStyle = style(layered({
   position: 'relative',
 
   width: component.select.indicator.size,
@@ -92,10 +93,10 @@ export const indicatorStyle = style({
       transform: component.select.indicator.transform,
     },
   }
-});
+}));
 
 export const maxHeight = createVar();
-export const contentStyle = style({
+export const contentStyle = style(layered({
   width: 'fit-content',
   minWidth: '20ch',
   maxHeight: maxHeight,
@@ -117,18 +118,18 @@ export const contentStyle = style({
 
   boxShadow: component.select.content.boxShadow,
   padding: component.select.content.padding,
-});
+}));
 
-export const groupStyle = style({
+export const groupStyle = style(layered({
   width: '100%',
 
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
   alignItems: 'stretch',
-});
+}));
 
-export const groupTitleStyle = style({
+export const groupTitleStyle = style(layered({
   fontSize: component.select.group.title.font.fontSize,
   lineHeight: component.select.group.title.font.lineHeight,
   fontWeight: component.select.group.title.font.fontWeight,
@@ -139,10 +140,10 @@ export const groupTitleStyle = style({
   paddingRight: component.select.group.title.paddingX,
   paddingTop: component.select.group.title.paddingY,
   paddingBottom: component.select.group.title.paddingY,
-});
+}));
 
-export const checkStyle = style({
+export const checkStyle = style(layered({
   width: component.select.check.size,
   height: component.select.check.size,
   color: component.select.check.color,
-});
+}));

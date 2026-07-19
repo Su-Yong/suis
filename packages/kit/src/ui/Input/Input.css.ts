@@ -1,10 +1,11 @@
 import { style, styleVariants } from '@vanilla-extract/css';
 
 import { vars } from '@/theme/token';
+import { layered } from '@/theme/util';
 
 import { component } from '../component.css';
 
-const baseInputStyle = style({
+const baseInputStyle = style(layered({
   minWidth: '20ch',
 
   display: 'flex',
@@ -82,13 +83,13 @@ const baseInputStyle = style({
       marginRight: vars.size.space.xs,
     },
   },
-});
+}));
 export const inputStyle = styleVariants({
-  default: [baseInputStyle, {
+  default: [baseInputStyle, layered({
     width: 'fit-content',
-  }],
-  textarea: [baseInputStyle, {
+  })],
+  textarea: [baseInputStyle, layered({
     width: '100%',
     minHeight: '6lh',
-  }],
+  })],
 })
