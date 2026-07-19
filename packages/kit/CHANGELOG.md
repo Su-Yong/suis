@@ -1,5 +1,30 @@
 # @suis-ui/kit
 
+## 0.6.0
+
+### Minor Changes
+
+- a12d6e3: Migrate package builds from Vite library mode to tsdown ESM-only outputs.
+
+  - Remove CommonJS and UMD package export conditions.
+  - Emit ESM package entrypoints and preserve the kit stylesheet export.
+  - Externalize runtime dependencies during library builds.
+
+- 9e95423: feat(kit): add `RangeBar`
+- c8345a8: feat(ui): add `Slider`
+
+### Patch Changes
+
+- 335446b: fix(kit): resolve style order issues
+- 02d0527: feat!: change popup element to content
+- 7a3bdad: feat(kit): apply zIndex for `Popup`, `Select` and `Tooltip`
+- Updated dependencies [a12d6e3]
+- Updated dependencies [02d0527]
+- Updated dependencies [98c8566]
+- Updated dependencies [f0894f3]
+- Updated dependencies [8e3f0ca]
+  - @suis-ui/primitives@0.3.0
+
 ## 0.5.0
 
 ### Minor Changes
