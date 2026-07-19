@@ -1,5 +1,23 @@
 # @suis-ui/primitives
 
+## 0.3.0
+
+### Minor Changes
+
+- a12d6e3: Migrate package builds from Vite library mode to tsdown ESM-only outputs.
+
+  - Remove CommonJS and UMD package export conditions.
+  - Emit ESM package entrypoints and preserve the kit stylesheet export.
+  - Externalize runtime dependencies during library builds.
+
+- f0894f3: feat(primitives): add `Slider`
+
+### Patch Changes
+
+- 02d0527: feat!: change popup element to content
+- 98c8566: fix(primitives): fix tooltip openDelay property
+- 8e3f0ca: fix(primitives): resolve nested popup anchors correctly
+
 ## 0.2.0
 
 ### Minor Changes
