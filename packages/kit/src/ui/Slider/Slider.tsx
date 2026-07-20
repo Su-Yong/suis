@@ -5,6 +5,7 @@ import { SliderAdapterProps, SliderBase } from './SliderBase';
 type SliderOnlyProps = {
   value: number;
   onChangeValue?: (value: number) => void;
+  startAt?: number;
 };
 
 export type SliderProps<T extends ValidComponent = 'div'> =
@@ -12,11 +13,12 @@ export type SliderProps<T extends ValidComponent = 'div'> =
   & SliderOnlyProps;
 
 export const Slider = <T extends ValidComponent = 'div'>(props: SliderProps<T>) => {
-  const [local, rest] = splitProps(props, ['value', 'onChangeValue']);
+  const [local, rest] = splitProps(props, ['value', 'onChangeValue', 'startAt']);
 
   return (
     <SliderBase
       {...rest}
+      startAt={local.startAt}
       values={[local.value]}
       onChangeValues={(values: number[]) => local.onChangeValue?.(values[0])}
     />

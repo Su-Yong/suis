@@ -78,7 +78,7 @@ export const PopupPlayground = () => {
       {(props) => (
         <Popup
           {...props}
-          element={
+          content={
             <Box
               p={'md'}
               bg={'surface.main'}

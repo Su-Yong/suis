@@ -14,14 +14,14 @@ import {
 } from '@suis-ui/primitives';
 ```
 
-`renderValue` renders a thumb for each entry in `values`. Place rails and labels in `children`.
+An interactive Slider has exactly one `SliderRail`. The Rail owns active ranges and renders one thumb child for each entry in `values`; labels remain structural Slider children.
 
 ```text
 Slider
-├── SliderLabel
 ├── SliderRail
-│   └── Range
-└── SliderThumb × values.length
+│   ├── Active range × actives
+│   └── SliderThumb × values.length
+└── SliderLabel
 ```
 
 ```tsx
@@ -34,23 +34,30 @@ const [values, setValues] = createSignal([40]);
   aria-label="Volume"
   values={values()}
   onChangeValues={setValues}
-  renderValue={(value) => (
-    <SliderThumb
-      aria-label="Volume"
-      style={{ left: 'var(--slider-thumb-percent)' }}
-    >
-      {value()}
-    </SliderThumb>
-  )}
 >
-  <SliderRail getRanges={(values, domain) => [[domain.min, values[0]]]}>
-    {(range) => (
+  <SliderRail
+    actives={(values, domain) => [[domain.min, values[0]]]}
+    renderActive={(range) => (
       <div
         style={{
+          position: 'absolute',
           left: `${range().offsetPercent}%`,
           width: `${range().sizePercent}%`,
         }}
       />
+    )}
+    style={{ position: 'relative' }}
+  >
+    {(value) => (
+      <SliderThumb
+        aria-label="Volume"
+        style={{
+          position: 'absolute',
+          left: 'var(--slider-thumb-percent)',
+        }}
+      >
+        {value()}
+      </SliderThumb>
     )}
   </SliderRail>
 </Slider>
@@ -68,8 +75,7 @@ const [values, setValues] = createSignal([40]);
 | `max` | <code>number</code> | `100` | Maximum value of the domain. |
 | `step` | <code>number</code> | `1` | Interval used to align requested values. |
 | `disabled` | <code>boolean</code> | `false` | Disables interaction for the entire Slider. |
-| `children` | <code>JSX.Element</code> | Required | Rails, labels, and other decorative elements. |
-| `renderValue` | <code>(value: Accessor&lt;number&gt;, index: number) =&gt; JSX.Element</code> | Required | Renders a thumb corresponding to each entry in `values`. |
+| `children` | <code>JSX.Element</code> | Required | The single interactive Rail, labels, and other decorative elements. |
 
 Slider is controlled. Update external state in `onChangeValues` and pass the new `values` back for the rendered value to change.
 
@@ -85,23 +91,43 @@ A valid domain requires finite `min`, `max`, and `step` values with `min < max` 
 
 The root element receives `role="group"`.
 
+### Migration From The Previous Composition
+
+Remove root `renderValue`, rename Rail `getRanges` to `actives`, move the former Rail range child to `renderActive`, and move the former root thumb renderer into Rail children:
+
+```tsx
+<Slider values={values()} onChangeValues={setValues}>
+  <SliderRail
+    actives={getActiveRanges}
+    renderActive={(range) => <ActiveRange range={range()} />}
+  >
+    {(value, index) => <SliderThumb aria-label={`Value ${index + 1}`} />}
+  </SliderRail>
+</Slider>
+```
+
+There are no compatibility aliases for the removed props.
+
 ## Component
 
 ### `SliderRail`
 
-Registers the reference element used to convert pointer positions into values and renders the ranges returned by `getRanges`.
+Registers the reference element used to convert pointer positions into values. It renders normalized active ranges first, then one value child for each Slider value.
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `getRanges` | <code>(values: number[], domain: SliderDomain) =&gt; SliderRange[]</code> | Required | Returns displayed ranges as an array of `[start, end]` tuples. |
-| `children` | <code>(range: Accessor&lt;SliderRailRange&gt;) =&gt; JSX.Element</code> | `-` | Renders each normalized range. |
+| `actives` | <code>(values: number[], domain: SliderDomain) =&gt; SliderRange[]</code> | Required | Returns active ranges as an array of `[start, end]` tuples. |
+| `renderActive` | <code>(range: Accessor&lt;SliderRailRange&gt;) =&gt; JSX.Element</code> | `-` | Renders each normalized active range. |
+| `children` | <code>(value: Accessor&lt;number&gt;, index: number) =&gt; JSX.Element</code> | Required | Renders the thumb for each value in array order. |
 | `onPointerDown` | <code>JSX.EventHandlerUnion&lt;HTMLElement, PointerEvent&gt;</code> | `-` | Runs before internal rail behavior. Call `preventDefault()` to cancel the internal request. |
 | `as` | <code>T</code> | `div` | Element or component rendered as the rail. |
 | Selected element props | <code>PolymorphicProps&lt;T&gt;</code> | `-` | Props other than rail-specific props are forwarded to the element. |
 
 Pressing an empty rail area with the primary pointer button updates the nearest enabled thumb and focuses it. Pointer events starting on a thumb do not run the rail move.
 
-Each range returned by `getRanges` keeps only finite numbers, sorts its endpoints from low to high, and clamps them to the domain.
+Each range returned by `actives` keeps only finite numbers, sorts its endpoints from low to high, and clamps them to the domain. All `renderActive` nodes appear before all value children in DOM order.
+
+Because every Rail renders the complete thumb set, use exactly one `SliderRail` for an interactive Slider. Multiple Rails would duplicate focusable thumbs and break value/thumb cardinality.
 
 #### Range Data
 
@@ -118,7 +144,7 @@ The rail element receives `data-orientation` and `data-to`.
 
 ### `SliderThumb`
 
-Renders a focusable thumb that adjusts one slider value. The recommended structure renders one inside `renderValue` for each value.
+Renders a focusable thumb that adjusts one slider value. Render it from `SliderRail.children`, which supplies the raw value accessor and stable array index.
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -243,21 +269,10 @@ const [values, setValues] = createSignal([25]);
 <Slider
   values={values()}
   onChangeValues={setValues}
-  renderValue={(value) => (
-    <SliderThumb
-      aria-label="Volume"
-      style={{
-        position: 'absolute',
-        left: 'var(--slider-thumb-percent)',
-        transform: 'translateX(-50%)',
-      }}
-    >
-      {value()}
-    </SliderThumb>
-  )}
 >
-  <SliderRail getRanges={(values, domain) => [[domain.min, values[0]]]}>
-    {(range) => (
+  <SliderRail
+    actives={(values, domain) => [[domain.min, values[0]]]}
+    renderActive={(range) => (
       <div
         style={{
           position: 'absolute',
@@ -265,6 +280,20 @@ const [values, setValues] = createSignal([25]);
           width: `${range().sizePercent}%`,
         }}
       />
+    )}
+    style={{ position: 'relative' }}
+  >
+    {(value) => (
+      <SliderThumb
+        aria-label="Volume"
+        style={{
+          position: 'absolute',
+          left: 'var(--slider-thumb-percent)',
+          transform: 'translateX(-50%)',
+        }}
+      >
+        {value()}
+      </SliderThumb>
     )}
   </SliderRail>
 </Slider>
@@ -280,23 +309,30 @@ const [range, setRange] = createSignal([20, 70]);
 <Slider
   values={range()}
   onChangeValues={setRange}
-  renderValue={(value, index) => (
-    <SliderThumb
-      aria-label={index === 0 ? 'Minimum price' : 'Maximum price'}
-      style={{ left: 'var(--slider-thumb-percent)' }}
-    >
-      {value()}
-    </SliderThumb>
-  )}
 >
-  <SliderRail getRanges={(values) => [[values[0], values[1]]]}>
-    {(segment) => (
+  <SliderRail
+    actives={(values) => [[values[0], values[1]]]}
+    renderActive={(segment) => (
       <div
         style={{
+          position: 'absolute',
           left: `${segment().offsetPercent}%`,
           width: `${segment().sizePercent}%`,
         }}
       />
+    )}
+    style={{ position: 'relative' }}
+  >
+    {(value, index) => (
+      <SliderThumb
+        aria-label={index === 0 ? 'Minimum price' : 'Maximum price'}
+        style={{
+          position: 'absolute',
+          left: 'var(--slider-thumb-percent)',
+        }}
+      >
+        {value()}
+      </SliderThumb>
     )}
   </SliderRail>
 </Slider>
@@ -330,15 +366,22 @@ const [range, setRange] = createSignal([20, 70]);
   to="top"
   values={values()}
   onChangeValues={setValues}
-  renderValue={(value) => (
-    <SliderThumb
-      aria-label="Level"
-      style={{ bottom: 'var(--slider-thumb-percent)' }}
-    >
-      {value()}
-    </SliderThumb>
-  )}
 >
-  <SliderRail getRanges={(values, domain) => [[domain.min, values[0]]]} />
+  <SliderRail
+    actives={(values, domain) => [[domain.min, values[0]]]}
+    style={{ position: 'relative' }}
+  >
+    {(value) => (
+      <SliderThumb
+        aria-label="Level"
+        style={{
+          position: 'absolute',
+          top: 'var(--slider-thumb-percent)',
+        }}
+      >
+        {value()}
+      </SliderThumb>
+    )}
+  </SliderRail>
 </Slider>
 ```

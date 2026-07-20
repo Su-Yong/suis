@@ -9,10 +9,14 @@ import {
   SliderThumb,
   SliderThumbProps as PrimitiveSliderThumbProps,
   SliderLabel as PrimitiveSliderLabel,
+  SliderLabelRenderProps,
   SliderLabelSource,
   clx,
   sx,
+  SliderDomain,
+  SliderRange,
   SliderRailRange,
+  useSlider,
 } from '@suis-ui/primitives';
 
 import { Box, BoxProps } from '../Box';
@@ -28,6 +32,7 @@ import {
   railStyle,
   rangeOffset,
   rangeSize,
+  rootInsetStyle,
   rootStyle,
   thumbStyle,
 } from './Slider.css';
@@ -37,6 +42,8 @@ const SliderBaseOnlyPropList = [
   'values',
   'onChangeValues',
   'range',
+  'startAt',
+  'inverted',
   'labelAt',
   'labelStep',
   'marksAt',
@@ -59,11 +66,11 @@ type SliderMarksOptions = { marksAt?: readonly number[]; marksStep?: never } | {
 type SliderSharedProps = {
   variant?: 'default' | 'filled';
 
-  thumbProps?: SliderThumbProps<ValidComponent>;
-  railProps?: Omit<SliderRailProps<ValidComponent>, 'children' | 'getRanges'>;
-  activeRailProps?: SliderActiveRailProps<ValidComponent>;
-  labelProps?: SliderLabelProps<ValidComponent>;
-  markProps?: SliderLabelProps<ValidComponent>;
+  thumbProps?: Partial<SliderThumbProps<ValidComponent>>;
+  railProps?: Partial<SliderRailProps<ValidComponent>>;
+  activeRailProps?: Partial<SliderActiveRailProps<ValidComponent>>;
+  labelProps?: Partial<SliderLabelProps<ValidComponent>>;
+  markProps?: Partial<SliderMarkProps<ValidComponent>>;
 
   renderThumb?: <T extends ValidComponent>(props: SliderThumbProps<T>) => JSX.Element;
   renderRail?: <T extends ValidComponent>(props: SliderRailProps<T>) => JSX.Element;
@@ -73,13 +80,15 @@ type SliderSharedProps = {
 } & SliderLabelOptions & SliderMarksOptions;
 
 export type SliderAdapterProps<T extends ValidComponent = 'div'> =
-  Omit<PrimitiveSliderProps<T>, keyof SliderSharedProps | 'children' | 'renderValue' | 'values' | 'onChangeValues'>
+  Omit<PrimitiveSliderProps<T>, keyof SliderSharedProps | 'children' | 'values' | 'onChangeValues'>
   & SliderSharedProps;
 
 type SliderBaseProps<T extends ValidComponent = 'div'> = SliderAdapterProps<T> & {
   values: number[];
   onChangeValues?: (values: number[]) => void;
   range?: boolean;
+  startAt?: number;
+  inverted?: boolean;
 };
 
 export const SliderBase = <T extends ValidComponent = 'div'>(props: SliderBaseProps<T>) => {
@@ -107,22 +116,39 @@ export const SliderBase = <T extends ValidComponent = 'div'>(props: SliderBasePr
     local.marksStep !== undefined ? { step: local.marksStep } :
       local.marksAt !== undefined ? { labelAt: local.marksAt } : undefined
   );
-  const isMarkActive = (value: number) => {
-    if (!local.range) return rest.min <= value && value <= local.values[0];
+  const getRanges = (values: number[], domain: SliderDomain): SliderRange[] => {
+    if (!local.range) return [[local.startAt ?? domain.min, values[0]]];
 
-    const start = Math.min(local.values[0], local.values[1]);
-    const end = Math.max(local.values[0], local.values[1]);
-    return start <= value && value <= end;
+    const start = Math.min(values[0], values[1]);
+    const end = Math.max(values[0], values[1]);
+    return local.inverted ? [[domain.min, start], [end, domain.max]] : [[start, end]];
   };
+  const isMarkActive = (value: number, values: number[], domain: SliderDomain) =>
+    getRanges(values, domain).some(([start, end]) => Number.isFinite(start) && Number.isFinite(end)
+      && Math.min(start, end) <= value && value <= Math.max(start, end));
 
   const SliderThumb = () => (local.variant === 'filled' ? FilledSliderThumb : DefaultSliderThumb);
   const SliderRail = () => (local.variant === 'filled' ? FilledSliderRail : DefaultSliderRail);
   const SliderActiveRail = () => (local.variant === 'filled' ? FilledActiveRail : DefaultActiveRail);
   const SliderMarks = () => (local.variant === 'filled' ? FilledSliderMarks : DefaultSliderMarks);
+  const SliderMark = (mark: SliderLabelRenderProps) => {
+    const [state] = useSlider();
+
+    return (
+      <Dynamic<SliderMarkComponent>
+        {...local.markProps}
+        component={local.renderMark ?? SliderMarks()}
+        index={mark.index}
+        value={mark.value}
+        percent={mark.percent}
+        active={isMarkActive(mark.value, state.values, { min: state.min, max: state.max })}
+      />
+    );
+  };
 
   return (
     <Box
-      {...rest as unknown as Omit<PrimitiveSliderProps<'div'>, 'children' | 'renderValue' | 'values' | 'onChangeValues'>}
+      {...rest as unknown as Omit<PrimitiveSliderProps<'div'>, 'children' | 'values' | 'onChangeValues'>}
       as={PrimitiveSlider}
       values={local.values}
       onChangeValues={local.onChangeValues}
@@ -132,30 +158,28 @@ export const SliderBase = <T extends ValidComponent = 'div'>(props: SliderBasePr
       data-is-max={!local.range && local.values[0] === rest.max ? '' : undefined}
       data-range-bar={local.range ? '' : undefined}
       data-to={rest.to}
-      class={clx(rootStyle, rest.class, rest.classList)}
-      renderValue={(value) => (
-        <Dynamic<SliderThumbComponent>
-          {...local.thumbProps}
-          component={local.renderThumb ?? SliderThumb()}
-          aria-label={hasExplicitThumbName() ? local.thumbProps?.['aria-label'] : rest['aria-label']}
-          aria-labelledby={hasExplicitThumbName() ? local.thumbProps?.['aria-labelledby'] : rest['aria-labelledby']}
-          data-is-min={value() === rest.min ? '' : undefined}
-          data-is-max={value() === rest.max ? '' : undefined}
-        />
-      )}
+      class={clx(rootStyle, rootInsetStyle[local.variant], rest.class, rest.classList)}
     >
       <Dynamic<SliderRailComponent>
         {...local.railProps}
         component={local.renderRail ?? SliderRail()}
-        getRanges={(values, domain) => local.range
-          ? [[values[0], values[1]]]
-          : [[domain.min, values[0]]]}
-      >
-        {(range) => (
+        actives={getRanges}
+        renderActive={(range) => (
           <Dynamic<SliderActiveRailComponent>
             {...local.activeRailProps}
             component={local.renderActiveRail ?? SliderActiveRail()}
             range={range()}
+          />
+        )}
+      >
+        {(value) => (
+          <Dynamic<SliderThumbComponent>
+            {...local.thumbProps}
+            component={local.renderThumb ?? SliderThumb()}
+            aria-label={hasExplicitThumbName() ? local.thumbProps?.['aria-label'] : rest['aria-label']}
+            aria-labelledby={hasExplicitThumbName() ? local.thumbProps?.['aria-labelledby'] : rest['aria-labelledby']}
+            data-is-min={value() === rest.min ? '' : undefined}
+            data-is-max={value() === rest.max ? '' : undefined}
           />
         )}
       </Dynamic>
@@ -189,20 +213,9 @@ export const SliderBase = <T extends ValidComponent = 'div'>(props: SliderBasePr
             {...source()}
             data-orientation={orientation()}
             data-to={rest.to}
-            class={markContainerStyle}
+            class={markContainerStyle[local.variant]}
           >
-            {(label) => (
-              <Show when={label.value !== rest.min && label.value !== rest.max}>
-                <Dynamic<SliderMarkComponent>
-                  {...local.markProps}
-                  component={(local.range ? local.renderMark : local.renderLabel) ?? SliderMarks()}
-                  index={label.index}
-                  value={label.value}
-                  percent={label.percent}
-                  active={isMarkActive(label.value)}
-                />
-              </Show>
-            )}
+            {(label) => <SliderMark {...label} />}
           </PrimitiveSliderLabel>
         )}
       </Show>

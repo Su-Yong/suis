@@ -78,6 +78,11 @@ export const SliderPlayground = () => {
           description: 'The step value of the slider',
           defaultValue: 10,
         },
+        {
+          type: 'number',
+          name: 'startAt',
+          description: 'The starting value of the slider',
+        },
       ]}
     >
       {(props) => (

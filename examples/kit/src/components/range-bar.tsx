@@ -76,6 +76,11 @@ export const RangeBarPlayground = () => {
           description: 'The step value of the range bar',
           defaultValue: 10,
         },
+        {
+          type: 'checkbox',
+          name: 'inverted',
+          description: 'Whether the range bar is inverted',
+        }
       ]}
     >
       {(props) => (

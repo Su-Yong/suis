@@ -22,11 +22,13 @@ The actual structure can be read as a lightweight tree:
 ```text
 Slider
 ├── SliderRail
-│   └── SliderActiveRail
+│   ├── SliderActiveRail
+│   └── SliderThumb
 ├── SliderLabel (labelAt | labelStep)
-├── SliderMarks (marksAt | marksStep)
-└── SliderThumb
+└── SliderMarks (marksAt | marksStep)
 ```
+
+`SliderRail` is the shared 0–100% pointer rectangle and containing block. It renders active ranges before the Thumb. The public `renderThumb`, `renderRail`, `renderActiveRail`, and part-prop names are unchanged.
 
 `Slider` is controlled. Pointer or keyboard input calls `onChangeValue`; update external state and pass the new `value` back for the rendered value to change.
 
@@ -38,6 +40,7 @@ Slider
 | --- | --- | --- | --- |
 | `value` | `number` | required | Current thumb value. |
 | `onChangeValue` | `(value: number) => void` | - | Called when a new value is requested. |
+| `startAt` | `number` | `min` | Value that anchors the active rail interval. |
 | `variant` | `default` or `filled` | `default` | Visual rail and thumb variant. |
 | `min` | `number` | `0` | Domain minimum. |
 | `max` | `number` | `100` | Domain maximum. |
@@ -46,6 +49,8 @@ Slider
 | `disabled` | `boolean` | `false` | Disables Slider interaction. |
 
 A valid domain requires finite `min`, `max`, and `step` values with `min < max` and `step > 0`. Requested values are clamped to the domain and aligned to `step`.
+
+The active rail spans the interval between `startAt` and the current value, whether the current value is below or above the anchor. Omitting `startAt` uses `min`, preserving the default active interval from `min` to the current value. A finite `startAt` outside the domain is clamped to the domain; a non-finite `startAt` renders no active rail or active marks.
 
 ### Labels And Marks Props
 
@@ -56,7 +61,7 @@ A valid domain requires finite `min`, `max`, and `step` values with `min < max` 
 | `marksAt` | `readonly number[]` | - | Renders rail marks at explicit values. Cannot be combined with `marksStep`. |
 | `marksStep` | `number` | - | Generates mark positions from `min` through `max`. Cannot be combined with `marksAt`. |
 
-Automatic labels include `max` even when it does not align exactly with the step. Marks at `min` and `max` are not rendered. In single-value Slider, marks from `min` through the current value are active.
+Automatic labels and marks include `max` even when it does not align exactly with the step. Marks at `min` and `max` are also rendered. In single-value Slider, marks within the active interval between `startAt` and the current value are active.
 
 ### Box Mixin Props
 
@@ -116,7 +121,7 @@ component.slider = {
 
 ### Rail And Active Rail
 
-Each variant's `rail` controls track size, radius, and background. `activeRail` highlights the segment from `min` to the current value. The thicker `filled` variant applies endpoint corrections so the thumb and active rail stay within the track bounds.
+Each variant's `rail` controls track size, radius, and background. `activeRail` highlights the interval between `startAt` and the current value. The root reserves internal active-axis space at both ends: half the default Thumb size for `default`, and half the Rail size for `filled`. Rail percentages, pointer input, Thumb centers, active endpoints, labels, and marks all use the resulting inner axis, so their boxes remain inside the root rectangle in horizontal, vertical, and reversed directions.
 
 ### Thumb
 
@@ -137,10 +142,10 @@ Each variant's `rail` controls track size, radius, and background. `activeRail` 
 | `renderThumb` | Variant-specific `DefaultSliderThumb` or `FilledSliderThumb` | Replaces the thumb component. |
 | `renderRail` | Variant-specific `DefaultSliderRail` or `FilledSliderRail` | Replaces the rail component. |
 | `renderActiveRail` | Variant-specific `DefaultActiveRail` or `FilledActiveRail` | Replaces the active-range component. |
-| `renderLabel` | `DefaultSliderLabel` | Replaces each text-label component. It is also used as the custom mark renderer in the current Slider implementation. |
-| `renderMark` | - | Present in the API, but not currently used by single-value Slider marks. |
+| `renderLabel` | `DefaultSliderLabel` | Replaces each text-label component. |
+| `renderMark` | Variant-specific `DefaultSliderMarks` or `FilledSliderMarks` | Replaces each rail-mark component. |
 | `thumbProps` | - | Props passed to the thumb. |
-| `railProps` | - | Props passed to the rail. `children` and `getRanges` are managed internally. |
+| `railProps` | - | Props passed to the rail. `actives`, `renderActive`, and `children` are managed internally. |
 | `activeRailProps` | - | Box props passed to the active rail. |
 | `labelProps` | - | Box props passed to each label. |
 | `markProps` | - | Props passed to each mark. |
@@ -151,7 +156,7 @@ Each variant's `rail` controls track size, radius, and background. `activeRail` 
 
 ### renderRail
 
-`renderRail` replaces the track wrapper. Preserve the provided `getRanges` and render-function `children` for rail clicking and the active range to work.
+`renderRail` replaces the track wrapper. Spread the provided props onto the actual Rail to preserve `actives`, `renderActive`, Thumb children, and pointer behavior.
 
 ### renderActiveRail
 
@@ -159,11 +164,11 @@ Each variant's `rail` controls track size, radius, and background. `activeRail` 
 
 ### renderLabel
 
-`renderLabel` receives `value`, `index`, `percent`, and the label-text child. The current single-value Slider implementation also uses `renderLabel` as the custom mark component, so a renderer must handle both shapes when labels and marks are enabled together.
+`renderLabel` receives `value`, `index`, `percent`, and the label-text child.
 
 ### renderMark
 
-`renderMark` is present in the public type, but it is not connected to the single-value Slider mark path. Currently, use `renderLabel` to replace marks. `RangeBar` connects `renderMark` normally.
+`renderMark` replaces generated rail marks and receives their computed `value`, `index`, `percent`, and active state.
 
 ### thumbProps
 
@@ -171,7 +176,7 @@ Each variant's `rail` controls track size, radius, and background. `activeRail` 
 
 ### railProps
 
-`railProps` is passed to the rail, but internal range calculation overwrites `children` and `getRanges`. Use it for classes, styles, or pointer handlers.
+`railProps` is passed to the rail, but internal composition overwrites `actives`, `renderActive`, and `children`. Use it for classes, styles, or pointer handlers.
 
 ### activeRailProps
 
@@ -221,6 +226,18 @@ const [volume, setVolume] = createSignal(35);
   value={value()}
   onChangeValue={setValue}
   labelStep={20}
+  marksStep={10}
+/>;
+```
+
+### Start The Active Rail At A Value
+
+```tsx
+<Slider
+  aria-label="Balance"
+  value={value()}
+  onChangeValue={setValue}
+  startAt={50}
   marksStep={10}
 />;
 ```

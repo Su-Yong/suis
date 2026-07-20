@@ -67,8 +67,8 @@ importers:
         version: 1.9.7
     devDependencies:
       '@vanilla-extract/vite-plugin':
-        specifier: 5.2.3
-        version: 5.2.3(@types/node@24.0.10)(esbuild@0.27.7)(lightningcss@1.32.0)(supports-color@8.1.1)(vite@8.1.5(@types/node@24.0.10)(esbuild@0.27.7))
+        specifier: 5.2.5
+        version: 5.2.5(@types/node@24.0.10)(esbuild@0.27.7)(lightningcss@1.32.0)(supports-color@8.1.1)(vite@8.1.5(@types/node@24.0.10)(esbuild@0.27.7))
       vite:
         specifier: 8.1.5
         version: 8.1.5(@types/node@24.0.10)(esbuild@0.27.7)
@@ -1098,9 +1098,6 @@ packages:
   '@vanilla-extract/babel-plugin-debug-ids@1.2.2':
     resolution: {integrity: sha512-MeDWGICAF9zA/OZLOKwhoRlsUW+fiMwnfuOAqFVohL31Agj7Q/RBWAYweqjHLgFBCsdnr6XIfwjJnmb2znEWxw==}
 
-  '@vanilla-extract/compiler@0.7.0':
-    resolution: {integrity: sha512-rZQ40HVmsxfGLjoflwwsaUBLfpbpKDoZC19oiDA0FHq4LdrYtyVbFkc0MfqkNo/qBCvaZfsRezCqk0QQxCqZ8w==}
-
   '@vanilla-extract/compiler@0.7.2':
     resolution: {integrity: sha512-VslwMJ01taDhJmMo0+A0SWn2dloMnYi0+BbvLuXXlqK4ufVRwXsq/U/Fp8ANkw3jevmQXy+JL7VtIQdjEtylDQ==}
 
@@ -1130,11 +1127,6 @@ packages:
     resolution: {integrity: sha512-7I8rt3m1OIEMJRtpMTnPwMy+C1DHpgvenNF1P7lgFFXGzxAoW57+Qk439cJFqONaqsLsTiYOAOVnP4QigCWa1A==}
     peerDependencies:
       '@vanilla-extract/css': ^1.0.0
-
-  '@vanilla-extract/vite-plugin@5.2.3':
-    resolution: {integrity: sha512-OwkW0DVNrDBIOpxexE83Y7lpjRsTsu+87xGzo2JXy6qUEJuM+b8/iEqt+ZUbvCNLs6bnC9+QNISZOG33rPMBlg==}
-    peerDependencies:
-      vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
 
   '@vanilla-extract/vite-plugin@5.2.5':
     resolution: {integrity: sha512-V397a7qKqQskExW6TkjGnp5czp7sFd8cGTsnf44jsfyCXNcdJLWAKqJnSaFrW0bemp1W1OLg/cVkfl8qc0FLRw==}
@@ -3704,29 +3696,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vanilla-extract/compiler@0.7.0(@types/node@24.0.10)(esbuild@0.27.7)(lightningcss@1.32.0)(supports-color@8.1.1)':
-    dependencies:
-      '@vanilla-extract/css': 1.21.1
-      '@vanilla-extract/integration': 8.0.10(supports-color@8.1.1)
-      vite: 8.1.5(@types/node@24.0.10)(esbuild@0.27.7)
-      vite-node: 3.2.4(@types/node@24.0.10)(lightningcss@1.32.0)(supports-color@8.1.1)
-    transitivePeerDependencies:
-      - '@types/node'
-      - '@vitejs/devtools'
-      - babel-plugin-macros
-      - esbuild
-      - jiti
-      - less
-      - lightningcss
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - tsx
-      - yaml
-
   '@vanilla-extract/compiler@0.7.2(@types/node@24.0.10)(esbuild@0.27.7)(lightningcss@1.32.0)(supports-color@8.1.1)':
     dependencies:
       '@vanilla-extract/css': 1.21.1
@@ -3804,28 +3773,6 @@ snapshots:
   '@vanilla-extract/sprinkles@1.7.0(@vanilla-extract/css@1.21.1)':
     dependencies:
       '@vanilla-extract/css': 1.21.1
-
-  '@vanilla-extract/vite-plugin@5.2.3(@types/node@24.0.10)(esbuild@0.27.7)(lightningcss@1.32.0)(supports-color@8.1.1)(vite@8.1.5(@types/node@24.0.10)(esbuild@0.27.7))':
-    dependencies:
-      '@vanilla-extract/compiler': 0.7.0(@types/node@24.0.10)(esbuild@0.27.7)(lightningcss@1.32.0)(supports-color@8.1.1)
-      '@vanilla-extract/integration': 8.0.10(supports-color@8.1.1)
-      vite: 8.1.5(@types/node@24.0.10)(esbuild@0.27.7)
-    transitivePeerDependencies:
-      - '@types/node'
-      - '@vitejs/devtools'
-      - babel-plugin-macros
-      - esbuild
-      - jiti
-      - less
-      - lightningcss
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - tsx
-      - yaml
 
   '@vanilla-extract/vite-plugin@5.2.5(@types/node@24.0.10)(esbuild@0.27.7)(lightningcss@1.32.0)(supports-color@8.1.1)(vite@8.1.5(@types/node@24.0.10)(esbuild@0.27.7))':
     dependencies:

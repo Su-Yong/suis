@@ -4,7 +4,7 @@ import { vars } from '@/theme/token';
 
 export const DefaultSliderVars = {
   size: '200px',
-  transition: vars.motion.transition.fast,
+  transition: vars.motion.transition.faster,
   disabled: {
     opacity: '0.5',
     background: vars.color.surface.higher,

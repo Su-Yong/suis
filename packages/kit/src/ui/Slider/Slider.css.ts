@@ -8,21 +8,25 @@ export const rangeOffset = createVar();
 export const rangeSize = createVar();
 export const labelPercent = createVar();
 export const markPercent = createVar();
+const rootInset = createVar();
 
 export const rootStyle = style(layered({
   position: 'relative',
   display: 'flex',
+
   userSelect: 'none',
   gap: component.slider.label.gap,
 
   selectors: {
     '&[data-orientation="horizontal"]': {
-      minWidth: component.slider.size,
       width: '100%',
+      minWidth: component.slider.size,
+      height: 'fit-content',
       flexDirection: 'column',
     },
     '&[data-orientation="vertical"]': {
       width: 'fit-content',
+      height: '100%',
       minHeight: component.slider.size,
       flexDirection: 'row',
     },
@@ -31,6 +35,41 @@ export const rootStyle = style(layered({
     },
   },
 }));
+
+export const rootInsetStyle = styleVariants({
+  default: layered({
+    vars: {
+      [rootInset]: `calc(${component.slider.variants.default.thumb.size} / 2)`,
+    },
+
+    selectors: {
+      '&[data-orientation="horizontal"]': {
+        paddingLeft: rootInset,
+        paddingRight: rootInset,
+      },
+      '&[data-orientation="vertical"]': {
+        paddingTop: rootInset,
+        paddingBottom: rootInset,
+      },
+    },
+  }),
+  filled: layered({
+    vars: {
+      [rootInset]: `calc(${component.slider.variants.filled.rail.size} / 2)`,
+    },
+
+    selectors: {
+      '&[data-orientation="horizontal"]': {
+        paddingLeft: rootInset,
+        paddingRight: rootInset,
+      },
+      '&[data-orientation="vertical"]': {
+        paddingTop: rootInset,
+        paddingBottom: rootInset,
+      },
+    },
+  }),
+});
 
 const baseRailStyle = style(layered({
   position: 'relative',
@@ -54,33 +93,39 @@ export const railStyle = styleVariants({
       '&[data-orientation="horizontal"]': {
         width: '100%',
         height: component.slider.variants.default.rail.size,
-        marginTop: `calc((${component.slider.variants.default.thumb.size} - ${component.slider.variants.default.rail.size}) / 2)`,
-        marginBottom: `calc((${component.slider.variants.default.thumb.size} - ${component.slider.variants.default.rail.size}) / 2)`,
       },
       '&[data-orientation="vertical"]': {
         width: component.slider.variants.default.rail.size,
         height: '100%',
-        marginLeft: `calc((${component.slider.variants.default.thumb.size} - ${component.slider.variants.default.rail.size}) / 2)`,
-        marginRight: `calc((${component.slider.variants.default.thumb.size} - ${component.slider.variants.default.rail.size}) / 2)`,
       },
     },
   })],
   filled: [baseRailStyle, layered({
-    borderRadius: component.slider.variants.filled.rail.radius,
-    background: component.slider.variants.filled.rail.background,
-
     selectors: {
+      '&::before': {
+        position: 'absolute',
+        content: '""',
+        pointerEvents: 'none',
+        borderRadius: component.slider.variants.filled.rail.radius,
+        background: component.slider.variants.filled.rail.background,
+      },
+      '&[data-orientation="horizontal"]::before': {
+        left: `calc(-1 * ${component.slider.variants.filled.rail.size} / 2)`,
+        right: `calc(-1 * ${component.slider.variants.filled.rail.size} / 2)`,
+        height: component.slider.variants.filled.rail.size,
+      },
+      '&[data-orientation="vertical"]::before': {
+        width: component.slider.variants.filled.rail.size,
+        top: `calc(-1 * ${component.slider.variants.filled.rail.size} / 2)`,
+        bottom: `calc(-1 * ${component.slider.variants.filled.rail.size} / 2)`,
+      },
       '&[data-orientation="horizontal"]': {
         width: '100%',
         height: component.slider.variants.filled.rail.size,
-        marginTop: `calc((${component.slider.variants.filled.thumb.size} - ${component.slider.variants.filled.rail.size}) / 2)`,
-        marginBottom: `calc((${component.slider.variants.filled.thumb.size} - ${component.slider.variants.filled.rail.size}) / 2)`,
       },
       '&[data-orientation="vertical"]': {
         width: component.slider.variants.filled.rail.size,
         height: '100%',
-        marginLeft: `calc((${component.slider.variants.filled.thumb.size} - ${component.slider.variants.filled.rail.size}) / 2)`,
-        marginRight: `calc((${component.slider.variants.filled.thumb.size} - ${component.slider.variants.filled.rail.size}) / 2)`,
       },
     },
   })],
@@ -91,6 +136,11 @@ const baseActiveRailStyle = style(layered({
   pointerEvents: 'none',
 
   transition: component.slider.transition,
+  selectors: {
+    [`.${rootStyle}:has([data-slider-thumb]:active) &`]: {
+      transition: 'none',
+    },
+  },
 }));
 export const activeRailStyle = styleVariants({
   default: [baseActiveRailStyle, layered({
@@ -105,13 +155,11 @@ export const activeRailStyle = styleVariants({
         width: rangeSize,
       },
       [`[data-orientation="vertical"] &`]: {
+        top: rangeOffset,
         right: 0,
         bottom: 'auto',
         left: 0,
         height: rangeSize,
-      },
-      [`[data-range-bar][data-orientation="vertical"] &`]: {
-        top: rangeOffset,
       },
     },
   })],
@@ -123,52 +171,15 @@ export const activeRailStyle = styleVariants({
       [`[data-orientation="horizontal"] &`]: {
         top: 0,
         bottom: 0,
-        left: rangeOffset,
-        width: `calc(${rangeSize} + ${component.slider.variants.filled.thumb.size} / 2 + (${component.slider.variants.filled.activeRail.size} - ${component.slider.variants.filled.thumb.size}) / 2)`,
+        left: `calc(${rangeOffset} - ${rootInset})`,
+        width: `calc(${rangeSize} + ${component.slider.variants.filled.rail.size})`,
       },
       [`[data-orientation="vertical"] &`]: {
+        top: `calc(${rangeOffset} - ${rootInset})`,
         right: 0,
         bottom: 'auto',
         left: 0,
-        height: `calc(${rangeSize} + ${component.slider.variants.filled.thumb.size} / 2 + (${component.slider.variants.filled.activeRail.size} - ${component.slider.variants.filled.thumb.size}) / 2)`,
-      },
-      [`[data-orientation="horizontal"][data-to="left"] &`]: {
-        left: `calc(${rangeOffset} - ${component.slider.variants.filled.thumb.size} / 2 - (${component.slider.variants.filled.activeRail.size} - ${component.slider.variants.filled.thumb.size}) / 2)`,
-      },
-      [`[data-orientation="vertical"][data-to="top"] &`]: {
-        top: `calc(${rangeOffset} - ${component.slider.variants.filled.thumb.size} / 2 - (${component.slider.variants.filled.activeRail.size} - ${component.slider.variants.filled.thumb.size}) / 2)`,
-      },
-      [`[data-orientation="horizontal"][data-is-min] &`]: {
-        width: rangeSize,
-      },
-      [`[data-orientation="horizontal"][data-is-max] &`]: {
-        width: rangeSize,
-      },
-      [`[data-orientation="vertical"][data-is-min] &`]: {
-        height: rangeSize,
-      },
-      [`[data-orientation="vertical"][data-is-max] &`]: {
-        height: rangeSize,
-      },
-      [`[data-orientation="horizontal"][data-to="left"][data-is-min] &`]: {
-        left: rangeOffset,
-      },
-      [`[data-orientation="horizontal"][data-to="left"][data-is-max] &`]: {
-        left: rangeOffset,
-      },
-      [`[data-orientation="vertical"][data-to="top"][data-is-min] &`]: {
-        top: rangeOffset,
-      },
-      [`[data-orientation="vertical"][data-to="top"][data-is-max] &`]: {
-        top: rangeOffset,
-      },
-      [`[data-range-bar][data-orientation="horizontal"] &`]: {
-        left: `max(0px, calc(${rangeOffset} - ${component.slider.variants.filled.activeRail.size} / 2))`,
-        width: `calc(min(100%, calc(${rangeOffset} + ${rangeSize} + ${component.slider.variants.filled.activeRail.size} / 2)) - max(0px, calc(${rangeOffset} - ${component.slider.variants.filled.activeRail.size} / 2)))`,
-      },
-      [`[data-range-bar][data-orientation="vertical"] &`]: {
-        top: `max(0px, calc(${rangeOffset} - ${component.slider.variants.filled.activeRail.size} / 2))`,
-        height: `calc(min(100%, calc(${rangeOffset} + ${rangeSize} + ${component.slider.variants.filled.activeRail.size} / 2)) - max(0px, calc(${rangeOffset} - ${component.slider.variants.filled.activeRail.size} / 2)))`,
+        height: `calc(${rangeSize} + ${component.slider.variants.filled.rail.size})`,
       },
     },
   })],
@@ -182,6 +193,9 @@ const baseThumbStyle = style(layered({
   transition: component.slider.transition,
 
   selectors: {
+    '&:active': {
+      transition: 'none',
+    },
     '&[data-disabled]': {
       cursor: 'not-allowed',
       background: component.slider.disabled.background,
@@ -206,13 +220,13 @@ export const thumbStyle = styleVariants({
 
     selectors: {
       '&[data-orientation="horizontal"]': {
-        top: `calc(${component.slider.variants.default.thumb.size} / 2)`,
+        top: `calc(${component.slider.variants.default.rail.size} / 2)`,
         left: 'var(--slider-thumb-percent)',
         transform: 'translate(-50%, -50%)',
       },
       '&[data-orientation="vertical"]': {
         top: 'var(--slider-thumb-percent)',
-        left: `calc(${component.slider.variants.default.thumb.size} / 2)`,
+        left: `calc(${component.slider.variants.default.rail.size} / 2)`,
         transform: 'translate(-50%, -50%)',
       },
       '&:hover': {
@@ -249,38 +263,14 @@ export const thumbStyle = styleVariants({
 
     selectors: {
       '&[data-orientation="horizontal"]': {
-        top: `calc(${component.slider.variants.filled.thumb.size} / 2)`,
+        top: `calc(${component.slider.variants.filled.rail.size} / 2)`,
         left: 'var(--slider-thumb-percent)',
         transform: `translate(-50%, -50%)`,
       },
       '&[data-orientation="vertical"]': {
         top: 'var(--slider-thumb-percent)',
-        left: `calc(${component.slider.variants.filled.thumb.size} / 2)`,
+        left: `calc(${component.slider.variants.filled.rail.size} / 2)`,
         transform: 'translate(-50%, -50%)',
-      },
-      '&[data-is-min][data-orientation="horizontal"][data-to="right"]': {
-        transform: `translate(calc((${component.slider.variants.filled.rail.size} - ${component.slider.variants.filled.thumb.size}) / 2), -50%)`,
-      },
-      '&[data-is-max][data-orientation="horizontal"][data-to="left"]': {
-        transform: `translate(calc((${component.slider.variants.filled.rail.size} - ${component.slider.variants.filled.thumb.size}) / 2), -50%)`,
-      },
-      '&[data-is-max][data-orientation="horizontal"][data-to="right"]': {
-        transform: `translate(calc(-100% - (${component.slider.variants.filled.rail.size} - ${component.slider.variants.filled.thumb.size}) / 2), -50%)`,
-      },
-      '&[data-is-min][data-orientation="horizontal"][data-to="left"]': {
-        transform: `translate(calc(-100% - (${component.slider.variants.filled.rail.size} - ${component.slider.variants.filled.thumb.size}) / 2), -50%)`,
-      },
-      '&[data-is-min][data-orientation="vertical"][data-to="bottom"]': {
-        transform: `translate(-50%, calc((${component.slider.variants.filled.rail.size} - ${component.slider.variants.filled.thumb.size}) / 2))`,
-      },
-      '&[data-is-max][data-orientation="vertical"][data-to="top"]': {
-        transform: `translate(-50%, calc((${component.slider.variants.filled.rail.size} - ${component.slider.variants.filled.thumb.size}) / 2))`,
-      },
-      '&[data-is-max][data-orientation="vertical"][data-to="bottom"]': {
-        transform: `translate(-50%, calc(-100% - (${component.slider.variants.filled.rail.size} - ${component.slider.variants.filled.thumb.size}) / 2))`,
-      },
-      '&[data-is-min][data-orientation="vertical"][data-to="top"]': {
-        transform: `translate(-50%, calc(-100% - (${component.slider.variants.filled.rail.size} - ${component.slider.variants.filled.thumb.size}) / 2))`,
       },
       '&:hover': {
         background: component.slider.variants.filled.thumb.hover.background,
@@ -340,22 +330,41 @@ export const labelStyle = style(layered({
   },
 }));
 
-export const markContainerStyle = style(layered({
+const baseMarkContainerStyle = style(layered({
   position: 'absolute',
   flex: 'none',
   pointerEvents: 'none',
-
-  selectors: {
-    '&[data-orientation="horizontal"]': {
-      width: '100%',
-      height: component.slider.label.height,
-    },
-    '&[data-orientation="vertical"]': {
-      width: component.slider.label.width,
-      height: '100%',
-    },
-  },
 }));
+export const markContainerStyle = styleVariants({
+  default: [baseMarkContainerStyle, layered({
+    selectors: {
+      '&[data-orientation="horizontal"]': {
+        left: rootInset,
+        right: rootInset,
+        height: component.slider.variants.default.rail.size,
+      },
+      '&[data-orientation="vertical"]': {
+        top: rootInset,
+        bottom: rootInset,
+        width: component.slider.variants.default.rail.size,
+      },
+    },
+  })],
+  filled: [baseMarkContainerStyle, layered({
+    selectors: {
+      '&[data-orientation="horizontal"]': {
+        left: rootInset,
+        right: rootInset,
+        height: component.slider.variants.filled.rail.size,
+      },
+      '&[data-orientation="vertical"]': {
+        top: rootInset,
+        bottom: rootInset,
+        width: component.slider.variants.filled.rail.size,
+      },
+    },
+  })],
+});
 
 const baseMarkStyle = style(layered({
   position: 'absolute',
@@ -374,29 +383,29 @@ const baseMarkStyle = style(layered({
 export const markStyle = styleVariants({
   default: [baseMarkStyle, layered({
     selectors: {
-      [`${markContainerStyle}[data-orientation="horizontal"] &`]: {
-        top: `calc((${component.slider.variants.default.thumb.size} - ${component.slider.variants.default.rail.size}) / 2 + (${component.slider.variants.default.rail.size} - ${component.slider.mark.size}) / 2)`,
+      [`[data-orientation="horizontal"] &`]: {
+        top: '50%',
         left: markPercent,
-        transform: 'translateX(-50%)',
+        transform: 'translate(-50%, -50%)',
       },
-      [`${markContainerStyle}[data-orientation="vertical"] &`]: {
+      [`[data-orientation="vertical"] &`]: {
         top: markPercent,
-        left: `calc((${component.slider.variants.default.thumb.size} - ${component.slider.variants.default.rail.size}) / 2 + (${component.slider.variants.default.rail.size} - ${component.slider.mark.size}) / 2)`,
-        transform: 'translateY(-50%)',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
       },
     },
   })],
   filled: [baseMarkStyle, layered({
     selectors: {
-      [`${markContainerStyle}[data-orientation="horizontal"] &`]: {
-        top: `calc((${component.slider.variants.filled.thumb.size} - ${component.slider.variants.filled.rail.size}) / 2 + (${component.slider.variants.filled.rail.size} - ${component.slider.mark.size}) / 2)`,
+      [`[data-orientation="horizontal"] &`]: {
+        top: '50%',
         left: markPercent,
-        transform: 'translateX(-50%)',
+        transform: 'translate(-50%, -50%)',
       },
-      [`${markContainerStyle}[data-orientation="vertical"] &`]: {
+      [`[data-orientation="vertical"] &`]: {
         top: markPercent,
-        left: `calc((${component.slider.variants.filled.thumb.size} - ${component.slider.variants.filled.rail.size}) / 2 + (${component.slider.variants.filled.rail.size} - ${component.slider.mark.size}) / 2)`,
-        transform: 'translateY(-50%)',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
       },
     },
   })],

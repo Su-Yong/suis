@@ -18,6 +18,7 @@ export const DefaultSemanticMotion = {
     accelerate: 'cubic-bezier(0.3, 0, 1, 1)',
   },
   transition: {
+    faster: 'all 0.2s cubic-bezier(0.6, 0, 0.3, 1)',
     fast: 'all 0.2s cubic-bezier(0.2, 0, 0, 1)',
     normal: 'all 0.3s cubic-bezier(0.2, 0, 0, 1)',
     slow: 'all 0.4s cubic-bezier(0.2, 0, 0, 1)',

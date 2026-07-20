@@ -1,6 +1,7 @@
 import { Accessor, Index, JSX, onCleanup, splitProps, ValidComponent } from 'solid-js';
 
 import { forwardRef, Polymorphic, PolymorphicProps } from '../Polymorphic';
+import { useSliderContext } from './SliderContext';
 import { useSliderParts } from './useSlider';
 import type { SliderRange } from './useSlider';
 
@@ -19,11 +20,12 @@ export type SliderRailRange = {
 };
 
 type SliderRailOnlyProps = {
-  getRanges: (
+  actives: (
     values: number[],
     domain: SliderDomain,
   ) => SliderRange[];
-  children?: (range: Accessor<SliderRailRange>) => JSX.Element;
+  renderActive?: (range: Accessor<SliderRailRange>) => JSX.Element;
+  children: (value: Accessor<number>, index: number) => JSX.Element;
   onPointerDown?: JSX.EventHandlerUnion<HTMLElement, PointerEvent>;
 };
 
@@ -42,11 +44,12 @@ const callHandler = <E extends Event>(
 };
 
 export const SliderRail = <T extends ValidComponent = 'div'>(props: SliderRailProps<T>) => {
-  const [local, rest] = splitProps(props, ['children', 'getRanges', 'onPointerDown']);
+  const [local, rest] = splitProps(props, ['actives', 'renderActive', 'children', 'onPointerDown']);
+  const [context] = useSliderContext();
   const [state, actions] = useSliderParts();
 
   const ranges: Accessor<SliderRailRange[]> = () =>
-    actions.normalizeRanges(local.getRanges(state.values, {
+    actions.normalizeRanges(local.actives(state.values, {
       min: state.min,
       max: state.max,
     })).map(([start, end]) => {
@@ -93,7 +96,8 @@ export const SliderRail = <T extends ValidComponent = 'div'>(props: SliderRailPr
       data-to={state.to}
       ref={forwardRef(onSetup, rest.ref)}
     >
-      <Index each={ranges()}>{(range) => local.children?.(range)}</Index>
+      <Index each={ranges()}>{(range) => local.renderActive?.(range)}</Index>
+      <Index each={context.values}>{(value, index) => local.children(value, index)}</Index>
     </Polymorphic>
   );
 };

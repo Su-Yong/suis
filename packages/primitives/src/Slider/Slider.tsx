@@ -1,7 +1,5 @@
 import {
-  Accessor,
   createEffect,
-  Index,
   JSX,
   mergeProps,
   splitProps,
@@ -23,7 +21,6 @@ type SliderOnlyProps = {
   to?: SliderTo;
   disabled?: boolean;
   children: JSX.Element;
-  renderValue: (value: Accessor<number>, index: number) => JSX.Element;
 };
 
 export type SliderProps<T extends ValidComponent = 'div'> =
@@ -47,7 +44,6 @@ export const Slider = <T extends ValidComponent = 'div'>(props: SliderProps<T>) 
       'to',
       'disabled',
       'children',
-      'renderValue',
     ],
   );
   const rootProps = rest as PolymorphicProps<T>;
@@ -80,9 +76,6 @@ export const Slider = <T extends ValidComponent = 'div'>(props: SliderProps<T>) 
         role={'group'}
       >
         {local.children}
-        <Index each={context.values}>
-          {(value, index) => local.renderValue(value, index)}
-        </Index>
       </Polymorphic>
     </SliderContext.Provider>
   );
