@@ -10,7 +10,11 @@
   "author": "Su-Yong",
   "license": "MIT",
   "dependencies": {
-    "solid-js": "^1.6.0",
+    "solid-js": "1.9.14",
     "@suis-ui/primitives": "workspace:*"
+  },
+  "devDependencies": {
+    "vite": "8.1.5",
+    "vite-plugin-solid": "2.11.12"
   }
 }

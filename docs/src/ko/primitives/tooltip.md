@@ -1,6 +1,6 @@
 # Tooltip Primitive
 
-Primitive Tooltip은 Popup을 pointer-enter 및 hover-away 동작과 조합합니다.
+Tooltip primitive는 Popup에 포인터 진입 및 hover-away 동작을 결합합니다.
 
 ## Usage
 
@@ -64,9 +64,9 @@ Tooltip
 
 ### `Tooltip.Trigger`
 
-DOM child를 popup anchor로 등록하고, pointer enter 시 `openDelay` 이후 열며 hover away 시 `closeDelay` 이후 닫습니다. `openDelay`가 끝나기 전에 pointer가 떠나면 대기 중인 open request를 취소합니다.
+DOM 자식 요소를 popup anchor로 등록합니다. 포인터가 들어오면 `openDelay` 이후 열리고, hover away가 발생하면 `closeDelay` 이후 닫힙니다. `openDelay`가 끝나기 전에 포인터가 떠나면 대기 중인 열기 요청을 취소합니다.
 
-Trigger가 anchor를 등록하면 anchor는 tooltip content id를 가리키는 `aria-describedby`를 받습니다.
+Trigger가 anchor를 등록하면 anchor에는 tooltip content ID를 가리키는 `aria-describedby`가 설정됩니다.
 
 | 이름 | 타입 | 기본값 | 간단한 설명 |
 | --- | --- | --- | --- |
@@ -112,7 +112,7 @@ const [context, actions]: readonly [
 ] = useTooltip();
 ```
 
-Tooltip provider 밖에서 호출하면 context를 찾을 수 없어 error가 발생합니다.
+Tooltip provider 밖에서 호출하면 컨텍스트를 찾을 수 없어 오류가 발생합니다.
 
 #### Context
 
@@ -139,11 +139,11 @@ Tooltip을 확장할 때는 위 표의 id, delay, popup 상태만 사용하세�
 
 #### Behavior
 
-기본 `Tooltip.Trigger`가 pointer enter와 hover away 동작을 이미 처리합니다. `useTooltip`은 그 동작을 재사용하면서 custom trigger나 content에서 상태를 읽거나 open state를 직접 제어해야 할 때 사용하세요.
+기본 `Tooltip.Trigger`가 포인터 진입과 hover away 동작을 이미 처리합니다. `useTooltip`은 그 동작을 재사용하면서 사용자 정의 trigger나 content에서 상태를 읽거나 열림 상태를 직접 제어해야 할 때 사용하세요.
 
-`openDelay`와 `closeDelay`는 기본 `Tooltip.Trigger`의 pointer 동작에서 사용됩니다. Pointer가 `openDelay`가 끝나기 전에 trigger를 떠나거나 trigger가 cleanup되면 대기 중인 open timer를 취소합니다. 직접 `requestOpen(true)` 또는 `requestOpen(false)`를 호출하면 delay 없이 즉시 open request를 보냅니다.
+`openDelay`와 `closeDelay`는 기본 `Tooltip.Trigger`의 포인터 동작에 적용됩니다. 포인터가 `openDelay`가 끝나기 전에 trigger를 떠나거나 trigger가 정리되면 대기 중인 열기 타이머를 취소합니다. `requestOpen(true)` 또는 `requestOpen(false)`를 직접 호출하면 지연 없이 바로 열림 상태 변경을 요청합니다.
 
-`id`는 `Tooltip.Content`에 적용되고 trigger의 `aria-describedby`에 연결됩니다. Custom content를 만들 때도 같은 id를 유지해야 screen reader 연결이 유지됩니다.
+`id`는 `Tooltip.Content`에 적용되고 trigger의 `aria-describedby`에 연결됩니다. 사용자 정의 content를 만들 때도 같은 ID를 유지해야 스크린 리더와의 연결이 유지됩니다.
 
 #### Example
 

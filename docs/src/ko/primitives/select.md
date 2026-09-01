@@ -1,6 +1,6 @@
 # Select Primitive
 
-Primitive Select는 Popup과 FocusManager를 select 전용 value context와 조합합니다.
+Select primitive는 Popup과 FocusManager를 select 전용 value context와 조합합니다.
 
 ## Usage
 
@@ -55,7 +55,7 @@ const [value, setValue] = createSignal<string | null>(null);
 | `required` | <code>boolean</code> | `false` | 선택된 item을 다시 눌러 해제하지 못하게 하고 trigger/listbox를 required로 표시합니다. |
 | `children` | <code>JSX.Element</code> | 필수 | Select composition입니다. |
 
-`required`를 literal `true`로 전달하면 root `value`와 `onChangeValue` 타입에서 `null`이 제거됩니다. `required={someBoolean}`처럼 동적 boolean을 전달하면 안전하게 nullable 타입을 유지합니다. `Select.Value`와 `useSelect` context의 value는 uncontrolled 초기 상태를 표현할 수 있어 계속 `string | null`입니다.
+`required`에 literal `true`를 전달하면 root `value`와 `onChangeValue` 타입에서 `null`이 제거됩니다. `required={someBoolean}`처럼 동적 boolean을 전달하면 안전하게 nullable 타입을 유지합니다. `Select.Value`와 `useSelect` context의 value는 uncontrolled 초기 상태를 표현할 수 있어 계속 `string | null`입니다.
 
 ### Popup State And Positioning
 
@@ -152,7 +152,7 @@ const [context, actions]: readonly [
 ] = useSelect();
 ```
 
-Select provider 밖에서 호출하면 context를 찾을 수 없어 error가 발생합니다.
+Select provider 밖에서 호출하면 컨텍스트를 찾을 수 없어 오류가 발생합니다.
 
 #### Context
 
@@ -179,9 +179,9 @@ Custom Select 구현에서는 위 표의 value와 popup 상태만 사용하세�
 
 #### Behavior
 
-`setValue`는 value만 바꾸며 popup을 자동으로 닫지 않습니다. 선택과 동시에 content를 닫아야 하면 `setValue(value)` 다음에 `requestOpen(false)`를 함께 호출하세요. 이 action은 low-level setter라서 `required`를 직접 강제하지 않습니다. Custom item에서 선택 해제를 제공한다면 `context.required`를 확인해 built-in `Select.Item`과 같은 정책을 적용하세요.
+`setValue`는 value만 바꾸며 popup을 자동으로 닫지 않습니다. 선택과 동시에 content를 닫으려면 `setValue(value)` 다음에 `requestOpen(false)`를 호출하세요. 이 action은 저수준 설정 함수이므로 `required`를 직접 강제하지 않습니다. 사용자 정의 item에서 선택 해제를 제공한다면 `context.required`를 확인해 기본 `Select.Item`과 같은 정책을 적용하세요.
 
-Root `Select`에 `value` prop을 전달하면 effect가 context value를 prop 값으로 동기화합니다. Context value가 바뀌면 `onChangeValue`가 호출되므로 controlled usage에서는 외부 signal을 함께 갱신해야 합니다.
+루트 `Select`에 `value` prop을 전달하면 effect가 컨텍스트의 값을 prop과 동기화합니다. 컨텍스트의 값이 바뀌면 `onChangeValue`가 호출되므로 제어 방식으로 사용할 때는 외부 signal도 함께 갱신해야 합니다.
 
 `requestOpen`은 Popup action을 그대로 사용합니다. 따라서 Select의 popup positioning, `open`, `mount`, async controller 동작은 Popup과 동일합니다.
 

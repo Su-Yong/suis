@@ -1,6 +1,6 @@
 # Slider Primitive
 
-Primitive Slider는 하나 이상의 값을 pointer와 keyboard로 조절할 수 있는 headless slider입니다. Rail, thumb, label의 구조와 스타일은 애플리케이션에서 직접 구성합니다.
+Slider primitive는 하나 이상의 값을 포인터와 키보드로 조절할 수 있는 headless slider입니다. Rail, thumb, label의 구조와 스타일은 애플리케이션에서 직접 구성합니다.
 
 ## Usage
 
@@ -71,9 +71,9 @@ const [values, setValues] = createSignal([40]);
 | `children` | <code>JSX.Element</code> | 필수 | Rail, label, 기타 장식 요소입니다. |
 | `renderValue` | <code>(value: Accessor&lt;number&gt;, index: number) =&gt; JSX.Element</code> | 필수 | `values`의 각 항목에 대응하는 thumb를 렌더링합니다. |
 
-Slider는 controlled 방식입니다. `onChangeValues`에서 외부 signal을 갱신하고 새 `values`를 다시 전달해야 화면의 값도 바뀝니다.
+Slider는 제어 방식으로 동작합니다. `onChangeValues`에서 외부 signal을 갱신하고 새 `values`를 다시 전달해야 화면의 값도 바뀝니다.
 
-유효한 domain은 finite number인 `min`, `max`, `step`에 대해 `min < max`, `step > 0`을 만족해야 합니다. 값은 domain 안으로 제한되고 `step`에 맞춰집니다.
+유효한 값 범위를 구성하려면 `min`, `max`, `step`이 유한한 수이고 `min < max`, `step > 0`을 만족해야 합니다. 값은 이 범위를 벗어나지 않도록 제한되고 `step`에 맞춰집니다.
 
 ### Direction And Element
 
@@ -81,7 +81,7 @@ Slider는 controlled 방식입니다. `onChangeValues`에서 외부 signal을 �
 | --- | --- | --- | --- |
 | `to` | <code>'right' &#124; 'left' &#124; 'top' &#124; 'bottom'</code> | `right` | 값이 증가하는 방향입니다. 수평/수직 방향과 percentage 계산, arrow key 동작을 결정합니다. |
 | `as` | <code>T</code> | `div` | Root로 렌더링할 element 또는 component입니다. |
-| 선택한 element props | <code>PolymorphicProps&lt;T&gt;</code> | `-` | Slider 전용 prop을 제외한 나머지 props가 root element로 전달됩니다. |
+| 선택한 element props | <code>PolymorphicProps&lt;T&gt;</code> | `-` | Slider 전용 prop을 제외한 나머지 props가 루트 요소로 전달됩니다. |
 
 Root element에는 `role="group"`이 설정됩니다.
 
@@ -172,7 +172,7 @@ const [state, actions] = useSlider();
 const [state, actions]: [SliderState, SliderActions] = useSlider();
 ```
 
-Slider provider 밖에서 호출하면 context를 찾을 수 없어 error가 발생합니다.
+Slider provider 밖에서 호출하면 컨텍스트를 찾을 수 없어 오류가 발생합니다.
 
 #### State
 
@@ -190,7 +190,7 @@ Slider provider 밖에서 호출하면 context를 찾을 수 없어 error가 발
 
 | 이름 | 타입 | 설명 |
 | --- | --- | --- |
-| `actions.valueToPercent` | <code>(value: number) =&gt; number</code> | 값을 `to` 방향을 반영한 0–100 percentage로 변환합니다. Slider 구성이 유효하지 않으면 `0`입니다. |
+| `actions.valueToPercent` | <code>(value: number) =&gt; number</code> | 값을 `to` 방향을 반영한 0~100 percentage로 변환합니다. Slider 구성이 유효하지 않으면 `0`입니다. |
 | `actions.normalizeRanges` | <code>(ranges: SliderRange[]) =&gt; SliderRange[]</code> | Finite range를 정렬하고 domain 안으로 제한합니다. Slider 구성이 유효하지 않으면 빈 배열입니다. |
 | `actions.requestValue` | <code>(index: number, value: number) =&gt; void</code> | 지정한 thumb의 새 값을 제한 및 step 정규화한 뒤 `onChangeValues`로 요청합니다. |
 
@@ -302,7 +302,7 @@ const [range, setRange] = createSignal([20, 70]);
 </Slider>
 ```
 
-`Slider`는 값 배열을 자동으로 정렬하거나 thumb가 서로 교차하지 못하게 제한하지 않습니다. Range 정책이 필요하면 `onChangeValues`에서 적용합니다.
+`Slider`는 값 배열을 자동으로 정렬하거나 thumb가 서로 교차하지 못하도록 제한하지 않습니다. Range 정책이 필요하면 `onChangeValues`에서 직접 적용합니다.
 
 ### Labels
 

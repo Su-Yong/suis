@@ -1,6 +1,6 @@
 # Popup Primitive
 
-Primitive Popup은 popup state, anchor 등록, trigger 동작, portal 렌더링, Floating UI positioning을 제공합니다.
+Popup primitive는 popup 상태, anchor 등록, trigger 동작, portal 렌더링, Floating UI 위치 지정 기능을 제공합니다.
 
 ## Usage
 
@@ -74,7 +74,7 @@ DOM child를 positioning anchor로 등록합니다. Controlled popup이나 custo
 | --- | --- | --- | --- |
 | `children` | <code>JSX.Element</code> | 필수 | Anchor로 등록할 단일 DOM element입니다. |
 
-Child가 정확히 하나의 DOM `Element`가 아니면 anchor를 `null`로 초기화하고 warning을 기록합니다. Fragment나 nested component를 사용할 수 있지만 최종 DOM child는 하나여야 합니다.
+자식이 정확히 하나의 DOM `Element`가 아니면 anchor를 `null`로 초기화하고 경고를 기록합니다. Fragment나 중첩 component를 사용할 수 있지만 최종 DOM 자식은 하나여야 합니다.
 
 ### `Popup.Trigger`
 
@@ -86,7 +86,7 @@ Child가 정확히 하나의 DOM `Element`가 아니면 anchor를 `null`로 초�
 
 ### `Popup.Content`
 
-마운트된 popup content를 portal에 렌더링합니다. Child는 계산된 style accessor를 받는 render function입니다.
+마운트된 popup content를 포털에 렌더링합니다. 자식 요소는 계산된 스타일 접근자를 받는 렌더 함수입니다.
 
 | 이름 | 타입 | 기본값 | 간단한 설명 |
 | --- | --- | --- | --- |
@@ -125,7 +125,7 @@ const [context, actions]: readonly [
 ] = usePopup();
 ```
 
-Popup provider 밖에서 호출하면 context를 찾을 수 없어 error가 발생합니다.
+Popup provider 밖에서 호출하면 context를 찾을 수 없어 오류가 발생합니다.
 
 #### Context
 
@@ -151,7 +151,7 @@ Public customization에서 의존할 필드는 위 표의 상태 필드입니다
 
 `position`은 `mount`가 true이고 anchor와 popup content가 모두 등록된 뒤 계산됩니다. 따라서 custom content에서 position을 읽을 때는 `null`일 수 있음을 고려하세요.
 
-`requestOpen(false)`는 popup을 닫도록 요청하지만 document click-away나 hover-away listener를 자동으로 설치하지 않습니다. 바깥 click, hover away 같은 닫힘 조건은 `createClickAway`, `createHoverAway`, 또는 직접 작성한 event handler에서 `requestOpen(false)`를 호출해 연결합니다.
+`requestOpen(false)`는 popup 닫기만 요청하며 document click-away나 hover-away listener를 자동으로 등록하지 않습니다. 바깥 click이나 hover away 같은 닫힘 조건은 `createClickAway`, `createHoverAway` 또는 직접 작성한 event handler에서 `requestOpen(false)`를 호출해 연결합니다.
 
 #### Example
 
@@ -232,7 +232,7 @@ const cleanUp = register(
 
 #### Behavior
 
-등록 시점에 target이 없으면 listener를 설치하지 않고 no-op cleanup을 반환합니다. Target이 있으면 document에 click listener를 설치하고, click event의 composed path에 target이 없을 때 `onClickAway(cleanUp)`을 호출합니다.
+등록 시점에 target이 없으면 listener를 등록하지 않고 아무 동작도 하지 않는 cleanup을 반환합니다. Target이 있으면 document에 click listener를 등록하고, click event의 composed path에 target이 없을 때 `onClickAway(cleanUp)`을 호출합니다.
 
 소유한 컴포넌트가 dispose될 때 cleanup을 호출하세요. Popup을 한 번 닫은 뒤 listener도 제거해야 한다면 `onClickAway` 안에서 전달받은 `cleanUp`을 호출하면 됩니다.
 
