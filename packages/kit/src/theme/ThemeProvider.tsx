@@ -1,4 +1,4 @@
-import { Accessor, createContext, createEffect, createSignal, onCleanup, onMount, useContext } from 'solid-js';
+import { Accessor, createContext, createEffect, createSignal, on, onCleanup, onMount, useContext } from 'solid-js';
 import { JSX } from 'solid-js/jsx-runtime';
 
 import { DefaultLightThemeClass, DefaultTokenClass, vars, token } from '@/theme/token';
@@ -67,9 +67,16 @@ const ThemeContext = createContext<ThemeContextType>();
 
 export type ThemeProviderProps = {
   children: JSX.Element;
+  theme?: string | SUISThemeResult | null;
 };
 export const ThemeProvider = (props: ThemeProviderProps) => {
-  const [theme, setTheme] = createSignal<string | SUISThemeResult | null>(null);
+  const [theme, setTheme] = createSignal<string | SUISThemeResult | null>(props.theme ?? null);
+
+  createEffect(on(
+    () => props.theme,
+    (theme) => setTheme(theme ?? null),
+    { defer: true },
+  ));
   
   onMount(() => {
     document.body.classList.add(DefaultTokenClass);
