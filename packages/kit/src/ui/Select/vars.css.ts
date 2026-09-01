@@ -61,7 +61,7 @@ export const DefaultSelectVars = {
     },
   },
   check: {
-    size: '1.6rem',
+    size: '16px',
     color: vars.color.surface.contrast,
   },
   placeholder: {

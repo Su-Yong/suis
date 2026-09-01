@@ -1,4 +1,4 @@
-import { createTheme, createThemeContract } from '@vanilla-extract/css';
+import { createThemeContract } from '@vanilla-extract/css';
 
 import { DefaultSemanticColor } from './color';
 import { DefaultSemanticFont } from './font';
@@ -17,4 +17,3 @@ export const DefaultSemanticToken = {
 };
 
 export const vars = createThemeContract(DefaultSemanticToken);
-export const DefaultLightThemeClass = createTheme(vars, DefaultSemanticToken);

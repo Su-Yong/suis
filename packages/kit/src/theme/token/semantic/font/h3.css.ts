@@ -6,7 +6,7 @@ export const DefaultH3 = {
   fontSize: DefaultTextSize[4],
   lineHeight: '1.6',
   fontWeight: '600',
-  letterSpacing: '-0.02rem',
+  letterSpacing: '-0.2px',
 };
 
 export const H3Token = createThemeContract(DefaultH3);

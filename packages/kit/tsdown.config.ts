@@ -22,9 +22,9 @@ const baseConfig = {
   },
 } as const;
 
-const vanillaExtract = vanillaExtractPlugin({
+const createVanillaExtract = (fileName: string) => vanillaExtractPlugin({
   extract: {
-    name: 'kit.css',
+    name: fileName,
     sourcemap: false,
   },
 });
@@ -38,7 +38,7 @@ export default defineConfig([
     clean: true,
     plugins: [
       solid(),
-      vanillaExtract,
+      createVanillaExtract('kit.css'),
       collectVanillaExtractCss({ fileName: 'kit.css' }),
     ],
   },
@@ -49,8 +49,32 @@ export default defineConfig([
     },
     clean: false,
     plugins: [
-      vanillaExtract,
+      createVanillaExtract('kit.css'),
       collectVanillaExtractCss({ emit: false }),
+    ],
+  },
+  {
+    ...baseConfig,
+    entry: {
+      reset: 'src/theme/reset/reset.css.ts',
+    },
+    clean: false,
+    dts: false,
+    plugins: [
+      createVanillaExtract('reset.css'),
+      collectVanillaExtractCss({ fileName: 'reset.css', emitChunks: false }),
+    ],
+  },
+  {
+    ...baseConfig,
+    entry: {
+      global: 'src/theme/reset/global.css.ts',
+    },
+    clean: false,
+    dts: false,
+    plugins: [
+      createVanillaExtract('global.css'),
+      collectVanillaExtractCss({ fileName: 'global.css', emitChunks: false }),
     ],
   },
 ]);

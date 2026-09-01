@@ -1,19 +1,19 @@
 import { createThemeContract } from '@vanilla-extract/css';
 
 export const DefaultTextSize = {
-  '-3': '0.8rem',
-  '-2': '1.0rem',
-  '-1': '1.2rem',
-  '0': '1.4rem',
-  '1': '1.6rem',
-  '2': '1.8rem',
-  '3': '2.0rem',
-  '4': '2.4rem',
-  '5': '2.8rem',
-  '6': '3.2rem',
-  '7': '3.6rem',
-  '8': '4.2rem',
-  '9': '4.8rem',
-}
+  '-3': '8px',
+  '-2': '10px',
+  '-1': '12px',
+  '0': '14px',
+  '1': '16px',
+  '2': '18px',
+  '3': '20px',
+  '4': '24px',
+  '5': '28px',
+  '6': '32px',
+  '7': '36px',
+  '8': '42px',
+  '9': '48px',
+};
 
 export const TextSizeToken = createThemeContract(DefaultTextSize);

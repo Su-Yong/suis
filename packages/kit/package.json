@@ -13,6 +13,8 @@
       "import": "./dist/css.js"
     },
     "./style.css": "./dist/kit.css",
+    "./reset.css": "./dist/reset.css",
+    "./global.css": "./dist/global.css",
     "./dist/*": "./dist/*"
   },
   "scripts": {

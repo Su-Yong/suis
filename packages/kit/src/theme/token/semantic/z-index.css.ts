@@ -1,6 +1,6 @@
 import { createThemeContract } from '@vanilla-extract/css';
 
-import { token } from '@/theme/token';
+import { token } from '../default/default.css';
 
 export const DefaultSemanticZIndex = {
   below: token.zIndex['-1'],

@@ -1,7 +1,7 @@
 import { createThemeContract } from '@vanilla-extract/css';
 
 import { alpha } from '@/theme/util';
-import { token } from '@/theme/token';
+import { token } from '../../default/default.css';
 
 export const DefaultSemanticShadow = {
   none: 'none',

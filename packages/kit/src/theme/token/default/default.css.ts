@@ -1,4 +1,4 @@
-import { createTheme, createThemeContract } from '@vanilla-extract/css';
+import { createThemeContract } from '@vanilla-extract/css';
 
 import { DefaultColor } from './color.css';
 import { DefaultMotion } from './motion.css';
@@ -15,4 +15,3 @@ export const DefaultToken = {
 };
 
 export const token = createThemeContract(DefaultToken);
-export const DefaultTokenClass = createTheme(token, DefaultToken);

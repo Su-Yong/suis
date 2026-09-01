@@ -48,9 +48,11 @@ const collectVirtualCss = async (id: string, cssById: Map<string, string>) => {
 export const collectVanillaExtractCss = ({
   fileName,
   emit = true,
+  emitChunks = true,
 }: {
   fileName?: string;
   emit?: boolean;
+  emitChunks?: boolean;
 }) => {
   const cssById = new Map<string, string>();
 
@@ -119,6 +121,8 @@ export const collectVanillaExtractCss = ({
     async generateBundle(this: GenerateBundleContext, _options: unknown, bundle: OutputBundle) {
       for (const [assetName, item] of Object.entries(bundle)) {
         if (item.type === 'asset' && assetName.endsWith('.css')) {
+          delete bundle[assetName];
+        } else if (item.type === 'chunk' && !emitChunks) {
           delete bundle[assetName];
         }
       }

@@ -3,7 +3,7 @@ import { createThemeContract } from '@vanilla-extract/css';
 import { vars } from '@/theme/token';
 
 export const DefaultSliderVars = {
-  size: '20rem',
+  size: '200px',
   transition: vars.motion.transition.fast,
   disabled: {
     opacity: '0.5',

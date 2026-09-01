@@ -7,7 +7,7 @@ export const DefaultCheckBoxVars = {
   transition: vars.motion.transition.normal,
 
   indicator: {
-    size: '2.4rem',
+    size: '24px',
     borderWidth: vars.size.line.md,
     borderColor: vars.color.surface.higher,
     hover: vars.color.surface.high,
@@ -15,7 +15,7 @@ export const DefaultCheckBoxVars = {
   },
 
   check: {
-    size: '1.6rem',
+    size: '16px',
     color: vars.color.primary.contrast,
     hover: vars.color.primary.container,
     active: vars.color.primary.containerHigher,
