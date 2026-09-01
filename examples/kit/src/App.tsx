@@ -50,7 +50,7 @@ export const App = () => {
         as={'header'}
         pos={'sticky'}
         w={'100%'}
-        h={'5.6rem'}
+        h={'56px'}
         direction={'row'}
         justify={'space-between'}
         align={'center'}
@@ -83,9 +83,9 @@ export const App = () => {
       <Box
         as={'aside'}
         pos={'absolute'}
-        w={'20rem'}
+        w={'200px'}
         m={'xl'}
-        top={'5.6rem'}
+        top={'56px'}
         left={'0'}
         z={100}
       >
@@ -106,7 +106,7 @@ export const App = () => {
                   as={Button}
                   variant={'ghost'}
                   title={item}
-                  action={<Box as={ChevronRight} w={'1.6rem'} h={'1.6rem'} />}
+                  action={<Box as={ChevronRight} w={'16px'} h={'16px'} />}
                   onClick={() => {
                     const element = document.querySelector(`#${item}`);
                     if (element) element.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -121,7 +121,7 @@ export const App = () => {
       <Box
         pos={'relative'}
         w={'100%'}
-        maxW={'120rem'}
+        maxW={'1200px'}
         direction={'column'}
         justify={'flex-start'}
         align={'stretch'}

@@ -140,7 +140,7 @@ export const Playground = (props: PlaygroundProps) => {
           <Dynamic component={props.children} {...state()} />
         </Box>
         <Box
-          w={'40rem'}
+          w={'400px'}
           direction={'column'}
           justify={'flex-start'}
           align={'stretch'}
@@ -197,7 +197,7 @@ const DataRenderer = (props: DataRendererProps) => {
               r={'full'}
               onClick={() => setExpand(!expand())}
             >
-              <Box as={expand() ? ChevronUp : ChevronDown} w={'1.6rem'} h={'1.6rem'} />
+              <Box as={expand() ? ChevronUp : ChevronDown} w={'16px'} h={'16px'} />
             </Button>
           </Box>
           <Show when={expand()}>
